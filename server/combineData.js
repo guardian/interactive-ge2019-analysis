@@ -23,7 +23,7 @@ const cleanName = (p) => {
 }
 
 const find2019Result = (result2019, party) => {
-    const match = result2019.candidates.find(c => c.party === cleanName(party))
+    const match = result2019.candidates.find(c => cleanName(c.party) === cleanName(party))
     return match ? match.percentageShare/100 : 0
 }
 
