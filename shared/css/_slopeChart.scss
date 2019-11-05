@@ -1,0 +1,24 @@
+.ge-demographic-slope {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+
+.ge-slope-chart {
+    // width:10%;
+    // flex-grow: 1; 
+    background-color: #dcdcdc;
+
+    @include mq(leftCol) {
+        width: 270px; 
+    }
+
+    @include mq(wide) {
+        width: 200px; 
+    }
+}
+
+.ge-slope-chart__line {
+    stroke: #000;
+    stroke-width: 3px;
+}

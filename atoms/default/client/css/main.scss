@@ -1,11 +1,10 @@
-@import "_palette";
-@import "_ge_palette";
-@import "_mq";
-@import "_fonts";
-@import "_palette";
-@import '_ge_palette';
-@import "_map";
-// @import 'enhancer';
+@import "fonts";
+@import "mq";
+@import "palette";
+@import "slopeChart";
+@import "palette";
+@import 'ge_palette';
+@import "map";
 
 .interactive-atom {
     margin: 0;
