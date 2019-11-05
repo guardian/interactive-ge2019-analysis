@@ -4,6 +4,7 @@ import regionsTopo from '../geo/regions.json'
 import { hashPattern } from './util'
 import { geoMercator, geoPath } from 'd3'
 import { feature } from 'topojson'
+import Tooltip from './tooltip'
 const pattern = hashPattern('ge-hash', 'ge-hash__path', 'ge-hash__rect')
 
 class Map extends Component {
@@ -31,15 +32,13 @@ class Map extends Component {
     }
   }
   hover = f => {
-
+    console.log(this.props.resultsDict)
     const obj = this.props.resultsDict[f.properties.constituency]
-
     const c = this.state.path.centroid(f)
 
-    // console.log(c)
+    console.log(c)
 
     this.setState({ hovered: obj, ttCoords: { x: c[0], y: c[1] } })
-
   }
 
   render() {
@@ -48,16 +47,19 @@ class Map extends Component {
     const { width, height, regionsFc, path, hexFc, hovered, ttCoords, selected } = this.state
 
     return (
-      <svg className='ge-map' height={height} width={width}>
-        <defs dangerouslySetInnerHTML={{ __html: pattern }}></defs>
-        {
-          hexFc.features.map(f => {
-            const party = ((results.find(o => o.ons_id === f.properties.constituency) || {}).y2017_winner || 'undeclared').toLowerCase().replace(/\s/g, '')
-            return <path d={path(f)} className={`ge-const ge-fill--${party}`} onMouseEnter={() => this.hover(f)} onClick={() => this.select(f)}/>
-          })
-        }
-        {regionsFc.features.map(f => <path d={path(f)} className='ge-region' />)}}
-      </svg>
+      <div className='ge-map__inner'>
+        <Tooltip constituency={hovered} x={ttCoords.x} y={ttCoords.y} />
+        <svg className='ge-map' height={height} width={width}>
+          <defs dangerouslySetInnerHTML={{ __html: pattern }}></defs>
+          {
+            hexFc.features.map(f => {
+              const party = ((results.find(o => o.ons_id === f.properties.constituency) || {}).y2017_winner || 'undeclared').toLowerCase().replace(/\s/g, '')
+              return <path d={path(f)} className={`ge-const ge-fill--${party}`} onMouseEnter={() => this.hover(f)} onClick={() => this.select(f)}/>
+            })
+          }
+          {regionsFc.features.map(f => <path d={path(f)} className='ge-region' />)}}
+        </svg>
+      </div>
     )
   }
 

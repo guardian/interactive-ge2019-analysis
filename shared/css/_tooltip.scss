@@ -1,0 +1,23 @@
+.ge-tt {
+    position: absolute;
+    
+    transform: translate(-50%, -100%);
+
+    background: rgba(255, 255, 255, 0.95);
+    padding: 1.5px 5px;
+    border: 1px solid #dcdcdc;
+    pointer-events: none;
+    user-select: none;
+
+    max-width: 150px;
+
+    display: inline-block;
+}
+
+.ge-tt__constname {
+    @include fs-header(1);
+    font-size: 15px;
+    line-height: 19px;
+    display: inline-block;
+    margin: 0;
+}
