@@ -24,6 +24,7 @@ const alias = require('@rollup/plugin-alias');
 const config = require("./config.json")
 const path = require("path")
 const cdnUrl = 'https://interactive.guim.co.uk';
+const cache = require('gulp-cache');
 
 const isDeploy = gutil.env._.indexOf('deploylive') > -1 || gutil.env._.indexOf('deploypreview') > -1
 const live = gutil.env._.indexOf('deploylive') > -1
@@ -86,7 +87,11 @@ const buildJS = () => {
 
 const buildCSS = () => {
   return src("atoms/**/client/css/*.scss")
-    .pipe(sass().on("error", sass.logError))
+    .pipe(sass({
+      includePaths: [
+        path.resolve(__dirname, 'shared/css')
+      ]
+    }).on("error", sass.logError))
     .pipe(rename((path) => {
       path.dirname = path.dirname.replace(/client\/css/g, "");
     }))
@@ -117,7 +122,7 @@ const _template = (x) => {
 }
 
 const local = () => {
-  const atoms = (fs.readdirSync(".build")).filter(n => n !== "assets");
+  const atoms = (fs.readdirSync(".build")).filter(n => n !== "assets" && n !== "index.html");
 
   const atomPromises = atoms.map(atom => { 
     const js = _template((fs.readFileSync(`.build/${atom}/main.js`)).toString());
@@ -125,7 +130,7 @@ const local = () => {
     const html = _template((fs.readFileSync(`.build/${atom}/main.html`)).toString());
     
     return src(["harness/*", "!harness/_index.html"])
-      .pipe(template({js,css,html,atom}))
+      .pipe(template({js,css,html,atom,version}))
       .pipe(dest(".build/" + atom))
   });
 
@@ -149,8 +154,8 @@ const serve = () => {
       'port': 8000
   });
 
-  watch(["atoms/**/*", "shared/**/*", "!**/*.scss"], series(build, local))
-  watch("atoms/**/*.scss", series(buildCSS, local))
+  watch(["atoms/**/*", "shared/**/*"], series(clear, build, local))
+  // watch(["atoms/**/*.scss","shared/**/*"], series(buildCSS, local))
 }
 
 const s3Upload = (cacheControl, keyPrefix) => {
@@ -207,6 +212,10 @@ const url = (cb) => {
   });
 
   cb();
+}
+
+const clear = (cb) => {
+  return cache.clearAll(cb);
 }
 
 const build = series(clean, parallel(buildJS, buildCSS, render, assets));

@@ -1,8 +1,29 @@
 const fs = require("fs")
 const rp = require("request-promise")
 
+const partyLookup = {
+    "Lab Co-op" : "lab",
+    "Lab": "lab",
+    "Con": "con",
+    "PC": "pc",
+    "SNP": "snp",
+    "SF": "sf",
+    "Green": "green",
+    "UKIP": "ukip",
+    "DUP": "dup",
+    "Lib Dem": "ld"
+}
+
+const cleanName = (p) => {
+    if(partyLookup[p]) {
+        return partyLookup[p]
+    } else {
+        return p;
+    }
+}
+
 const find2019Result = (result2019, party) => {
-    const match = result2019.candidates.find(c => c.party === party)
+    const match = result2019.candidates.find(c => c.party === cleanName(party))
     return match ? match.percentageShare/100 : 0
 }
 
@@ -13,14 +34,13 @@ Promise.all([
     const full = dl[1]
     const allDemographicData = dl[0].sheets.data
 
-    // to-do: only combine the demographic data we're using in the interactive. Can be a manual process
     const all = allDemographicData.map(d => {
         const result2019 = full.find(f => d.ons_id === f.ons)
         const newFields = {}
 
         if(result2019) {
             newFields.result2019 = true
-            newFields.y2019_winner = result2019.winningParty
+            newFields.y2019_winner = cleanName(result2019.winningParty)
             newFields.y2019_electorate = result2019.y2019_electorate
             newFields.y2019_turnout = result2019.turnout
             newFields.y2019_turnout_percent = result2019.percentageTurnout/100
