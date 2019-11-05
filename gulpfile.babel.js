@@ -31,6 +31,7 @@ const live = gutil.env._.indexOf('deploylive') > -1
 const version = `v/${Date.now()}`;
 const s3Path = `atoms/${config.path}`;
 const assetPath = isDeploy ? `${cdnUrl}/${s3Path}/assets/${version}` : '../assets';
+const json = require('rollup-plugin-json')
 
 const clean = () => {
   return del([".build"]);
@@ -70,6 +71,10 @@ const buildJS = () => {
         }),
         commonjs({
           include: "node_modules/**"
+        }),
+        json({
+          compact: true,
+          preferConst: true
         })
     ]},
     "iife"))
@@ -86,7 +91,11 @@ const buildJS = () => {
 
 const buildCSS = () => {
   return src("atoms/**/client/css/*.scss")
-    .pipe(sass().on("error", sass.logError))
+    .pipe(sass({
+      includePaths: [
+        path.resolve(__dirname, 'shared/css')
+      ]
+    }).on("error", sass.logError))
     .pipe(rename((path) => {
       path.dirname = path.dirname.replace(/client\/css/g, "");
     }))

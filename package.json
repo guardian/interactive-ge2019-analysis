@@ -35,6 +35,7 @@
     "rollup": "^1.25.2",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^5.2.0"
   },
   "dependencies": {
@@ -42,6 +43,8 @@
     "preact": "^10.0.4",
     "preact-compat": "^3.19.0",
     "request-promise": "^4.2.5",
-    "rollup-plugin-preact": "^0.5.2"
+    "rollup-plugin-preact": "^0.5.2",
+    "sass-mq": "^5.0.1",
+    "topojson": "^3.0.2"
   }
 }
