@@ -25,7 +25,7 @@ const config = require("./config.json")
 const path = require("path")
 const cdnUrl = 'https://interactive.guim.co.uk';
 
-const isDeploy = gutil.env._.indexOf('deploylive') > -1 || gutil.env._.indexOf('deploypreview')
+const isDeploy = gutil.env._.indexOf('deploylive') > -1 || gutil.env._.indexOf('deploypreview') > -1
 const live = gutil.env._.indexOf('deploylive') > -1
 
 const version = `v/${Date.now()}`;
@@ -61,7 +61,8 @@ const buildJS = () => {
         alias({
           entries: {
             "react": path.resolve(__dirname, 'node_modules/preact/dist/preact.js'),
-            "react-dom": path.resolve(__dirname, 'node_modules/preact/dist/preact.js')
+            "react-dom": path.resolve(__dirname, 'node_modules/preact/dist/preact.js'),
+            "shared": path.resolve(__dirname, 'shared')
           }
         }),
         resolve({
@@ -79,7 +80,7 @@ const buildJS = () => {
       path: assetPath,
       atomPath : `<%= atomPath %>`
     }))
-    // .pipe(isDeploy ? uglify() : gutil.noop())
+    .pipe(isDeploy ? uglify() : gutil.noop())
     .pipe(dest(".build/"));
 }
 
@@ -148,7 +149,7 @@ const serve = () => {
       'port': 8000
   });
 
-  watch(["atoms/**/*", "!**/*.scss"], series(build, local))
+  watch(["atoms/**/*", "shared/**/*", "!**/*.scss"], series(build, local))
   watch("atoms/**/*.scss", series(buildCSS, local))
 }
 
