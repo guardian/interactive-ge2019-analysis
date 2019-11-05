@@ -6,7 +6,7 @@ class Slope extends Component {
         super(props)
         
         this.state = {
-            width : 300
+            width : 1260
         }
     }
 
@@ -14,10 +14,8 @@ class Slope extends Component {
         const { data } = this.props
         const { width } = this.state
 
-        return <div class="ge-slope-chart">
-            <svg width={width} height={width}>
-                {data.map(d => <line></line>)}
-            </svg>
+        return <div class="ge-demographic-slope">
+            <Slope data={data}/>
         </div>
     }
 
