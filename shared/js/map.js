@@ -30,6 +30,17 @@ class Map extends Component {
       ttCoords: { x: 0, y: 0 }
     }
   }
+  hover = f => {
+
+    const obj = this.props.resultsDict[f.properties.constituency]
+
+    const c = this.state.path.centroid(f)
+
+    // console.log(c)
+
+    this.setState({ hovered: obj, ttCoords: { x: c[0], y: c[1] } })
+
+  }
 
   render() {
 
@@ -41,7 +52,7 @@ class Map extends Component {
         <defs dangerouslySetInnerHTML={{ __html: pattern }}></defs>
         {
           hexFc.features.map(f => {
-            const party = ((results.find(o => o.ons === f.properties.constituency) || {}).winningParty || 'undeclared').toLowerCase().replace(/\s/g, '')
+            const party = ((results.find(o => o.ons_id === f.properties.constituency) || {}).y2017_winner || 'undeclared').toLowerCase().replace(/\s/g, '')
             return <path d={path(f)} className={`ge-const ge-fill--${party}`} onMouseEnter={() => this.hover(f)} onClick={() => this.select(f)}/>
           })
         }
