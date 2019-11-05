@@ -41,6 +41,7 @@
     "@rollup/plugin-alias": "^2.2.0",
     "preact": "^10.0.4",
     "preact-compat": "^3.19.0",
+    "request-promise": "^4.2.5",
     "rollup-plugin-preact": "^0.5.2"
   }
 }
