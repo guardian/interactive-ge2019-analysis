@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import hexTopo from '../geo/hexagons.json'
 import regionsTopo from '../geo/regions.json'
+import geoGraphic from '../geo/geographic_uk.json'
 import { hashPattern } from './util'
 import { geoMercator, geoPath } from 'd3'
 import { feature } from 'topojson'
