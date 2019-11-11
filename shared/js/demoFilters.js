@@ -43,19 +43,19 @@ class DemoFilters extends Component {
     filters.forEach(f => {
       results = results.filter(d => {
         if (f.operator === '<') {
-          return d[f.demoType] < d.demoVal
+          return d[f.demoType] < f.demoVal
         }
         if (f.operator === '>') {
-          return d[f.demoType] > d.demoVal
+          return d[f.demoType] > f.demoVal
         }
         if (f.operator === '===') {
           console.log(d[f.demoType])
-          return d[f.demoType] === d[f.demoVal]
+          return d[f.demoType].toLowerCase() === f.demoVal.toLowerCase()
         }
       })
     })
-    console.log(filters)
-    console.log(results)
+
+    this.props.filterData(results)
   }
 
 

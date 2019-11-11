@@ -14,7 +14,7 @@ const loadAndDraw = async() => {
     const dataRequest = await fetch("<%= path %>/data.json")
     const data = await dataRequest.json()
     
-    render(<DemoFilters data={data} />, document.querySelector(".gv-filters"))
+    // render(<DemoFilters filterData={} data={data} />, document.querySelector(".gv-filters"))
     render(<Map results={data} resultsDict={toDict(data, 'ons')} />, document.querySelector(".gv-map"));
     render(<DemographicSlope data={data}/>, document.querySelector(".interactive-wrapper"));
 }
