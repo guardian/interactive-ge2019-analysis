@@ -32,6 +32,7 @@ const live = gutil.env._.indexOf('deploylive') > -1
 const version = `v/${Date.now()}`;
 const s3Path = `atoms/${config.path}`;
 const assetPath = isDeploy ? `${cdnUrl}/${s3Path}/assets/${version}` : '../assets';
+const json = require('rollup-plugin-json')
 
 const clean = () => {
   return del([".build"]);
@@ -71,6 +72,10 @@ const buildJS = () => {
         }),
         commonjs({
           include: "node_modules/**"
+        }),
+        json({
+          compact: true,
+          preferConst: true
         })
     ]},
     "iife"))

@@ -1,8 +1,11 @@
 @import "fonts";
 @import "mq";
 @import "palette";
-@import "partyColours"; 
 @import "slopeChart";
+@import "palette";
+@import 'ge_palette';
+@import "map";
+@import "tooltip";
 
 .interactive-atom {
     margin: 0;

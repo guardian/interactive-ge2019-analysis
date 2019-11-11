@@ -1,0 +1,53 @@
+$undeclared: #eaeaea;
+
+$lab: #c70000;
+$con: #0084c6;
+$conind: #00b2ff;
+$libdem: #ee6f00;
+$green: #3db540;
+$ukip: #bb3b80;
+$snp:  #ffbb50;
+$dup: #880105;
+$alliance: #ffdf51;
+$uup: #041f4a;
+$sdlp: #4b8878; 
+$tig: #333333;
+$plaid: #478e39; 
+$sinnfein: #236925; 
+$brexit: #13bece;
+$ind: #767676;
+$other: #dcdcdc;
+
+$colours: ld $libdem,
+libdem $libdem,
+grn $green,
+green $green,
+con $con,
+snp $snp,
+lab $lab,
+ind $ind,
+dup $dup,
+spk $tig,
+plaid $plaid,
+pc $plaid,
+brexit $brexit,
+ukip $ukip,
+oth $other,
+sf $sinnfein,
+uup $uup,
+undeclared $undeclared,
+other $other;
+
+@each $colour in $colours {
+    .ge-fill--#{nth($colour, 1)} {
+        fill: nth($colour, 2) !important;
+    }
+
+    .ge-background--#{nth($colour, 1)} {
+        background: nth($colour, 2) !important;
+    }
+
+    .ge-color--#{nth($colour, 1)} {
+        color: nth($colour, 2) !important;
+    }
+}
