@@ -27,7 +27,6 @@ class Slope extends Component {
         const r = 6*(width/300);
 
         return <div class="ge-slope-chart" ref={this.wrapper}>
-            <h4>{labels[i]}</h4>
             <svg width={width} height={width}>
                 <line x1={0} x2={width} y1={width} y2={width} className="ge-slope-chart__baseline"></line>
                 <line x1={0} x2={width} y1={width/2} y2={width/2} className="ge-slope-chart__midline"></line>

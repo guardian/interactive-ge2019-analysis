@@ -62,7 +62,7 @@ class Map extends Component {
             {regionsFc.features.map(f => <path d={path(f)} className='ge-region' />)}}
           </svg>
         </div>
-        <DemoFilters filterData={filtered => this.setState({ results: filtered })} data={fullResults} />
+        {/* <DemoFilters filterData={filtered => this.setState({ results: filtered })} data={fullResults} /> */}
       </>
     )
   }
@@ -77,7 +77,7 @@ class Map extends Component {
     const path = geoPath().projection(proj)
 
     this.setInputRef = node => this.input = node
-    
+
     this.setState({
       width,
       height,

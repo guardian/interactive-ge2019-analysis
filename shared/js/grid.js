@@ -13,10 +13,11 @@ class Slope extends Component {
     }
 
     render() {
-        const { items, classes } = this.props;
+        const { items, classes, labels } = this.props;
         return <div className={`ge-grid ${classes}`}>
-            {items.map(item => 
+            {items.map((item, i) => 
             <div className="ge-grid__item">
+                <h3>{labels[i]}</h3>
                 {item}
             </div>)}
         </div>

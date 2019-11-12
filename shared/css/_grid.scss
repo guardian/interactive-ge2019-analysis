@@ -10,8 +10,9 @@
         flex-wrap: nowrap;
     }
 
-    h2 {
+    h3 {
         display: block;
+        @include fs-header(2);
     }
 
     h4 {
