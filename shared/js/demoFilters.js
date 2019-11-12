@@ -49,7 +49,6 @@ class DemoFilters extends Component {
           return d[f.demoType] > f.demoVal
         }
         if (f.operator === '===') {
-          console.log(d[f.demoType])
           return d[f.demoType].toLowerCase() === f.demoVal.toLowerCase()
         }
       })
