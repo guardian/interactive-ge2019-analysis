@@ -67,8 +67,12 @@ Promise.all([
             newFields.result2019 = false
         }
 
-        return Object.assign({}, d, newFields)
+        let obj = Object.assign({}, d, newFields)
+
+        let newObj = Object.assign({}, ...Object.keys(obj).map(key => ({ [key]: typeof obj[key] === 'boolean' || isNaN(Number(obj[key])) ? obj[key] : Number(obj[key]) })));
+
+        return newObj
     })
 
-    fs.writeFileSync("./assets/data.json", JSON.stringify(all))
+    fs.writeFileSync("./assets/data.json", JSON.stringify(all.filter(d => d.name !== 0)))
 });

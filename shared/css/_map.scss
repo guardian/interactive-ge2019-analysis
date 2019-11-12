@@ -1,0 +1,40 @@
+.ge-map-wrapper {
+    position: relative;
+    height: 800px; // TODO CHANGE
+}
+
+.ge-const {
+    fill: #dcdcdc;
+    stroke: #f6f6f6;
+    stroke-width: 0.5;
+    cursor: pointer;
+}
+
+.ge-region {
+    fill: none;
+    stroke: #f6f6f6;
+    stroke-width: 2;
+    pointer-events: none;
+}
+
+.ge-hash__rect {
+    fill: white;
+}
+
+.ge-hash__path {
+    stroke: #dcdcdc;
+    stroke-width: 1.5;
+    fill: none;
+}
+
+.ge-map__inner {
+    position: relative;
+    // right: 80px;
+}
+
+.ge-map__search__title {
+    @include fs-titlepiece(1);
+    font-size: 32px;
+    line-height: 40px;
+    margin-bottom: 12px;
+}
