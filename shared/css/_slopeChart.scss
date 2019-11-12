@@ -1,21 +1,19 @@
-.ge-demographic-slope {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-}
-
 .ge-slope-chart {
     // width:10%;
     // flex-grow: 1; 
-    background-color: #dcdcdc;
 
-    @include mq(leftCol) {
-        width: 270px; 
-    }
+    
+}
 
-    @include mq(wide) {
-        width: 200px; 
-    }
+.ge-slope-chart__baseline {
+    stroke: #767676;
+    shape-rendering: crispEdges;
+}
+
+.ge-slope-chart__midline {
+    shape-rendering: crispEdges;
+    stroke: #dcdcdc;
+    stroke-dasharray: 2,2;
 }
 
 .ge-slope-chart__line {
