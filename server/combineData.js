@@ -55,6 +55,8 @@ Promise.all([
             newFields.y2019_share_dup = find2019Result(result2019, "DUP")
             newFields.y2019_share_green = find2019Result(result2019, "Green")
             newFields.y2019_share_sf = find2019Result(result2019, "SF")
+            d.y2017_winner = cleanName(d.y2017_winner)
+            d.y2015_winner = cleanName(d.y2015_winner)
             // need to deal with "other" – does this include ind?
             // need to add brexit party once we have 2019 test data
 

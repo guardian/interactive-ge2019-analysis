@@ -159,8 +159,8 @@ const serve = () => {
       'port': 8000
   });
 
-  watch(["atoms/**/*", "shared/**/*"], series(clear, build, local))
-  // watch(["atoms/**/*.scss","shared/**/*"], series(buildCSS, local))
+  watch(["atoms/**/*", "shared/**/*", "!.scss"], series(clear, build, local));
+  watch(["atoms/**/*.scss","shared/**/*.scss"], series(buildCSS, local))
 }
 
 const s3Upload = (cacheControl, keyPrefix) => {

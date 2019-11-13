@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import hexTopo from '../geo/hexagons.json'
 import regionsTopo from '../geo/regions.json'
 import { hashPattern } from './util'
@@ -9,11 +9,11 @@ import DemoFilters from './demoFilters'
 
 const pattern = hashPattern('ge-hash', 'ge-hash__path', 'ge-hash__rect')
 
-class Map extends Component {
-
+class Map extends Component { 
+  wrapper = createRef() 
   constructor(props) {
     super(props)
-    const width = 480
+    const width = 100
     const height = width * 1.5
     const hexFc = feature(hexTopo, hexTopo.objects.hexagons)
     const regionsFc = feature(regionsTopo, regionsTopo.objects.regions)
@@ -49,7 +49,7 @@ class Map extends Component {
 
     return (
       <>
-        <div className='ge-map__inner'>
+        <div className='ge-map__inner' ref={this.wrapper}>
           <Tooltip constituency={hovered} x={ttCoords.x} y={ttCoords.y} />
           <svg className='ge-map' height={height} width={width}>
             <defs dangerouslySetInnerHTML={{ __html: pattern }}></defs>
@@ -68,7 +68,23 @@ class Map extends Component {
   }
 
   componentDidMount() {
-    // this.setState({ width: window.innerWidth })
+    const width = this.wrapper.current.getBoundingClientRect().width;
+
+    const height = width * 1.5
+    const hexFc = feature(hexTopo, hexTopo.objects.hexagons)
+    const regionsFc = feature(regionsTopo, regionsTopo.objects.regions)
+    const proj = geoMercator().fitSize([width, height], hexFc)
+    const path = geoPath().projection(proj)
+
+    this.setInputRef = node => this.input = node
+
+    this.setState({
+      width,
+      height,
+      hexFc,
+      regionsFc,
+      path
+    })
   }
 }
 
