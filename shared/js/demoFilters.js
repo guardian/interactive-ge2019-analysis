@@ -29,11 +29,12 @@ class DemoFilters extends Component {
       demoVal: null,
       filters
     })
+    this.applyFilters()
   }
 
   removeFilter = id => {
     const { filters } = this.state
-    this.setState({ filters: filters.filter(d => d.id !== id)})
+    this.setState({ filters: filters.filter(d => d.id !== id) }, () => this.applyFilters())    
   }
 
   applyFilters = () => {
@@ -48,9 +49,13 @@ class DemoFilters extends Component {
         if (f.operator === '>') {
           return d[f.demoType] > f.demoVal
         }
-        if (f.operator === '===') {
-          console.log(d[f.demoType])
-          return d[f.demoType].toLowerCase() === f.demoVal.toLowerCase()
+        if (f.operator === '==') {
+          
+          if (isNaN(Number(d[f.demoType]))) {
+            return d[f.demoType].toLowerCase() == f.demoVal.toLowerCase()
+          } else {
+            return d[f.demoType] == f.demoVal
+          }
         }
       })
     })
@@ -73,12 +78,14 @@ class DemoFilters extends Component {
         </select>
         <select value={operator} onChange={e => this.setState({ operator: e.target.value })}>
           <option value={'<'}>{'<'}</option>
-          <option value={'==='}>{'==='}</option>
+          <option value={'=='}>{'=='}</option>  ///FIX DOUBLE EQUAL WHEN EXACTLY THE SAME IT RETURNS EMPTY ARRAY
           <option value={'>'}>{'>'}</option>
         </select>
         <input value={demoVal} onChange={e => this.setState({ demoVal: e.target.value })}/>
-        <button onClick={this.addFilter} disabled={!demoType || !operator || !demoVal}>Add filter</button>
-        <button onClick={this.applyFilters}>Apply Filters</button>
+        <button onClick={this.addFilter} 
+        // disabled={!demoType || !operator || !demoVal}
+        >Add filter</button>
+        {/* <button onClick={this.applyFilters}>Apply Filters</button> */}
       </div>
     )
   }

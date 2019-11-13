@@ -43,6 +43,10 @@ other $other;
         fill: nth($colour, 2) !important;
     }
 
+    .ge-stroke--#{nth($colour, 1)} {
+        stroke: nth($colour, 2) !important;
+    }
+
     .ge-background--#{nth($colour, 1)} {
         background: nth($colour, 2) !important;
     }

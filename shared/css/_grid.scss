@@ -1,0 +1,38 @@
+.ge-grid {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding: 10px;
+
+    @include mq(tablet) {
+        flex-wrap: nowrap;
+    }
+
+    h3 {
+        display: block;
+        @include fs-header(2);
+    }
+
+    h4 {
+        @include fs-textSans(3);
+    }
+}
+
+.ge-grid__item {
+    flex: 1 1 0px;
+    margin: 10px;
+
+    @include mq($until: tablet) {
+        flex: 1 1 100%;
+
+        .ge-grid--2-col-mobile & {
+            flex: 1 1 calc(50% - 20px);
+        }
+    }
+
+    svg {
+        overflow: visible !important;
+    }
+}
