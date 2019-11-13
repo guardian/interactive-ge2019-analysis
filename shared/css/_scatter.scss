@@ -1,0 +1,45 @@
+.axis {
+    line {
+        stroke: #dcdcdc;
+    }
+
+    text {
+        @include fs-textSans(2);
+        fill: #767676;
+    }
+}
+
+.axis--x {
+    text {
+        text-anchor: middle;
+        transform: translate(0, 16px); 
+    }
+
+    text:first-of-type {
+        text-anchor: start;
+    }
+
+    line:first-of-type {
+        display: none;
+    }
+
+    line:last-of-type {
+        display: none;
+    }
+}
+
+.axis--y {
+    text:last-of-type, line:last-of-type {
+        display: none;
+    }
+
+    text {
+        transform: translateY(-6px);
+    }
+}
+
+.ge-scatter-plot {
+    circle {
+        fill-opacity: 0.5 !important;
+    } 
+}
