@@ -91,9 +91,9 @@ class Map extends Component {
         }
       })
     })
-    console.log(noData)
-    results.concat(noData)
-    this.setState({ results })
+    
+    results
+    this.setState({ results: results.concat(noData) })
   }
 
   render() {
@@ -110,7 +110,7 @@ class Map extends Component {
             {
               hexFc.features.map(f => {
                 const thisConst = results.find(o => o.ons_id === f.properties.constituency) || {}
-                console.log(thisConst.noData)
+
                 const party = (thisConst.y2017_winner || 'undeclared').toLowerCase().replace(/\s/g, '')
                 
                 return <path
