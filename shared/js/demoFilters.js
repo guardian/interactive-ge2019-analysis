@@ -29,6 +29,7 @@ class DemoFilters extends Component {
       demoVal: null,
       filters
     })
+    window.filters = JSON.stringify(filters)
     this.applyFilters()
   }
 

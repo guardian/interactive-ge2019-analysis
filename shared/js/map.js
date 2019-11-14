@@ -11,8 +11,6 @@ import chroma from 'chroma-js'
 
 const pattern = hashPattern('ge-hash', 'ge-hash__path', 'ge-hash__rect')
 
-const selectedDemo = 'house_price'
-
 class Map extends Component { 
   wrapper = createRef() 
   constructor(props) {
@@ -28,7 +26,7 @@ class Map extends Component {
 
     this.state = {
       results: props.results,
-      fullResults: props.results,
+      fullResults: props.results, //not needed when we launch and demofilters are removed. Remember to remove
       width,
       height,
       hexFc,
@@ -36,7 +34,8 @@ class Map extends Component {
       path,
       hovered: null,
       selected: props.results[0],
-      ttCoords: { x: 0, y: 0 }
+      ttCoords: { x: 0, y: 0 },
+      colorScale: null
     }
   }
   hover = f => {
@@ -46,7 +45,7 @@ class Map extends Component {
     this.setState({ hovered: obj, ttCoords: { x: c[0], y: c[1] } })
   }
 
-  colorScale = (partyCol, demographic, steps, shiftWhite = false, customDomain = null) => {
+  setColorScale = (partyCol, demographic, steps, shiftWhite = false, customDomain = null) => {
     const domain = customDomain ? customDomain : [min(this.state.results, d => d[demographic]), max(this.state.results, d => d[demographic])]
 
     let colors = chroma
@@ -55,20 +54,52 @@ class Map extends Component {
 
     if (shiftWhite) colors.shift()
 
-    const scale = chroma
+    const colorScale = chroma
       .scale(colors)
       .domain(domain)
       .classes(colors.length)
 
-    return scale
+    this.setState({ colorScale })
+  }
+
+  applyFilters = () => {
+    let results = this.props.results
+    let noData = []
+    const { filters } = this.props
+
+    filters.forEach(f => {
+
+      results = results.filter(d => {
+        if (d[f.demoType] === 'NA') {
+          noData.push(Object.assign({}, d, { noData: true }))
+          return false
+        }
+        
+        if (f.operator === '<') {
+          return d[f.demoType] < f.demoVal
+        }
+        if (f.operator === '>') {
+          return d[f.demoType] > f.demoVal
+        }
+        if (f.operator === '==') {
+
+          if (isNaN(Number(d[f.demoType]))) {
+            return d[f.demoType].toLowerCase() == f.demoVal.toLowerCase()
+          } else {
+            return d[f.demoType] == f.demoVal
+          }
+        }
+      })
+    })
+    console.log(noData)
+    results.concat(noData)
+    this.setState({ results })
   }
 
   render() {
     // const { results } = this.props
-    const { geo } = this.props
-    const { width, height, regionsFc, path, hexFc, hovered, ttCoords, selected, results, fullResults } = this.state
-
-    console.log(this.colorScale('#c70000', 'house_price', 5, true)(selectedDemo), 'argh')
+    const { geo, shadeDemo } = this.props
+    const { width, height, regionsFc, path, hexFc, hovered, ttCoords, selected, results, fullResults, colorScale } = this.state
 
     return (
       <>
@@ -79,13 +110,13 @@ class Map extends Component {
             {
               hexFc.features.map(f => {
                 const thisConst = results.find(o => o.ons_id === f.properties.constituency) || {}
-
+                console.log(thisConst.noData)
                 const party = (thisConst.y2017_winner || 'undeclared').toLowerCase().replace(/\s/g, '')
-                const demoVal = thisConst[selectedDemo]
+                
                 return <path
                   d={path(f)}
-                  className={`ge-const ge-fill--${party}`}
-                  // fill={this.colorScale('#000', 'house_price', 5)(demoVal)}
+                  className={shadeDemo ? `ge-const ${thisConst[shadeDemo.selectedDemo] === 'NA' ? 'ge-const--nodata' : ''}` : `ge-const ge-fill--${party} ${thisConst.noData ? 'ge-const--nodata' : ''}`}
+                  style={{ fill: colorScale ? colorScale(thisConst[shadeDemo.selectedDemo]).hex() : 'unset'}}
                   onMouseEnter={() => this.hover(f)}
                   onClick={() => this.select(f)}
                 />
@@ -97,6 +128,15 @@ class Map extends Component {
         <DemoFilters filterData={filtered => this.setState({ results: filtered })} data={fullResults} />
       </>
     )
+  }
+
+  componentWillMount() {
+    this.applyFilters()
+
+    if (this.props.shadeDemo) {
+      const { selectedDemo, color, shiftWhite, steps, customDomain } = this.props.shadeDemo
+      this.setColorScale(color, selectedDemo, steps, shiftWhite, customDomain)
+    }
   }
 
   componentDidMount() {
