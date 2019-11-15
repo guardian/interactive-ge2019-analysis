@@ -45,19 +45,19 @@ class Map extends Component {
     this.setState({ hovered: obj, ttCoords: { x: c[0], y: c[1] } })
   }
 
-  setColorScale = (partyCol, demographic, steps, shiftWhite = false, customDomain = null) => {
-    const domain = customDomain ? customDomain : [min(this.state.results, d => d[demographic]), max(this.state.results, d => d[demographic])]
+  setColorScale = (scaleColors, outOfScaleColor, demographic, steps, shiftFirstColor = false, customClasses = null) => {
+    const domain = [min(this.state.results, d => d[demographic]), max(this.state.results, d => d[demographic])]
 
     let colors = chroma
-      .scale(['#fff', partyCol])
-      .colors(shiftWhite ? steps + 1 : steps)
+      .scale([scaleColors[0], scaleColors[1]])
+      .colors(shiftFirstColor ? steps + 1 : steps)
 
-    if (shiftWhite) colors.shift()
+    if (shiftFirstColor) colors.shift()
 
     const colorScale = chroma
-      .scale(colors)
+      .scale(outOfScaleColor.concat(colors))
       .domain(domain)
-      .classes(colors.length)
+      .classes(customClasses ? customClasses : colors.length)
 
     this.setState({ colorScale })
   }
@@ -148,8 +148,8 @@ class Map extends Component {
     this.applyFilters()
 
     if (this.props.shadeDemo) {
-      const { selectedDemo, color, shiftWhite, steps, customDomain } = this.props.shadeDemo
-      this.setColorScale(color, selectedDemo, steps, shiftWhite, customDomain)
+      const { selectedDemo, scaleColors, outOfScaleColor, shiftFirstColor, steps } = this.props.shadeDemo
+      this.setColorScale(scaleColors, outOfScaleColor, selectedDemo, steps, shiftFirstColor)
     }
   }
 
