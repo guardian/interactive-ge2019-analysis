@@ -1,6 +1,7 @@
 import React, { Component, createRef } from 'react'
 import hexTopo from '../geo/hexagons.json'
-import regionsTopo from '../geo/regions.json'
+import regions from '../geo/regions_mesh.json'
+import regionNames from '../geo/region_names.json'
 import geoGraphic from '../geo/geo_uk.json'
 import { hashPattern } from './util'
 import { geoMercator, geoPath, max, min, scaleLinear } from 'd3'
@@ -18,7 +19,6 @@ class Map extends Component {
     const width = 100
     const height = width * 1.5
     const hexFc = props.geo ? geoGraphic : feature(hexTopo, hexTopo.objects.hexagons)
-    const regionsFc = feature(regionsTopo, regionsTopo.objects.regions)
     const proj = geoMercator().fitSize([width, height], hexFc)
     const path = geoPath().projection(proj)
 
@@ -30,7 +30,7 @@ class Map extends Component {
       width,
       height,
       hexFc,
-      regionsFc,
+      proj,
       path,
       hovered: null,
       selected: props.results[0],
@@ -92,14 +92,13 @@ class Map extends Component {
       })
     })
     
-    results
-    this.setState({ results: results.concat(noData) })
+    this.setState({ results: results.filter(d => d.noData !== true).concat(noData) })
   }
 
   render() {
     // const { results } = this.props
     const { geo, shadeDemo } = this.props
-    const { width, height, regionsFc, path, hexFc, hovered, ttCoords, selected, results, fullResults, colorScale } = this.state
+    const { width, height, path, hexFc, hovered, ttCoords, selected, results, fullResults, colorScale, proj } = this.state
 
     return (
       <>
@@ -116,13 +115,28 @@ class Map extends Component {
                 return <path
                   d={path(f)}
                   className={shadeDemo ? `ge-const ${thisConst[shadeDemo.selectedDemo] === 'NA' ? 'ge-const--nodata' : ''}` : `ge-const ge-fill--${party} ${thisConst.noData ? 'ge-const--nodata' : ''}`}
-                  style={{ fill: colorScale ? colorScale(thisConst[shadeDemo.selectedDemo]).hex() : 'unset'}}
+                  style={{ fill: colorScale ? colorScale(thisConst[shadeDemo.selectedDemo]).hex() : 'initial'}}
                   onMouseEnter={() => this.hover(f)}
                   onClick={() => this.select(f)}
                 />
               })
             }
-            {geo ? null : regionsFc.features.map(f => <path d={path(f)} className='ge-region' />)}}
+            {geo ? null : <path d={path(regions)} className='ge-region' />}}
+            {geo ? null : regionNames
+              .filter(f => f.properties.abbr)
+              .map(f => {
+                const p = proj(f.geometry.coordinates)
+                const transform = `translate(${p[0]}, ${p[1]})`
+
+                return <g className='ge-map-labelg' transform={transform}>
+                  {f.properties.name.startsWith('Yorks') ?
+                    <text className='ge-map-label__text'>
+                      <tspan x='10' y='-15'>Yorkshire and</tspan>
+                      <tspan x='10' dy='16'>the Humber</tspan>
+                    </text>
+                    : <text className='ge-map-label__text'> {f.properties.name} </text>}
+                </g>
+            })}
           </svg>
         </div>
         <DemoFilters filterData={filtered => this.setState({ results: filtered })} data={fullResults} />
@@ -144,7 +158,6 @@ class Map extends Component {
 
     const height = width * 1.5
     const hexFc = this.props.geo ? geoGraphic : feature(hexTopo, hexTopo.objects.hexagons)
-    const regionsFc = feature(regionsTopo, regionsTopo.objects.regions)
     const proj = geoMercator().fitSize([width, height], hexFc)
     const path = geoPath().projection(proj)
 
@@ -152,9 +165,9 @@ class Map extends Component {
 
     this.setState({
       width,
+      proj,
       height,
       hexFc,
-      regionsFc,
       path
     })
   }

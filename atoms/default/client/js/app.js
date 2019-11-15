@@ -21,9 +21,9 @@ const loadAndDraw = async() => {
     const data = await dataRequest.json()
 
     // render(<Grid labels={["Map one", "Map two", "Map three", "Map four"]} items={[<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />]}/>, document.querySelector(".interactive-wrapper"));
-  render(<Grid labels={["Map one", 'Map two']} items={[
+  render(<Grid labels={["Map one", 'Map two', 'map three']} items={[
   <Map 
-    shadeDemo={null} 
+    // shadeDemo={null} 
     filters={filters}
     geo={true}
     results={data}
@@ -33,7 +33,15 @@ const loadAndDraw = async() => {
     filters={[]}
     geo={false}
     results={data}
-    resultsDict={toDict(data, 'ons')} />]}/>,
+    resultsDict={toDict(data, 'ons')} />,
+  <Map
+    // shadeDemo={shadeDemo}
+    filters={[]}
+    geo={false}
+    results={data}
+    resultsDict={toDict(data, 'ons')} />
+    ]}/>,
+    
   document.querySelector(".interactive-wrapper"));
     
     render(<Grid labels={["Scatter one"]} items={[<Scatter data={data} xDomain={[0, 0.75]} xTicks={[0, 0.25,0.5,0.75]} yTicks={[0, 0.1, 0.2]} yDomain={[0, 0.2]} x="brexit_leave" y="y2015_share_green"/>]}/>, document.querySelector(".gv-map"));

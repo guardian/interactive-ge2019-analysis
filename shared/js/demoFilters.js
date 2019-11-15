@@ -40,10 +40,16 @@ class DemoFilters extends Component {
 
   applyFilters = () => {
     let results = this.props.data
+    let noData = []
     const { filters } = this.state
     
     filters.forEach(f => {
       results = results.filter(d => {
+        if (d[f.demoType] === 'NA') {
+          noData.push(Object.assign({}, d, { noData: true }))
+          return false
+        }
+
         if (f.operator === '<') {
           return d[f.demoType] < f.demoVal
         }
@@ -61,7 +67,7 @@ class DemoFilters extends Component {
       })
     })
 
-    this.props.filterData(results)
+    this.props.filterData(results.filter(d => d.noData !== true).concat(noData))
   }
 
 

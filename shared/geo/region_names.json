@@ -1,0 +1,222 @@
+  [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "East Midlands",
+        "abbr": "E Mid"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.8,
+          53.28
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "West Midlands",
+        "abbr": "W Mid"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.75,
+          52.64
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "South West",
+        "abbr": "SW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.79,
+          50.87
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "East",
+        "abbr": "E"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.96,
+          52.81
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "North East",
+        "abbr": "NE"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.22,
+          55.43
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Scotland",
+        "abbr": "Scot"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.35,
+          56.69
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "South East",
+        "abbr": "SE"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.33,
+          50.98
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "North West",
+        "abbr": "NW"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.22,
+          54.14
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Yorkshire and the Humber",
+        "abbr": "Yorks"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.18,
+          54.18
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Northern Ireland",
+        "abbr": "NI"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -5.51,
+          55.1
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "London",
+        "abbr": "London"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.04,
+          51.64
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Wales",
+        "abbr": "Wales"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.22,
+          51.92
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Birmingham"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.37,
+          52.68
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Leeds"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.67,
+          54.54
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Manchester"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.51,
+          54.03
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Glasgow"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.49,
+          56.29
+        ]
+      }
+    }
+  ]
