@@ -13,7 +13,7 @@ const toDict = arr => {
 }
 
 const filters = [{ "id": 1573731749523, "demoType": "house_price", "operator": ">", "demoVal": "300000" }]
-const shadeDemo = { selectedDemo: 'house_price', scaleColors: ['white', '#951d7a'], outOfScaleColor: ['#606060'], shiftFirstColor: true, steps: 25, customClasses: null }
+const shadeDemo = { selectedDemo: 'house_price', scaleColors: ['white', '#951d7a'], outOfScaleColor: ['#606060'], shiftFirstColor: true, steps: 3, customClasses: null }
 
 
 const loadAndDraw = async() => {
@@ -22,12 +22,12 @@ const loadAndDraw = async() => {
 
     // render(<Grid labels={["Map one", "Map two", "Map three", "Map four"]} items={[<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />]}/>, document.querySelector(".interactive-wrapper"));
   render(<Grid labels={["Map one", 'Map two', 'map three']} items={[
-  // <Map 
-  //   // shadeDemo={null} 
-  //   filters={filters}
-  //   geo={true}
-  //   results={data}
-  //   resultsDict={toDict(data, 'ons')} />,
+  <Map 
+    shadeDemo={shadeDemo} 
+    filters={[]}
+    geo={true}
+    results={data}
+    resultsDict={toDict(data, 'ons')} />,
   <Map 
     shadeDemo={shadeDemo} 
     filters={[]}

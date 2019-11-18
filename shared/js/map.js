@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react'
+import React, { PureComponent, createRef } from 'react'
 import hexTopo from '../geo/hexagons.json'
 import regions from '../geo/regions_mesh.json'
 import regionNames from '../geo/region_names.json'
@@ -12,7 +12,7 @@ import chroma from 'chroma-js'
 
 const pattern = hashPattern('ge-hash', 'ge-hash__path', 'ge-hash__rect')
 
-class Map extends Component { 
+class Map extends PureComponent { 
   wrapper = createRef() 
   constructor(props) {
     super(props)
@@ -32,17 +32,20 @@ class Map extends Component {
       hexFc,
       proj,
       path,
-      hovered: null,
+      // hovered: null,
       selected: props.results[0],
-      ttCoords: { x: 0, y: 0 },
-      colorScale: null
+      // ttCoords: { x: 0, y: 0 },
+      colorScale: null,
+      showTooltip: false
     }
   }
   hover = f => {
     const obj = this.props.resultsDict[f.properties.constituency]
     const c = this.state.path.centroid(f)
 
-    this.setState({ hovered: obj, ttCoords: { x: c[0], y: c[1] } })
+    // this.setState({ hovered: obj, ttCoords: { x: c[0], y: c[1] } })
+    this.props.setHovered(obj, { x: c[0], y: c[1] })
+    // this.setState({ ttCoords: { x: c[0], y: c[1] } })
   }
 
   setColorScale = (scaleColors, outOfScaleColor, demographic, steps, shiftFirstColor = false, customClasses = null) => {
@@ -95,16 +98,18 @@ class Map extends Component {
     this.setState({ results: results.filter(d => d.noData !== true).concat(noData) })
   }
 
+  toggleTooltip = (showTooltip) => this.setState({ showTooltip })
+
   render() {
-    // const { results } = this.props
-    const { geo, shadeDemo } = this.props
-    const { width, height, path, hexFc, hovered, ttCoords, selected, results, fullResults, colorScale, proj } = this.state
+
+    const { geo, shadeDemo, hovered, ttCoords } = this.props
+    const { width, height, path, hexFc, selected, results, fullResults, colorScale, proj, showTooltip } = this.state
 
     return (
       <>
         <div className='ge-map__inner' ref={this.wrapper}>
-          <Tooltip constituency={hovered} x={ttCoords.x} y={ttCoords.y} />
-          <svg className='ge-map' height={height} width={width}>
+          {showTooltip && <Tooltip constituency={hovered} x={ttCoords.x} y={ttCoords.y} />}
+          <svg onMouseEnter={() => this.toggleTooltip(true)} onMouseLeave={() => this.toggleTooltip(false)} className='ge-map' height={height} width={width}>
             <defs dangerouslySetInnerHTML={{ __html: pattern }}></defs>
             {
               hexFc.features.map(f => {

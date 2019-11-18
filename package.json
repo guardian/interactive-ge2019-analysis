@@ -45,7 +45,6 @@
     "chroma-js": "^2.1.0",
     "gulp-cache": "^1.1.3",
     "preact": "^10.0.4",
-    "preact-compat": "^3.19.0",
     "react-d3-axis": "^0.1.2",
     "request-promise": "^4.2.5",
     "rollup-plugin-preact": "^0.5.2",
