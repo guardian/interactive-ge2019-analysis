@@ -2,16 +2,11 @@ import React, { Component } from 'react'
 
 class DemoFilters extends Component {
 
-  constructor(props) {
-    super(props)
-  }
-
-
   state = {
     demoType: null,
     operator: null,
     demoVal: null,
-    filters: []
+    filters: this.props.filters
   }
 
   addFilter = () => {
@@ -35,7 +30,7 @@ class DemoFilters extends Component {
 
   removeFilter = id => {
     const { filters } = this.state
-    this.setState({ filters: filters.filter(d => d.id !== id) }, () => this.applyFilters())    
+    this.setState({ filters: filters.filter(d => d.id !== id) }, () => this.applyFilters())
   }
 
   applyFilters = () => {
@@ -92,7 +87,6 @@ class DemoFilters extends Component {
         <button onClick={this.addFilter} 
         // disabled={!demoType || !operator || !demoVal}
         >Add filter</button>
-        {/* <button onClick={this.applyFilters}>Apply Filters</button> */}
       </div>
     )
   }
