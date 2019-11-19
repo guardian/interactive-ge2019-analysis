@@ -10,6 +10,13 @@ import Tooltip from './tooltip'
 import DemoFilters from './demoFilters'
 import chroma from 'chroma-js'
 
+// const toDict = arr => {
+//   const out = {}
+//   arr.forEach(o => out[o.ons_id] = o)
+
+//   return out
+// }
+
 const pattern = hashPattern('ge-hash', 'ge-hash__path', 'ge-hash__rect')
 
 class Map extends PureComponent { 
@@ -26,7 +33,8 @@ class Map extends PureComponent {
 
     this.state = {
       results: props.results,
-      fullResults: props.results, //not needed when we launch and demofilters are removed. Remember to remove
+      // resultsDict: toDict(data, 'ons'),
+      // fullResults: props.results, //not needed when we launch and demofilters are removed. Remember to remove
       width,
       height,
       hexFc,
@@ -41,11 +49,9 @@ class Map extends PureComponent {
   }
   hover = f => {
     const obj = this.props.resultsDict[f.properties.constituency]
-    const c = this.state.path.centroid(f)
+    const c = this.state.path.bounds(f)
 
-    // this.setState({ hovered: obj, ttCoords: { x: c[0], y: c[1] } })
-    this.props.setHovered(obj, { x: c[0], y: c[1] })
-    // this.setState({ ttCoords: { x: c[0], y: c[1] } })
+    this.props.setHovered(obj, { x: (c[0][0] + c[1][0]) / 2, y: c[0][1] }, f)
   }
 
   setColorScale = (scaleColors, outOfScaleColor, demographic, steps, shiftFirstColor = false, customClasses = null) => {
@@ -94,7 +100,7 @@ class Map extends PureComponent {
         }
       })
     })
-    
+
     this.setState({ results: results.filter(d => d.noData !== true).concat(noData) })
   }
 
@@ -102,9 +108,9 @@ class Map extends PureComponent {
 
   render() {
 
-    const { geo, shadeDemo, hovered, ttCoords } = this.props
-    const { width, height, path, hexFc, selected, results, fullResults, colorScale, proj, showTooltip } = this.state
-
+    const { geo, shadeDemo, hovered, ttCoords, selectedFeature } = this.props
+    const { width, height, path, hexFc, selected, results, colorScale, proj, showTooltip } = this.state
+    
     return (
       <>
         <div className='ge-map__inner' ref={this.wrapper}>
@@ -114,6 +120,7 @@ class Map extends PureComponent {
             {
               hexFc.features.map(f => {
                 const thisConst = results.find(o => o.ons_id === f.properties.constituency) || {}
+                {/* const thisConst = this.props.resultsDict[f.properties.constituency] || {} */}
 
                 const party = (thisConst.y2017_winner || 'undeclared').toLowerCase().replace(/\s/g, '')
                 
@@ -127,6 +134,13 @@ class Map extends PureComponent {
               })
             }
             {geo ? null : <path d={path(regions)} className='ge-region' />}}
+            {
+              hovered &&
+              <path
+                d={path(selectedFeature)}
+                className='ge-const__selected'
+              />
+            }
             {geo ? null : regionNames
               .filter(f => f.properties.abbr)
               .map(f => {
@@ -144,7 +158,7 @@ class Map extends PureComponent {
             })}
           </svg>
         </div>
-        <DemoFilters filterData={filtered => this.setState({ results: filtered })} data={fullResults} />
+        <DemoFilters filterData={filtered => this.setState({ results: filtered })} data={this.props.results} />
       </>
     )
   }

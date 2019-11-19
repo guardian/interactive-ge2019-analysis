@@ -22,12 +22,12 @@ const loadAndDraw = async() => {
 
     // render(<Grid labels={["Map one", "Map two", "Map three", "Map four"]} items={[<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />]}/>, document.querySelector(".interactive-wrapper"));
   render(<Grid labels={["Map one", 'Map two', 'map three']} items={[
-  <Map 
-    shadeDemo={shadeDemo} 
-    filters={[]}
-    geo={true}
-    results={data}
-    resultsDict={toDict(data, 'ons')} />,
+  // <Map 
+  //   shadeDemo={shadeDemo} 
+  //   filters={[]}
+  //   geo={true}
+  //   results={data}
+  //   resultsDict={toDict(data, 'ons')} />,
   <Map 
     shadeDemo={shadeDemo} 
     filters={[]}

@@ -66,7 +66,7 @@ class DemoFilters extends Component {
         }
       })
     })
-
+    
     this.props.filterData(results.filter(d => d.noData !== true).concat(noData))
   }
 
