@@ -46,7 +46,10 @@ class DemographicSlope extends Component {
         const { data, demographic, parties} = this.props
         const { binAverages } = this.state
 
-        return <Grid labels={["Lowest", "Second lowest", "Second highest", "Highest"]} classes="ge-grid--2-col-mobile" items={binAverages.map((bin, i) => <Slope data={bin} i={i}/>)}/>
+        return (
+            <Grid labels={["Lowest", "Second lowest", "Second highest", "Highest"]} classes="ge-grid--2-col-mobile">
+                {binAverages.map((bin, i) => <Slope data={bin} i={i} />)}
+            </Grid>)
     }
 
     componentDidMount() {

@@ -13,38 +13,43 @@ const toDict = arr => {
 }
 
 const filters = [{ "id": 1573731749523, "demoType": "house_price", "operator": ">", "demoVal": "300000" }]
-const shadeDemo = { selectedDemo: 'house_price', scaleColors: ['white', '#951d7a'], outOfScaleColor: ['#606060'], shiftFirstColor: true, steps: 25, customClasses: null }
-
+const shadeDemo = { selectedDemo: 'house_price', scaleColors: ['white', '#951d7a'], outOfScaleColor: [], shiftFirstColor: true, steps: 10, customClasses: null }
+const shadeDemo2 = { selectedDemo: 'y2017_turnout_percent', scaleColors: ['yellow', '#c70000'], outOfScaleColor: [], shiftFirstColor: false, steps: 3, customClasses: null }
 
 const loadAndDraw = async() => {
     const dataRequest = await fetch("<%= path %>/data.json")
     const data = await dataRequest.json()
+    const dataDict = toDict(data)
+
 
     // render(<Grid labels={["Map one", "Map two", "Map three", "Map four"]} items={[<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />]}/>, document.querySelector(".interactive-wrapper"));
-  render(<Grid labels={["Map one", 'Map two', 'map three']} items={[
-  // <Map 
-  //   // shadeDemo={null} 
-  //   filters={filters}
-  //   geo={true}
-  //   results={data}
-  //   resultsDict={toDict(data, 'ons')} />,
-  <Map 
-    shadeDemo={shadeDemo} 
-    filters={[]}
-    geo={false}
-    results={data}
-    resultsDict={toDict(data, 'ons')} />,
-  <Map
-    // shadeDemo={shadeDemo}
-    filters={[]}
-    geo={false}
-    results={data}
-    resultsDict={toDict(data, 'ons')} />
-    ]}/>,
-    
-  document.querySelector(".interactive-wrapper"));
-    
-    render(<Grid labels={["Scatter one"]} items={[<Scatter data={data} xDomain={[0, 0.75]} xTicks={[0, 0.25,0.5,0.75]} yTicks={[0, 0.1, 0.2]} yDomain={[0, 0.2]} x="brexit_leave" y="y2015_share_green"/>]}/>, document.querySelector(".gv-map"));
+  render(<Grid labels={["Map one", 'Map two', 'map three']}>
+    <Map 
+      shadeDemo={shadeDemo} 
+      filters={[]}
+      geo={false}
+      results={data}
+      resultsDict={dataDict} />
+    <Map 
+      shadeDemo={shadeDemo2} 
+      filters={[]}
+      geo={false}
+      results={data}
+      resultsDict={dataDict} />
+    <Map
+      // shadeDemo={shadeDemo}
+      filters={filters}
+      geo={false}
+      results={data}
+      resultsDict={dataDict} />
+    </Grid>,
+    document.querySelector(".interactive-wrapper")
+  )
+  render(<Grid labels={["Scatter one"]}>
+     <Scatter data={data} xDomain={[0, 0.75]} xTicks={[0, 0.25,0.5,0.75]} yTicks={[0, 0.1, 0.2]} yDomain={[0, 0.2]} x="brexit_leave" y="y2015_share_green"/>
+    </Grid>,
+    document.querySelector(".gv-map")
+  )
     
     render(<DemographicSlope data={data} demographic="brexit_leave" parties={["con", "lab", "ld"]}/>, document.querySelector(".interactive-wrapper2"));
 }

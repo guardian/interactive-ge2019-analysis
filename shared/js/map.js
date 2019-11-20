@@ -1,18 +1,19 @@
-import React, { Component, createRef } from 'react'
+import React, { PureComponent, createRef } from 'react'
 import hexTopo from '../geo/hexagons.json'
 import regions from '../geo/regions_mesh.json'
 import regionNames from '../geo/region_names.json'
 import geoGraphic from '../geo/geo_uk.json'
 import { hashPattern } from './util'
-import { geoMercator, geoPath, max, min, scaleLinear } from 'd3'
+import { geoMercator, geoPath, max, min } from 'd3'
 import { feature } from 'topojson'
 import Tooltip from './tooltip'
 import DemoFilters from './demoFilters'
 import chroma from 'chroma-js'
+import { toDict } from './util.js'
 
 const pattern = hashPattern('ge-hash', 'ge-hash__path', 'ge-hash__rect')
 
-class Map extends Component { 
+class Map extends PureComponent { 
   wrapper = createRef() 
   constructor(props) {
     super(props)
@@ -25,28 +26,29 @@ class Map extends Component {
     this.setInputRef = node => this.input = node
 
     this.state = {
-      results: props.results,
-      fullResults: props.results, //not needed when we launch and demofilters are removed. Remember to remove
+      filteredDict: props.resultsDict,
       width,
       height,
       hexFc,
       proj,
       path,
-      hovered: null,
-      selected: props.results[0],
-      ttCoords: { x: 0, y: 0 },
-      colorScale: null
+      colorScale: null,
+      showTooltip: false
     }
   }
+
   hover = f => {
     const obj = this.props.resultsDict[f.properties.constituency]
-    const c = this.state.path.centroid(f)
+    const c = this.state.path.bounds(f)
 
-    this.setState({ hovered: obj, ttCoords: { x: c[0], y: c[1] } })
+    this.props.setHovered(obj, { x: (c[0][0] + c[1][0]) / 2, y: c[0][1] }, f)
   }
 
   setColorScale = (scaleColors, outOfScaleColor, demographic, steps, shiftFirstColor = false, customClasses = null) => {
-    const domain = [min(this.state.results, d => d[demographic]), max(this.state.results, d => d[demographic])]
+
+    // !!!IMPORTANT!!! THIS DOMAIN ISNT RECALCULATED IF FILTERS ARE APPLIED!!!!!!!!!
+
+    const domain = [min(this.props.results, d => d[demographic]), max(this.props.results, d => d[demographic])]
 
     let colors = chroma
       .scale([scaleColors[0], scaleColors[1]])
@@ -64,8 +66,8 @@ class Map extends Component {
 
   applyFilters = () => {
     let results = this.props.results
-    let noData = []
     const { filters } = this.props
+    let noData = []
 
     filters.forEach(f => {
 
@@ -91,25 +93,28 @@ class Map extends Component {
         }
       })
     })
-    
-    this.setState({ results: results.filter(d => d.noData !== true).concat(noData) })
+
+    const filtered = results.filter(d => d.noData !== true).concat(noData)
+
+    this.setState({ filteredDict: toDict(filtered) })
   }
 
-  render() {
-    // const { results } = this.props
-    const { geo, shadeDemo } = this.props
-    const { width, height, path, hexFc, hovered, ttCoords, selected, results, fullResults, colorScale, proj } = this.state
+  toggleTooltip = (showTooltip) => this.setState({ showTooltip })
 
+  render() {
+
+    const { geo, shadeDemo, hovered, ttCoords, selectedFeature, results, filters } = this.props
+    const { width, height, path, hexFc, colorScale, proj, showTooltip, filteredDict } = this.state
+    
     return (
       <>
         <div className='ge-map__inner' ref={this.wrapper}>
-          <Tooltip constituency={hovered} x={ttCoords.x} y={ttCoords.y} />
-          <svg className='ge-map' height={height} width={width}>
+          {showTooltip && <Tooltip constituency={hovered} x={ttCoords.x} y={ttCoords.y} />}
+          <svg onMouseEnter={() => this.toggleTooltip(true)} onMouseLeave={() => {this.toggleTooltip(false); this.props.selectFeature(null)}} className='ge-map' height={height} width={width}>
             <defs dangerouslySetInnerHTML={{ __html: pattern }}></defs>
             {
               hexFc.features.map(f => {
-                const thisConst = results.find(o => o.ons_id === f.properties.constituency) || {}
-
+                const thisConst = filteredDict[f.properties.constituency] || {}
                 const party = (thisConst.y2017_winner || 'undeclared').toLowerCase().replace(/\s/g, '')
                 
                 return <path
@@ -122,6 +127,13 @@ class Map extends Component {
               })
             }
             {geo ? null : <path d={path(regions)} className='ge-region' />}}
+            {
+              hovered &&
+              <path
+                d={path(selectedFeature)}
+                className='ge-const__selected'
+              />
+            }
             {geo ? null : regionNames
               .filter(f => f.properties.abbr)
               .map(f => {
@@ -139,7 +151,7 @@ class Map extends Component {
             })}
           </svg>
         </div>
-        <DemoFilters filterData={filtered => this.setState({ results: filtered })} data={fullResults} />
+        <DemoFilters filters={filters} filterData={filtered => this.setState({ filteredDict: toDict(filtered) })} data={results} />
       </>
     )
   }
