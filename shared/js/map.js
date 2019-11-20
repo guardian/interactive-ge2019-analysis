@@ -71,6 +71,19 @@ class Map extends PureComponent {
 
     filters.forEach(f => {
 
+      if (f.operator === 'top' || f.operator === 'bottom') {
+
+        const pick = results
+          .filter(r => {
+            if (r[f.demoType] === 'NA') noData.push(Object.assign({}, r, { noData: true }))
+
+            return isNaN(Number(r[f.demoType])) === false
+          })
+          .sort((a, b) => Number(a[f.demoType]) > Number(b[f.demoType]) ? -1 : 1)
+        results = f.operator === 'top' ? pick.slice(0, f.demoVal) : pick.slice(1).slice(- Number(f.demoVal))
+
+      }
+
       results = results.filter(d => {
         if (d[f.demoType] === 'NA') {
           noData.push(Object.assign({}, d, { noData: true }))
@@ -90,6 +103,9 @@ class Map extends PureComponent {
           } else {
             return d[f.demoType] == f.demoVal
           }
+        }
+        if (f.operator === 'top' || f.operator === 'bottom') {
+          return d
         }
       })
     })

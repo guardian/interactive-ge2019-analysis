@@ -39,6 +39,19 @@ class DemoFilters extends Component {
     const { filters } = this.state
     
     filters.forEach(f => {
+      if (f.operator === 'top' || f.operator === 'bottom') {
+
+        const pick = results
+          .filter(r => {
+            if (r[f.demoType] === 'NA') noData.push(Object.assign({}, r, { noData: true }))
+
+            return isNaN(Number(r[f.demoType])) === false
+          })
+          .sort((a, b) => Number(a[f.demoType]) > Number(b[f.demoType]) ? -1 : 1)
+          results = f.operator === 'top' ? pick.slice(0, f.demoVal) : pick.slice(1).slice(- Number(f.demoVal))
+
+      }
+
       results = results.filter(d => {
         if (d[f.demoType] === 'NA') {
           noData.push(Object.assign({}, d, { noData: true }))
@@ -59,9 +72,12 @@ class DemoFilters extends Component {
             return d[f.demoType] == f.demoVal
           }
         }
+        if (f.operator === 'top' || f.operator === 'bottom') {
+          return d
+        }
       })
     })
-    
+
     this.props.filterData(results.filter(d => d.noData !== true).concat(noData))
   }
 
@@ -82,6 +98,8 @@ class DemoFilters extends Component {
           <option value={'<'}>{'<'}</option>
           <option value={'=='}>{'=='}</option>  ///FIX DOUBLE EQUAL WHEN EXACTLY THE SAME IT RETURNS EMPTY ARRAY
           <option value={'>'}>{'>'}</option>
+          <option value={'top'}>{'top'}</option>
+          <option value={'bottom'}>{'bottom'}</option>
         </select>
         <input value={demoVal} onChange={e => this.setState({ demoVal: e.target.value })}/>
         <button onClick={this.addFilter} 

@@ -5,9 +5,10 @@
     margin-left: -20px;
     margin-right: -20px;
     padding: 10px;
+    flex-shrink: 0;
 
     @include mq(tablet) {
-        flex-wrap: nowrap;
+        // flex-wrap: nowrap;
     }
 
     h3 {
@@ -23,7 +24,6 @@
 .ge-grid__item {
     flex: 1 1 0px;
     margin: 10px;
-
     @include mq($until: tablet) {
         flex: 1 1 100%;
 
