@@ -1,5 +1,4 @@
-import React, { Component, createRef, cloneElement} from 'react'
-import * as d3 from "d3"
+import React, { Component, createRef, cloneElement, Children } from 'react'
 
 class Grid extends Component {
     wrapper = createRef();
@@ -16,16 +15,17 @@ class Grid extends Component {
     }
 
     setHovered = (hovered, ttCoords, selectedFeature) => this.setState({ hovered, ttCoords, selectedFeature })
+    selectFeature = selectedFeature => this.setState({ selectedFeature })
 
     render() {
-        const { items, classes, labels } = this.props
+        const { children, classes, labels } = this.props
         const { selectedFeature, ttCoords, hovered } = this.state
 
         return <div className={`ge-grid ${classes}`}>
-            {items.map((item, i) => 
+            {Children.map(children, (child, i) => 
             <div className="ge-grid__item">
                 <h3>{labels[i]}</h3>
-                    {cloneElement(item, { hovered, setHovered: this.setHovered, ttCoords, selectedFeature })}
+                    {cloneElement(child, { hovered, setHovered: this.setHovered, selectFeature: this.selectFeature, ttCoords, selectedFeature })}
             </div>)}
         </div>
     }

@@ -23,32 +23,35 @@ const loadAndDraw = async() => {
 
 
     // render(<Grid labels={["Map one", "Map two", "Map three", "Map four"]} items={[<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />]}/>, document.querySelector(".interactive-wrapper"));
-  render(<Grid labels={["Map one", 'Map two', 'map three']} items={[
-  <Map 
-    shadeDemo={shadeDemo} 
-    filters={[]}
-    geo={false}
-    results={data}
-    resultsDict={dataDict} />,
-  <Map 
-    shadeDemo={shadeDemo2} 
-    filters={[]}
-    geo={false}
-    results={data}
-    resultsDict={dataDict} />,
-  <Map
-    // shadeDemo={shadeDemo}
-    filters={filters}
-    geo={false}
-    results={data}
-    resultsDict={dataDict} />
-    ]}/>,
+  render(<Grid labels={["Map one", 'Map two', 'map three']}>
+    <Map 
+      shadeDemo={shadeDemo} 
+      filters={[]}
+      geo={false}
+      results={data}
+      resultsDict={dataDict} />
+    <Map 
+      shadeDemo={shadeDemo2} 
+      filters={[]}
+      geo={false}
+      results={data}
+      resultsDict={dataDict} />
+    <Map
+      // shadeDemo={shadeDemo}
+      filters={filters}
+      geo={false}
+      results={data}
+      resultsDict={dataDict} />
+    </Grid>,
+    document.querySelector(".interactive-wrapper")
+  )
+  render(<Grid labels={["Scatter one"]}>
+     <Scatter data={data} xDomain={[0, 0.75]} xTicks={[0, 0.25,0.5,0.75]} yTicks={[0, 0.1, 0.2]} yDomain={[0, 0.2]} x="brexit_leave" y="y2015_share_green"/>
+    </Grid>,
+    document.querySelector(".gv-map")
+  )
     
-  document.querySelector(".interactive-wrapper"));
-    
-    render(<Grid labels={["Scatter one"]} items={[<Scatter data={data} xDomain={[0, 0.75]} xTicks={[0, 0.25,0.5,0.75]} yTicks={[0, 0.1, 0.2]} yDomain={[0, 0.2]} x="brexit_leave" y="y2015_share_green"/>]}/>, document.querySelector(".gv-map"));
-    
-    render(<DemographicSlope data={data} demographic="brexit_leave" parties={["con", "lab", "ld"]}/>, document.querySelector(".interactive-wrapper2"));
+    // render(<DemographicSlope data={data} demographic="brexit_leave" parties={["con", "lab", "ld"]}/>, document.querySelector(".interactive-wrapper2"));
 }
 
 loadAndDraw();

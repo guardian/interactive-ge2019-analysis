@@ -110,7 +110,7 @@ class Map extends PureComponent {
       <>
         <div className='ge-map__inner' ref={this.wrapper}>
           {showTooltip && <Tooltip constituency={hovered} x={ttCoords.x} y={ttCoords.y} />}
-          <svg onMouseEnter={() => this.toggleTooltip(true)} onMouseLeave={() => {this.toggleTooltip(false); this.props.setHovered(null, null, null)}} className='ge-map' height={height} width={width}>
+          <svg onMouseEnter={() => this.toggleTooltip(true)} onMouseLeave={() => {this.toggleTooltip(false); this.props.selectFeature(null)}} className='ge-map' height={height} width={width}>
             <defs dangerouslySetInnerHTML={{ __html: pattern }}></defs>
             {
               hexFc.features.map(f => {
