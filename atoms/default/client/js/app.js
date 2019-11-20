@@ -51,7 +51,7 @@ const loadAndDraw = async() => {
     document.querySelector(".gv-map")
   )
     
-    // render(<DemographicSlope data={data} demographic="brexit_leave" parties={["con", "lab", "ld"]}/>, document.querySelector(".interactive-wrapper2"));
+    render(<DemographicSlope data={data} demographic="brexit_leave" parties={["con", "lab", "ld"]}/>, document.querySelector(".interactive-wrapper2"));
 }
 
 loadAndDraw();
