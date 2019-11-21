@@ -5,6 +5,7 @@ import DemographicSlope from "shared/js/demographicSlope.js"
 import DemoFilters from 'shared/js/demoFilters'
 import Grid from "shared/js/grid.js"
 import Slope from "shared/js/slope.js"
+import ConstSlopes from "shared/js/constSlopes.js"
 
 const toDict = arr => {
   const out = {}
@@ -23,8 +24,8 @@ const loadAndDraw = async() => {
     const dataDict = toDict(data)
 
 
-  render(<Grid labels={["Map one", "Map two", "Map three", "Map four"]} items={[<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />]}/>, document.querySelector(".interactive-wrapper"));
-  render(<Grid labels={["Map one", 'Map two', 'map three']}>
+  // render(<Grid labels={["Map one", "Map two", "Map three", "Map four"]} items={[<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />]}/>, document.querySelector(".interactive-wrapper"));
+  render(<Grid keyName='maps' labels={["Map one", 'Map two', 'map three']}>
     <Map 
       shadeDemo={shadeDemo} 
       filters={[]}
@@ -46,17 +47,15 @@ const loadAndDraw = async() => {
     </Grid>,
     document.querySelector(".interactive-wrapper")
   )
-  render(<Grid labels={["Scatter one"]}>
+  render(<Grid keyName='scat' labels={["Scatter one"]}>
      <Scatter data={data} xDomain={[0, 0.75]} xTicks={[0, 0.25,0.5,0.75]} yTicks={[0, 0.1, 0.2]} yDomain={[0, 0.2]} x="brexit_leave" y="y2015_share_green"/>
     </Grid>,
     document.querySelector(".gv-map")
   )
 
-  // render(
-  //   <Grid classes="ge-grid--2-col-mobile" labels={data.map(d => d.name)}>
-  //     {data.map(d => <Slope data={d} isConstituency={true} />)}
-  //   </Grid>, document.querySelector(".interactive-wrapper3")
-  // )
+  render(
+    <ConstSlopes filters={[{ "id": 1573731749523, "demoType": "y2017_share_lab", "operator": "top", "demoVal": "10" }]} data={data} />, document.querySelector(".interactive-wrapper3")
+  )
 
 
   render(<DemographicSlope data={data} demographic="brexit_leave" parties={["con", "lab", "ld"]}/>, document.querySelector(".interactive-wrapper2"));

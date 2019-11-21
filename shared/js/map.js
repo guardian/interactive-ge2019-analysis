@@ -129,11 +129,12 @@ class Map extends PureComponent {
           <svg onMouseEnter={() => this.toggleTooltip(true)} onMouseLeave={() => {this.toggleTooltip(false); this.props.selectFeature(null)}} className='ge-map' height={height} width={width}>
             <defs dangerouslySetInnerHTML={{ __html: pattern }}></defs>
             {
-              hexFc.features.map(f => {
+              hexFc.features.map((f, i) => {
                 const thisConst = filteredDict[f.properties.constituency] || {}
                 const party = (thisConst.y2017_winner || 'undeclared').toLowerCase().replace(/\s/g, '')
                 
                 return <path
+                  key={'pconst-'+i}
                   d={path(f)}
                   className={shadeDemo ? `ge-const ${thisConst[shadeDemo.selectedDemo] === 'NA' ? 'ge-const--nodata' : ''}` : `ge-const ge-fill--${party} ${thisConst.noData ? 'ge-const--nodata' : ''}`}
                   style={{ fill: colorScale ? colorScale(thisConst[shadeDemo.selectedDemo]).hex() : 'initial'}}
@@ -152,11 +153,11 @@ class Map extends PureComponent {
             }
             {geo ? null : regionNames
               .filter(f => f.properties.abbr)
-              .map(f => {
+              .map((f,i) => {
                 const p = proj(f.geometry.coordinates)
                 const transform = `translate(${p[0]}, ${p[1]})`
 
-                return <g className='ge-map-labelg' transform={transform}>
+                return <g key={'lblg-' + i} className='ge-map-labelg' transform={transform}>
                   {f.properties.name.startsWith('Yorks') ?
                     <text className='ge-map-label__text'>
                       <tspan x='10' y='-15'>Yorkshire and</tspan>

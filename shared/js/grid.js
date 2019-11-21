@@ -18,15 +18,17 @@ class Grid extends Component {
     selectFeature = selectedFeature => this.setState({ selectedFeature })
 
     render() {
-        const { children, classes, labels } = this.props
+        const { children, classes, labels, keyName } = this.props
         const { selectedFeature, ttCoords, hovered } = this.state
 
         return <div className={`ge-grid ${classes}`}>
-            {Children.map(children, (child, i) => 
-            <div className="ge-grid__item">
+            {
+            Children.map(children, (child, i) =>
+                <div className="ge-grid__item" key={`${keyName}-${i + labels.length}`}>
                 <h3>{labels[i]}</h3>
                     {cloneElement(child, { hovered, setHovered: this.setHovered, selectFeature: this.selectFeature, ttCoords, selectedFeature })}
-            </div>)}
+            </div>) 
+            }
         </div>
     }
 }
