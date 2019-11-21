@@ -15,8 +15,8 @@ const toDict = arr => {
 }
 
 const filters = [{ "id": 1573731749523, "demoType": "house_price", "operator": ">", "demoVal": "300000" }]
-const shadeDemo = { selectedDemo: 'house_price', scaleColors: ['white', '#951d7a'], outOfScaleColor: [], shiftFirstColor: true, steps: 10, customClasses: null }
-const shadeDemo2 = { selectedDemo: 'y2017_turnout', scaleColors: ['yellow', '#c70000'], outOfScaleColor: [], shiftFirstColor: false, steps: 3, customClasses: null }
+const shadeDemo = { selectedDemo: 'brexit_leave', scaleColors: ['white', '#951d7a'], outOfScaleColor: [], shiftFirstColor: true, steps: 10, customClasses: null }
+const shadeDemo2 = { selectedDemo: 'y2017_turnout', scaleColors: ['yellow', 'green'], outOfScaleColor: [], shiftFirstColor: false, steps: 3, customClasses: null }
 
 const loadAndDraw = async() => {
     const dataRequest = await fetch("<%= path %>/data.json")
@@ -25,7 +25,7 @@ const loadAndDraw = async() => {
 
 
   // render(<Grid labels={["Map one", "Map two", "Map three", "Map four"]} items={[<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />]}/>, document.querySelector(".interactive-wrapper"));
-  render(<Grid keyName='maps' labels={["Map one", 'Map two', 'map three']}>
+  render(<Grid keyName='maps' labels={["Brexit Leave", '2017 turnout %', 'House price']}>
     <Map 
       shadeDemo={shadeDemo} 
       filters={[]}
