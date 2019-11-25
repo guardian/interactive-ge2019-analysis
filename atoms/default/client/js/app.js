@@ -18,13 +18,13 @@ const filters = [{ "id": 1573731749523, "demoType": "house_price", "operator": "
 const shadeDemo = { selectedDemo: 'brexit_leave', scaleColors: ['white', '#951d7a'], outOfScaleColor: [], shiftFirstColor: true, steps: 10, customClasses: null }
 const shadeDemo2 = { selectedDemo: 'y2017_turnout', scaleColors: ['yellow', 'green'], outOfScaleColor: [], shiftFirstColor: false, steps: 3, customClasses: null }
 
-const conVoteShare  = { selectedDemo: 'y2017_share_con', scaleColors: ['white', '#0084c6'], outOfScaleColor: ["#ffffff"], shiftFirstColor: true, steps: 10, customClasses: null, customDomain: [0.01,0.5] }
+const conVoteShare  = { selectedDemo: 'y2017_share_con', scaleColors: ['white', '#0084c6'], outOfScaleColor: ["#ffffff"], shiftFirstColor: true, steps: 9, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8], customDomain: [0.01,0.8] }
 
-const labVoteShare  = { selectedDemo: 'y2017_share_lab', scaleColors: ['white', '#c70000'], outOfScaleColor: ["#ffffff"], shiftFirstColor: true, steps: 10, customClasses: null, customDomain: [0.01,0.5] }
+const labVoteShare  = { selectedDemo: 'y2017_share_lab', scaleColors: ['white', '#c70000'], outOfScaleColor: ["#ffffff"], shiftFirstColor: true, steps: 9, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8], customDomain: [0.01,0.8] }
 
-const ldVoteShare  = { selectedDemo: 'y2017_share_ld', scaleColors: ['white', '#ee6f00'], outOfScaleColor: ["#ffffff"], shiftFirstColor: true, steps: 10, customClasses: null, customDomain: [0.01, 0.5] } 
+const ldVoteShare  = { selectedDemo: 'y2017_share_ld', scaleColors: ['white', '#ee6f00'], outOfScaleColor: ["#ffffff"], shiftFirstColor: true, steps: 9, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8], customDomain: [0.01, 0.8] } 
 
-const greenVoteShare = { selectedDemo: 'y2017_share_green', scaleColors: ['white', '#3db540'], outOfScaleColor: ["#ffffff"], shiftFirstColor: true, steps: 10, customClasses: null, customDomain: [0.01, 0.5] }
+const greenVoteShare = { selectedDemo: 'y2017_share_green', scaleColors: ['white', '#3db540'], outOfScaleColor: ["#ffffff"], shiftFirstColor: true, steps: 9, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8], customDomain: [0.01, 0.8] }
 
 const loadAndDraw = async() => {
     const dataRequest = await fetch("<%= path %>/data.json")
