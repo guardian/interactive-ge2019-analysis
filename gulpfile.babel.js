@@ -62,8 +62,8 @@ const buildJS = () => {
         }),
         alias({
           entries: {
-            "react": path.resolve(__dirname, 'node_modules/preact/dist/preact.js'),
-            "react-dom": path.resolve(__dirname, 'node_modules/preact/dist/preact.js'),
+            "react": path.resolve(__dirname, 'node_modules/preact/compat/dist/compat.js'),
+            "react-dom": path.resolve(__dirname, 'node_modules/preact/compat/dist/compat.js'),
             "shared": path.resolve(__dirname, 'shared')
           }
         }),

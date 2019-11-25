@@ -10,6 +10,17 @@
     cursor: pointer;
 }
 
+.ge-const__selected {
+    fill: none;
+    stroke: #000;
+    stroke-width: 2px;
+    pointer-events: none;
+}
+
+.ge-const--nodata {
+    fill: url('#ge-hash') !important;
+}
+
 .ge-region {
     fill: none;
     stroke: #f6f6f6;
@@ -37,4 +48,15 @@
     font-size: 32px;
     line-height: 40px;
     margin-bottom: 12px;
+}
+
+.ge-map-label__text {
+    @include fs-textSans(1);
+    text-anchor: middle;
+
+    pointer-events: none;
+
+    stroke: white;
+    paint-order: stroke;
+    stroke-width: 3;
 }

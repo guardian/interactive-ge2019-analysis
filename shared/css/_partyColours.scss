@@ -1,28 +1,28 @@
-$other : #e3e3e3;
-$labour: #E42729;
-$con: #005789;
-$libdem: #ffb900;
-$green: #53AC32;
-$dup: #7D0068;
-$snp: #fcdd03;
-$green: green;
-$pc: darkgreen;
+// $other : #e3e3e3;
+// $labour: #E42729;
+// $con: #005789;
+// $libdem: #ffb900;
+// $green: #53AC32;
+// $dup: #7D0068;
+// $snp: #fcdd03;
+// $green: green;
+// $pc: darkgreen;
 
-$parties: oth $other,
-lab $labour,
-con $con,
-ld $libdem,
-pc $pc,
-green $green,
-snp $snp,
-dup $dup;
+// $parties: oth $other,
+// lab $labour,
+// con $con,
+// ld $libdem,
+// pc $pc,
+// green $green,
+// snp $snp,
+// dup $dup;
 
-@each $party in $parties {
-    .ge-stroke--#{nth($party, 1)} {
-        stroke: nth($party, 2) !important;
-    }
+// @each $party in $parties {
+//     .ge-stroke--#{nth($party, 1)} {
+//         stroke: nth($party, 2) !important;
+//     }
 
-    .ge-fill--#{nth($party, 1)} {
-        fill: nth($party, 2) !important;
-    }
-}
+//     .ge-fill--#{nth($party, 1)} {
+//         fill: nth($party, 2) !important;
+//     }
+// }

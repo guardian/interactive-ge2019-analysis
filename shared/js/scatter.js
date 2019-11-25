@@ -22,7 +22,7 @@ class Scatter extends Component {
         const { width, padding } = this.state
         const xScale = d3.scaleLinear().domain(xDomain).range([padding, width - padding]);
         const yScale = d3.scaleLinear().domain(yDomain).range([width - padding, padding]);
-        const r = 5;
+        const r = 3.5;
 
         console.log(filteredData.find(d => d.ons_id === "N06000008"))
 
