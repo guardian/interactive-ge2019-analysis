@@ -44,15 +44,17 @@ class Map extends PureComponent {
     this.props.setHovered(obj, { x: (c[0][0] + c[1][0]) / 2, y: c[0][1] }, f)
   }
 
-  setColorScale = (scaleColors, outOfScaleColor, demographic, steps, shiftFirstColor = false, customClasses = null) => {
+  setColorScale = (scaleColors, outOfScaleColor, demographic, steps, shiftFirstColor = false, customClasses = null, customDomain = null) => {
 
     // !!!IMPORTANT!!! THIS DOMAIN ISNT RECALCULATED IF FILTERS ARE APPLIED!!!!!!!!!
-
-    const domain = [min(this.props.results, d => d[demographic]), max(this.props.results, d => d[demographic])]
+    console.log(customDomain)
+    const domain = (customDomain) ? customDomain : [min(this.props.results, d => d[demographic]), max(this.props.results, d => d[demographic])]
 
     let colors = chroma
       .scale([scaleColors[0], scaleColors[1]])
       .colors(shiftFirstColor ? steps + 1 : steps)
+
+      
 
     if (shiftFirstColor) colors.shift()
 
@@ -60,6 +62,8 @@ class Map extends PureComponent {
       .scale(outOfScaleColor.concat(colors))
       .domain(domain)
       .classes(customClasses ? customClasses : colors.length)
+
+      window.colorScale = colorScale;
 
     this.setState({ colorScale })
   }
@@ -177,8 +181,8 @@ class Map extends PureComponent {
     this.applyFilters()
 
     if (this.props.shadeDemo) {
-      const { selectedDemo, scaleColors, outOfScaleColor, shiftFirstColor, steps } = this.props.shadeDemo
-      this.setColorScale(scaleColors, outOfScaleColor, selectedDemo, steps, shiftFirstColor)
+      const { selectedDemo, scaleColors, outOfScaleColor, shiftFirstColor, steps, customDomain, customClasses } = this.props.shadeDemo
+      this.setColorScale(scaleColors, outOfScaleColor, selectedDemo, steps, shiftFirstColor, customClasses, customDomain)
     }
   }
 

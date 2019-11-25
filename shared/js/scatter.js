@@ -14,10 +14,19 @@ class Scatter extends Component {
 
     render() {
         const { data, i, x, y, xDomain, yDomain, xTicks, yTicks } = this.props
+
+        const filteredData = data.filter(d => {
+            return d[x] !== "NA" && d[y] !== "NA"
+        })
+
         const { width, padding } = this.state
         const xScale = d3.scaleLinear().domain(xDomain).range([padding, width - padding]);
         const yScale = d3.scaleLinear().domain(yDomain).range([width - padding, padding]);
-        const r = 5;
+        const r = 3.5;
+
+        console.log(filteredData.find(d => d.ons_id === "N06000008"))
+
+        window.test=  filteredData.find(d => d.ons_id === "N06000008")
 
         return <div class="ge-scatter-plot" ref={this.wrapper}>
             <svg width={width} height={width}>
@@ -34,7 +43,7 @@ class Scatter extends Component {
                     </>)}
                 </g>
                 <g>
-                    {data.map(d => <circle cx={xScale(d[x])} cy={yScale(d[y])} r={r} className={`ge-fill--${d["y2017_winner"]} ge-stroke--${d["y2017_winner"]}`}></circle>)}
+                    {filteredData.map(d => <circle id={`${d.ons_id}`} cx={xScale(d[x])} cy={yScale(d[y])} r={r} className={`ge-fill--${d["y2017_winner"]} ge-stroke--${d["y2017_winner"]}`}></circle>)}
                 </g>
             </svg>
         </div>

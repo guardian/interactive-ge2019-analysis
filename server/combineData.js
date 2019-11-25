@@ -13,13 +13,15 @@ const partyLookup = {
     "Green": "green",
     "UKIP": "ukip",
     "DUP": "dup",
-    "Lib Dem": "ld"
+    "Lib Dem": "ld",
+    "LD": "ld"
 }
 
 const cleanName = (p) => {
     if(partyLookup[p]) {
         return partyLookup[p]
     } else {
+
         return p;
     }
 }
@@ -31,7 +33,7 @@ const find2019Result = (result2019, party) => {
 
 Promise.all([
     rp({json: true, uri: "https://interactive.guim.co.uk/docsdata-test/1wFmbda8IrBSCK2iVaLLWYhik5FBGNLZaTa4RJKkJkwE.json"}),
-    rp({json: true, uri: "https://interactive.guim.co.uk/2017/06/ukelection2017-data/snap/full.json"})
+    rp({json: true, uri: "https://interactive.guim.co.uk/2019/12/ukelection2019-data/niko/snap/full.json"})
 ]).then(dl => {
     const full = dl[1]
     const allDemographicData = dl[0].sheets.data
@@ -40,7 +42,7 @@ Promise.all([
         const result2019 = full.find(f => d.ons_id === f.ons)
         const newFields = {}
 
-        if(result2019) {
+        if(result2019 && result2019.candidates) {
             newFields.result2019 = true
             newFields.y2019_winner = cleanName(result2019.winningParty)
             newFields.y2019_electorate = result2019.y2019_electorate
@@ -74,7 +76,7 @@ Promise.all([
         let newObj = Object.assign({}, ...Object.keys(obj).map(key => ({ [key]: typeof obj[key] === 'boolean' || isNaN(Number(obj[key])) ? obj[key] : Number(obj[key]) })));
 
         return newObj
-    })
+    }).filter(v => v.result2019)
 
     const allWithChange = all.map(d => {
         let changes = {}
