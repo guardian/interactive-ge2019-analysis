@@ -30,6 +30,7 @@ class Slope extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            width: 200,
             data: props.isConstituency ? parseParties(props.data, parties) : props.data,
             winner: props.isConstituency ? props.data.y2019_winner : null
         }
@@ -67,7 +68,7 @@ class Slope extends Component {
         )
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(_, prevState) {
         const width = this.wrapper.current.getBoundingClientRect().width;
 
         if (prevState.width !== width) {
