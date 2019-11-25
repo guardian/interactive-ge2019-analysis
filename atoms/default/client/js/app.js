@@ -45,20 +45,20 @@ const loadAndDraw = async() => {
       results={data}
       resultsDict={dataDict} />
     </Grid>,
-    document.querySelector(".interactive-wrapper")
+    document.getElementById("maps")
   )
   render(<Grid keyName='scat' labels={["Scatter one"]}>
      <Scatter data={data} xDomain={[0, 0.75]} xTicks={[0, 0.25,0.5,0.75]} yTicks={[0, 0.1, 0.2]} yDomain={[0, 0.2]} x="brexit_leave" y="y2015_share_green"/>
     </Grid>,
-    document.querySelector(".gv-map")
+    document.getElementById("scatter")
   )
 
   render(
-    <ConstSlopes filters={[{ "id": 1573731749523, "demoType": "y2017_share_lab", "operator": "top", "demoVal": "10" }]} data={data} />, document.querySelector(".interactive-wrapper3")
+    <ConstSlopes filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} data={data} />, document.getElementById("slope-const")
   )
 
 
-  render(<DemographicSlope data={data} demographic="brexit_leave" parties={["con", "lab", "ld"]}/>, document.querySelector(".interactive-wrapper2"));
+  render(<DemographicSlope data={data} demographic="brexit_leave" parties={["con", "lab", "ld"]} />, document.getElementById("slope-demo"));
 }
 
 loadAndDraw();

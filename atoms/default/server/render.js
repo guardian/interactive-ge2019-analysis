@@ -1,7 +1,6 @@
 export async function render() {
-    return `<div class="interactive-wrapper"></div>
-    <div class="interactive-wrapper2"></div>
-    <div class="interactive-wrapper3"></div>
-    <div class="gv-map"></div>
-    <div class="gv-filters"></div>`
+    return `<div id='maps' class="interactive-wrapper interactive-wrapper--showcase"></div>
+    <div id='slope-demo' class="interactive-wrapper"></div>
+    <div id='slope-const' class="interactive-wrapper"></div>
+    <div id='scatter' class="interactive-wrapper"></div>`
 }

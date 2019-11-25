@@ -47,7 +47,7 @@ class DemographicSlope extends Component {
         const { binAverages } = this.state
 
         return (
-            <Grid keyName='dslope' labels={["Lowest", "Second lowest", "Second highest", "Highest"]} classes="ge-grid--2-col-mobile">
+            <Grid keyName='dslope' labels={["Lowest", "Second lowest", "Second highest", "Highest"]} classes="ge-grid--2-col-mobile" itemClasses='ge-grid__item--slope'>
                 {binAverages.map((bin, i) => <Slope data={bin} key={'dslope' + '-slope-' + i} />)}
             </Grid>)
     }

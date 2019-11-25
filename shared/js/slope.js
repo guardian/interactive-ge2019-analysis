@@ -30,18 +30,29 @@ class Slope extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            data: props.isConstituency ? parseParties(props.data, parties) : props.data
+            data: props.isConstituency ? parseParties(props.data, parties) : props.data,
+            winner: props.isConstituency ? props.data.y2019_winner : null
         }
     }
 
+    resize = (width) => {
+        const padding = 10
+        const xScale = scaleLinear().domain([0, 1]).range([padding, width - padding]);
+        const yScale = scaleLinear().domain([0, 1]).range([width, 0]);
+        const r = 6 * (width / 300);
+
+        this.setState({ width, xScale, yScale, r })
+    }
+
     render() {
-        const { width, data, xScale, yScale, r } = this.state
+        const { width, data, xScale, yScale, r, winner } = this.state
         
         return (
-            <div class="ge-slope-chart" ref={this.wrapper}>
+            <div class={`ge-slope-chart`} ref={this.wrapper}>
                 {xScale && yScale && 
                     <svg width={width} height={width}>
-                        <line x1={0} x2={width} y1={width} y2={width} className="ge-slope-chart__baseline"></line>
+                        <rect width={width - 20} height={width - 20} class={`ge-fill--${winner}`} fillOpacity={winner ? 0.1 : 0}></rect>
+                        {/* <line x1={0} x2={width} y1={width} y2={width} className="ge-slope-chart__baseline"></line> */}
                         <line x1={0} x2={width} y1={width / 2} y2={width / 2} className="ge-slope-chart__midline"></line>
                         {data.map((d,i) =>
                             <g key={`${d.ons_id}-` + i}>
@@ -56,14 +67,18 @@ class Slope extends Component {
         )
     }
 
-    componentDidMount() {
-        const padding = 10
+    componentDidUpdate(prevProps, prevState) {
         const width = this.wrapper.current.getBoundingClientRect().width;
-        const xScale = scaleLinear().domain([0, 1]).range([padding, width - padding]);
-        const yScale = scaleLinear().domain([0, 1]).range([width, 0]);
-        const r = 6 * (width / 300);
 
-        this.setState({ width, xScale, yScale, r })
+        if (prevState.width !== width) {
+            this.resize(width)
+        }
+    }
+
+    componentDidMount() {
+        const width = this.wrapper.current.getBoundingClientRect().width;
+
+        this.resize(width)
     }
 }
 

@@ -1,8 +1,18 @@
 .ge-slope-chart {
     // width:10%;
     // flex-grow: 1; 
+    // position: absolute;
+    // bottom: 0;
+    // border: 1px solid #dcdcdc;
+    // box-sizing: border-box;
 
-    
+    rect {
+        transform: translate(10px, 20px);
+    }
+
+    svg {
+        box-sizing: border-box;
+    }
 }
 
 .ge-slope-chart__baseline {

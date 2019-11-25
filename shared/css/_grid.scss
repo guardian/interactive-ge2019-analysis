@@ -1,11 +1,13 @@
 .ge-grid {
-    display: flex;
     justify-content: space-between;
+    display: flex;
     flex-wrap: wrap;
     margin-left: -20px;
     margin-right: -20px;
     padding: 10px;
-    flex-shrink: 0;
+    // flex-shrink: 1;
+    position: relative;
+    align-items: flex-end;
 
     @include mq(tablet) {
         // flex-wrap: nowrap;
@@ -22,17 +24,42 @@
 }
 
 .ge-grid__item {
-    flex: 1 1 0px;
+    flex-shrink: 1;
+    flex-grow: 1 !important;
+    // flex-basis: 33%;
+    //asdasdas
+    position: relative;
     margin: 10px;
-    @include mq($until: tablet) {
-        flex: 1 1 100%;
-
-        .ge-grid--2-col-mobile & {
-            flex: 1 1 calc(50% - 20px);
-        }
-    }
+    // @include mq($until: tablet) {
+    //     .ge-grid--2-col-mobile & {
+    //         // flex: 1 1 calc(50% - 20px);
+    //         flex: 1 0 calc(50% - 20px);
+    //     }
+    // }
 
     svg {
         overflow: visible !important;
+    }
+}
+
+.ge-grid__item--slope {
+    margin-bottom: 40px;
+    width: 300px;
+
+    @include mq(mobile) {
+        width: 50%;
+    }
+
+    @include mq(tablet) {
+        width: 160px;
+    }
+
+    h3 {
+        position: absolute;
+        top: 0;
+    }
+
+    svg {
+        margin-top: 40px;
     }
 }
