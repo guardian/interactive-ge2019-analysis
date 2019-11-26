@@ -1,10 +1,7 @@
 import React,{ render } from "react"
-import Map from "shared/js/map.js"
 import Scatter from "shared/js/scatter.js"
-import DemographicSlope from "shared/js/demographicSlope.js"
-import DemoFilters from 'shared/js/demoFilters'
 import Grid from "shared/js/grid.js"
-import Slope from "shared/js/slope.js"
+import Maps from "shared/js/maps.js"
 import ConstSlopes from "shared/js/constSlopes.js"
 import fetch from 'unfetch'
 import "core-js/stable";
@@ -17,59 +14,13 @@ const toDict = arr => {
   return out
 }
 
-const filters = [{ "id": 1573731749523, "demoType": "house_price", "operator": ">", "demoVal": "300000" }]
-const shadeDemo = { selectedDemo: 'brexit_leave', scaleColors: ['white', '#951d7a'], outOfScaleColor: [], shiftFirstColor: true, steps: 10, customClasses: null }
-const shadeDemo2 = { selectedDemo: 'y2017_turnout', scaleColors: ['yellow', 'green'], outOfScaleColor: [], shiftFirstColor: false, steps: 3, customClasses: null }
-
-const conVoteShare  = { selectedDemo: 'y2017_share_con', scaleColors: ['white', '#0084c6'], outOfScaleColor: ["#ffffff"], shiftFirstColor: true, steps: 9, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8], customDomain: [0.01,0.8] }
-
-const labVoteShare  = { selectedDemo: 'y2017_share_lab', scaleColors: ['white', '#c70000'], outOfScaleColor: ["#ffffff"], shiftFirstColor: true, steps: 9, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8], customDomain: [0.01,0.8] }
-
-const ldVoteShare  = { selectedDemo: 'y2017_share_ld', scaleColors: ['white', '#ee6f00'], outOfScaleColor: ["#ffffff"], shiftFirstColor: true, steps: 9, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8], customDomain: [0.01, 0.8] } 
-
-const greenVoteShare = { selectedDemo: 'y2017_share_green', scaleColors: ['white', '#3db540'], outOfScaleColor: [], shiftFirstColor: true, steps: 9, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8], customDomain: [0.01, 0.8] }
-
-const turnoutChange = { selectedDemo: 'change_turnout_percent', scaleColors: ['blue', 'white', 'green'], outOfScaleColor: [], shiftFirstColor: false, steps: 6, customClasses: [-0.15, -0.1, -0.05, 0, 0.05, 0.1, 0.15] }
-
 const loadAndDraw = async() => {
     const dataRequest = await fetch("<%= path %>/data.json")
     const data = await dataRequest.json()
     const dataDict = toDict(data)
 
   // render(<Grid labels={["Map one", "Map two", "Map three", "Map four"]} items={[<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />]}/>, document.querySelector(".interactive-wrapper"));
-  render(<Grid keyName='maps' classes='ge-grid--300' labels={["Conservative vote share", 'Lab vote share', 'LD vote share', "Green vote share"]}>
-    <Map 
-      // shadeDemo={} 
-      filters={[{"id":1574688796683,"demoType":"y2017_winner","operator":"!=","demoVal":"con"},{"id":1574688803429,"demoType":"y2019_winner","operator":"==","demoVal":"con"}]}
-      geo={false}
-      results={data}
-      resultsDict={dataDict} />
-    <Map 
-      // shadeDemo={labVoteShare} 
-      filters={[{"id":1574688796683,"demoType":"y2017_winner","operator":"!=","demoVal":"lab"},{"id":1574688803429,"demoType":"y2019_winner","operator":"==","demoVal":"lab"}]}
-      geo={false}
-      results={data}
-      resultsDict={dataDict} />
-      <Map 
-      shadeDemo={turnoutChange} 
-      // filters={[{"id":1574688796683,"demoType":"y2017_winner","operator":"!=","demoVal":"lab"},{"id":1574688803429,"demoType":"y2019_winner","operator":"==","demoVal":"lab"}]}
-      filters={[]}
-      geo={false}
-      results={data}
-      resultsDict={dataDict} />
-    {/* <Map
-      shadeDemo={ldVoteShare}
-      filters={[]}
-      geo={false}
-      results={data}
-      resultsDict={dataDict} />
-    <Map
-      shadeDemo={greenVoteShare}
-      filters={[]}
-      geo={false}
-      results={data}
-      resultsDict={dataDict} /> */}
-    </Grid>,
+  render(<Maps data={data} dataDict={dataDict} />,
     document.getElementById("interactive-slot-1")
   )
   render(<Grid keyName='scat' labels={["Scatter one"]}>

@@ -1,25 +1,8 @@
-import React, { PureComponent, createRef, cloneElement, Children } from 'react'
+import React, { PureComponent, Children } from 'react'
 
 class Grid extends PureComponent {
-    wrapper = createRef();
-    
-    constructor(props) {
-        super(props)
-        this.state = {
-            width : 60,
-            padding: 10,
-            hovered: null,
-            ttCoords: { x: 0, y: 0 },
-            selectedFeature: null
-        }
-    }
-
-    setHovered = (hovered, ttCoords, selectedFeature) => this.setState({ hovered, ttCoords, selectedFeature })
-    selectFeature = selectedFeature => this.setState({ selectedFeature })
-
     render() {
         const { children, classes, labels, keyName } = this.props
-        const { selectedFeature, ttCoords, hovered } = this.state
 
         return <div className={`ge-grid ${classes}`}>
             {
@@ -27,7 +10,7 @@ class Grid extends PureComponent {
                 <div className={`ge-grid__item`} 
                 key={`${keyName}-${i + labels.length}`}>
                 <h3>{labels[i]}</h3>
-                    {cloneElement(child, { hovered, setHovered: this.setHovered, selectFeature: this.selectFeature, ttCoords, selectedFeature })}
+                    {child}
             </div>) 
             }
         </div>
