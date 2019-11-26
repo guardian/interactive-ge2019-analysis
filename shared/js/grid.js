@@ -1,6 +1,6 @@
-import React, { Component, createRef, cloneElement, Children } from 'react'
+import React, { PureComponent, createRef, cloneElement, Children } from 'react'
 
-class Grid extends Component {
+class Grid extends PureComponent {
     wrapper = createRef();
     
     constructor(props) {
