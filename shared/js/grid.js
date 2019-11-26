@@ -25,7 +25,6 @@ class Grid extends Component {
             {
             Children.map(children, (child, i) =>
                 <div className={`ge-grid__item ${itemClasses}`} 
-                //style={{ flexBasis: `${100 / children.length}`}} 
                 key={`${keyName}-${i + labels.length}`}>
                 <h3>{labels[i]}</h3>
                     {cloneElement(child, { hovered, setHovered: this.setHovered, selectFeature: this.selectFeature, ttCoords, selectedFeature })}

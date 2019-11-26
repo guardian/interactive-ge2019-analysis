@@ -64,6 +64,13 @@ class DemoFilters extends Component {
         if (f.operator === '>') {
           return d[f.demoType] > f.demoVal
         }
+        if (f.operator === '!=') {
+          if (isNaN(Number(d[f.demoType]))) {
+            return d[f.demoType].toLowerCase() != f.demoVal.toLowerCase()
+          } else {
+            return d[f.demoType] != f.demoVal
+          }
+        }
         if (f.operator === '==') {
           
           if (isNaN(Number(d[f.demoType]))) {
@@ -97,6 +104,7 @@ class DemoFilters extends Component {
         <select value={operator} onChange={e => this.setState({ operator: e.target.value })}>
           <option value={'<'}>{'<'}</option>
           <option value={'=='}>{'=='}</option>  ///FIX DOUBLE EQUAL WHEN EXACTLY THE SAME IT RETURNS EMPTY ARRAY
+          <option value={'!='}>{'!='}</option> 
           <option value={'>'}>{'>'}</option>
           <option value={'top'}>{'top'}</option>
           <option value={'bottom'}>{'bottom'}</option>
