@@ -32,7 +32,7 @@ class Slope extends Component {
         this.state = {
             width: 200,
             data: props.isConstituency ? parseParties(props.data, parties) : props.data,
-            winner: props.isConstituency ? props.data.y2019_winner : null
+            winner: props.isConstituency ? props.data.y2017_winner : null
         }
     }
 

@@ -67,7 +67,10 @@ const loadAndDraw = async() => {
   )
 
   render(
-    <ConstSlopes filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} data={data} />, document.getElementById("slope-const")
+    <ConstSlopes 
+    // filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} 
+    filters={[]}
+    data={data} />, document.getElementById("slope-const")
   )
 
 
