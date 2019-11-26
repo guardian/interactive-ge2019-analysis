@@ -6,6 +6,9 @@ import DemoFilters from 'shared/js/demoFilters'
 import Grid from "shared/js/grid.js"
 import Slope from "shared/js/slope.js"
 import ConstSlopes from "shared/js/constSlopes.js"
+import fetch from 'unfetch'
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 
 const toDict = arr => {
   const out = {}
@@ -34,7 +37,7 @@ const loadAndDraw = async() => {
     const dataDict = toDict(data)
 
   // render(<Grid labels={["Map one", "Map two", "Map three", "Map four"]} items={[<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />]}/>, document.querySelector(".interactive-wrapper"));
-  render(<Grid keyName='maps' labels={["Conservative vote share", 'Lab vote share', 'LD vote share', "Green vote share"]}>
+  render(<Grid keyName='maps' classes='ge-grid--300' labels={["Conservative vote share", 'Lab vote share', 'LD vote share', "Green vote share"]}>
     <Map 
       // shadeDemo={} 
       filters={[{"id":1574688796683,"demoType":"y2017_winner","operator":"!=","demoVal":"con"},{"id":1574688803429,"demoType":"y2019_winner","operator":"==","demoVal":"con"}]}
