@@ -1,7 +1,7 @@
 const fs = require("fs")
 const rp = require("request-promise")
 
-const calcChangeFor = [['y2017_share_lab', 'y2019_share_lab'], ['y2017_share_con', 'y2019_share_con']]
+const calcChangeFor = [['y2017_share_lab', 'y2019_share_lab'], ['y2017_share_con', 'y2019_share_con'], ['y2015_turnout_percent', 'y2017_turnout_percent']]
 
 const partyLookup = {
     "Lab Co-op" : "lab",

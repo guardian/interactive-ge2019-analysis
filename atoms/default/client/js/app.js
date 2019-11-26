@@ -26,6 +26,8 @@ const ldVoteShare  = { selectedDemo: 'y2017_share_ld', scaleColors: ['white', '#
 
 const greenVoteShare = { selectedDemo: 'y2017_share_green', scaleColors: ['white', '#3db540'], outOfScaleColor: [], shiftFirstColor: true, steps: 9, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8], customDomain: [0.01, 0.8] }
 
+const turnoutChange = { selectedDemo: 'change_turnout_percent', scaleColors: ['blue', 'white', 'green'], outOfScaleColor: [], shiftFirstColor: false, steps: 6, customClasses: [-0.15, -0.1, -0.05, 0, 0.05, 0.1, 0.15] }
+
 const loadAndDraw = async() => {
     const dataRequest = await fetch("<%= path %>/data.json")
     const data = await dataRequest.json()
@@ -34,18 +36,25 @@ const loadAndDraw = async() => {
   // render(<Grid labels={["Map one", "Map two", "Map three", "Map four"]} items={[<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />]}/>, document.querySelector(".interactive-wrapper"));
   render(<Grid keyName='maps' labels={["Conservative vote share", 'Lab vote share', 'LD vote share', "Green vote share"]}>
     <Map 
-      shadeDemo={conVoteShare} 
-      filters={[]}
+      // shadeDemo={} 
+      filters={[{"id":1574688796683,"demoType":"y2017_winner","operator":"!=","demoVal":"con"},{"id":1574688803429,"demoType":"y2019_winner","operator":"==","demoVal":"con"}]}
       geo={false}
       results={data}
       resultsDict={dataDict} />
     <Map 
-      shadeDemo={labVoteShare} 
+      // shadeDemo={labVoteShare} 
+      filters={[{"id":1574688796683,"demoType":"y2017_winner","operator":"!=","demoVal":"lab"},{"id":1574688803429,"demoType":"y2019_winner","operator":"==","demoVal":"lab"}]}
+      geo={false}
+      results={data}
+      resultsDict={dataDict} />
+      <Map 
+      shadeDemo={turnoutChange} 
+      // filters={[{"id":1574688796683,"demoType":"y2017_winner","operator":"!=","demoVal":"lab"},{"id":1574688803429,"demoType":"y2019_winner","operator":"==","demoVal":"lab"}]}
       filters={[]}
       geo={false}
       results={data}
       resultsDict={dataDict} />
-    <Map
+    {/* <Map
       shadeDemo={ldVoteShare}
       filters={[]}
       geo={false}
@@ -56,15 +65,15 @@ const loadAndDraw = async() => {
       filters={[]}
       geo={false}
       results={data}
-      resultsDict={dataDict} />
+      resultsDict={dataDict} /> */}
     </Grid>,
     document.getElementById("maps")
   )
-  render(<Grid keyName='scat' labels={["Scatter one"]}>
-     <Scatter data={data} xDomain={[0, 0.75]} xTicks={[0, 0.25,0.5,0.75]} yTicks={[0, 0.1, 0.2]} yDomain={[0, 0.2]} x="brexit_leave" y="y2015_share_green"/>
-    </Grid>,
-    document.getElementById("scatter")
-  )
+  // render(<Grid keyName='scat' labels={["Scatter one"]}>
+  //    <Scatter data={data} xDomain={[0, 0.75]} xTicks={[0, 0.25,0.5,0.75]} yTicks={[0, 0.1, 0.2]} yDomain={[0, 0.2]} x="brexit_leave" y="y2015_share_green"/>
+  //   </Grid>,
+  //   document.getElementById("scatter")
+  // )
 
   render(
     <ConstSlopes 
@@ -73,13 +82,12 @@ const loadAndDraw = async() => {
     data={data} />, document.getElementById("slope-const")
   )
 
-
   // render(<DemographicSlope data={data} demographic="brexit_leave" parties={["con", "lab", "ld"]} />, document.getElementById("slope-demo"));
   
   render(<Grid labels={["Leave voting areas had the lowest green party vote share", "Areas with high youth unemployment voted Labour in high numbers"]}>
-    <Scatter data={data} xDomain={[0, 0.75]} xTicks={[0, 0.25,0.5,0.75]} yTicks={[0, 0.05, 0.1, 0.15, 0.2]} yDomain={[0, 0.2]} x="brexit_leave" y="y2015_share_green"/>
-    <Scatter data={data} xDomain={[0, 0.1]} xTicks={[0, 0.025, 0.05, 0.075, 0.1]} yTicks={[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]} yDomain={[0, 0.8]} x="unemployed_18_24" y="y2015_share_lab"/>
-  </Grid>, document.querySelector(".gv-map"));
+    <Scatter data={data} xDomain={[-1, 1]} xTicks={[-1, 0, 1]} yTicks={[-1, 0, 1]} yDomain={[-1, 1]} x="change_turnout_percent" y="change_share_lab"/>
+    {/* <Scatter data={data} xDomain={[0, 0.1]} xTicks={[0, 0.025, 0.05, 0.075, 0.1]} yTicks={[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]} yDomain={[0, 0.8]} x="unemployed_18_24" y="y2015_share_lab"/> */}
+  </Grid>, document.querySelector("#scatter"));
 }
 
 loadAndDraw();

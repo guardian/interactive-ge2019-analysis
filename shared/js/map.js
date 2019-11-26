@@ -51,7 +51,7 @@ class Map extends PureComponent {
     const domain = (customDomain) ? customDomain : [min(this.props.results, d => d[demographic]), max(this.props.results, d => d[demographic])]
 
     let colors = chroma
-      .scale([scaleColors[0], scaleColors[1]])
+      .scale(scaleColors)
       .colors(shiftFirstColor ? steps + 1 : steps)
 
       
@@ -100,6 +100,14 @@ class Map extends PureComponent {
         if (f.operator === '>') {
           return d[f.demoType] > f.demoVal
         }
+        if (f.operator === '!=') {
+
+          if (isNaN(Number(d[f.demoType]))) {
+            return d[f.demoType].toLowerCase() != f.demoVal.toLowerCase()
+          } else {
+            return d[f.demoType] != f.demoVal
+          }
+        }
         if (f.operator === '==') {
 
           if (isNaN(Number(d[f.demoType]))) {
@@ -135,7 +143,7 @@ class Map extends PureComponent {
             {
               hexFc.features.map((f, i) => {
                 const thisConst = filteredDict[f.properties.constituency] || {}
-                const party = (thisConst.y2017_winner || 'undeclared').toLowerCase().replace(/\s/g, '')
+                const party = (thisConst.y2019_winner || 'undeclared').toLowerCase().replace(/\s/g, '')
                 
                 return <path
                   key={'pconst-'+i}
