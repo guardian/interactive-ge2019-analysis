@@ -16,22 +16,22 @@
     // max-width: 860px;
 }
 
-.interactive-wrapper {
-    @include mq(mobile) {
-        width: 100%;
-    }
+// .interactive-wrapper {
+//     @include mq(mobile) {
+//         width: 100%;
+//     }
 
-    @include mq(tablet) {
-        width: 700px;
-    }
+//     @include mq(tablet) {
+//         width: 700px;
+//     }
 
-    @include mq(desktop) {
-        width: 620px;
-    }
-}
+//     @include mq(desktop) {
+//         width: 620px;
+//     }
+// }
 
-.interactive-wrapper--showcase {
-    @include mq(desktop) {
-        width: 940px;
-    }
-}
+// .interactive-wrapper--showcase {
+//     @include mq(desktop) {
+//         width: 940px;
+//     }
+// }

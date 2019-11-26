@@ -24,6 +24,10 @@
     h4 {
         @include fs-textSans(3);
     }
+
+    border-top: 1px solid #dcdcdc;
+    border-bottom: 1px solid #dcdcdc;
+    background-color: #fff;
 }
 
 .ge-grid__item {
@@ -33,7 +37,7 @@
     }
     
     position: relative;
-    margin: 10px;
+    // flex-basis: auto;
 
     svg {
         overflow: visible !important;

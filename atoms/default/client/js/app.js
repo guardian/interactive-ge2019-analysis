@@ -70,27 +70,28 @@ const loadAndDraw = async() => {
       results={data}
       resultsDict={dataDict} /> */}
     </Grid>,
-    document.getElementById("maps")
+    document.getElementById("interactive-slot-1")
   )
-  // render(<Grid keyName='scat' labels={["Scatter one"]}>
-  //    <Scatter data={data} xDomain={[0, 0.75]} xTicks={[0, 0.25,0.5,0.75]} yTicks={[0, 0.1, 0.2]} yDomain={[0, 0.2]} x="brexit_leave" y="y2015_share_green"/>
-  //   </Grid>,
-  //   document.getElementById("scatter")
-  // )
+  render(<Grid keyName='scat' labels={["Scatter one"]}>
+     <Scatter data={data} xDomain={[0, 0.75]} xTicks={[0, 0.25,0.5,0.75]} yTicks={[0, 0.1, 0.2]} yDomain={[0, 0.2]} x="brexit_leave" y="y2015_share_green"/>
+    </Grid>,
+    document.getElementById("interactive-slot-2")
+  )
 
   render(
     <ConstSlopes 
     // filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} 
     filters={[]}
-    data={data} />, document.getElementById("slope-const")
+    itemClasses="ge-grid--slope"
+    data={data} />, document.getElementById("interactive-slot-3")
   )
 
-  // render(<DemographicSlope data={data} demographic="brexit_leave" parties={["con", "lab", "ld"]} />, document.getElementById("slope-demo"));
+  // // render(<DemographicSlope data={data} demographic="brexit_leave" parties={["con", "lab", "ld"]} />, document.getElementById("slope-demo"));
   
-  render(<Grid labels={["Leave voting areas had the lowest green party vote share", "Areas with high youth unemployment voted Labour in high numbers"]}>
-    <Scatter data={data} xDomain={[-1, 1]} xTicks={[-1, 0, 1]} yTicks={[-1, 0, 1]} yDomain={[-1, 1]} x="change_turnout_percent" y="change_share_lab"/>
-    {/* <Scatter data={data} xDomain={[0, 0.1]} xTicks={[0, 0.025, 0.05, 0.075, 0.1]} yTicks={[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]} yDomain={[0, 0.8]} x="unemployed_18_24" y="y2015_share_lab"/> */}
-  </Grid>, document.querySelector("#scatter"));
+  // render(<Grid labels={["Leave voting areas had the lowest green party vote share", "Areas with high youth unemployment voted Labour in high numbers"]}>
+  //   <Scatter data={data} xDomain={[-1, 1]} xTicks={[-1, 0, 1]} yTicks={[-1, 0, 1]} yDomain={[-1, 1]} x="change_turnout_percent" y="change_share_lab"/>
+  //   {/* <Scatter data={data} xDomain={[0, 0.1]} xTicks={[0, 0.025, 0.05, 0.075, 0.1]} yTicks={[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]} yDomain={[0, 0.8]} x="unemployed_18_24" y="y2015_share_lab"/> */}
+  // </Grid>, document.querySelector("#scatter"));
 }
 
 loadAndDraw();
