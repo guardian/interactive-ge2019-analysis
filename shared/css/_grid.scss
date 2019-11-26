@@ -1,7 +1,12 @@
 .ge-grid {
     justify-content: space-between;
-    display: flex;
+    // display: flex;
     // flex-wrap: wrap;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+//   justify-content: space-between;
+
     // margin-left: -20px;
     // margin-right: -20px;
     // padding: 10px;
@@ -9,9 +14,6 @@
     position: relative;
     align-items: flex-end;
 
-    @include mq(tablet) {
-        // flex-wrap: nowrap;
-    }
 
     h3 {
         display: block;
@@ -25,45 +27,56 @@
     border-top: 1px solid #dcdcdc;
     border-bottom: 1px solid #dcdcdc;
     background-color: #fff;
+
+    &.ge-grid--slope {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
+    }
 }
 
 .ge-grid__item {
-    flex-shrink: 1;
-    flex-grow: 1 !important;
-    // flex-basis: 33%;
-    //asdasdas
+    // flex-shrink: 1;
+    // flex-grow: 1 !important;
     position: relative;
-    margin: 10px;
-    // @include mq($until: tablet) {
-    //     .ge-grid--2-col-mobile & {
-    //         // flex: 1 1 calc(50% - 20px);
-    //         flex: 1 0 calc(50% - 20px);
-    //     }
-    // }
+    // flex-basis: auto;
 
     svg {
         overflow: visible !important;
     }
 }
 
-.ge-grid__item--slope {
-    margin-bottom: 40px;
-    width: 300px;
+// .ge-grid:last-child:after {
+//     content: "";
+//     flex-grow: 9999; 
+//     margin: 10px;
+//     height: 0;
+// }
 
-    @include mq(mobile) {
-        width: 50%;
-    }
 
-    @include mq(tablet) {
-        width: 160px;
-    }
+// .phantom {
+//     flex-grow: 9999;
+//     flex-shrink: 0;
+//     flex-basis: auto;
+//     visibility: hidden;
+// }
 
-    h3 {
-        position: absolute;
-        top: 0;
-    }
+// .ge-grid__item--slope {
+//     margin-bottom: 40px;
+//     width: 300px;
 
-    svg {
-        margin-top: 40px;
-    }
-}
+//     @include mq(mobile) {
+//         width: 50%;
+//     }
+
+//     @include mq(tablet) {
+//         width: 160px;
+//     }
+
+//     h3 {
+//         position: absolute;
+//         top: 0;
+//     }
+
+//     svg {
+//         margin-top: 40px;
+//     }
+// }
