@@ -154,7 +154,7 @@ class Map extends PureComponent {
                   className={shadeDemo ? `ge-const ${thisConst[shadeDemo.selectedDemo] === 'NA' ? 'ge-const--nodata' : ''}` : `ge-const ge-fill--${party} ${thisConst.noData ? 'ge-const--nodata' : ''}`}
                   style={{ fill: colorScale ? colorScale(thisConst[shadeDemo.selectedDemo]).hex() : 'initial'}}
                   onMouseEnter={() => this.hover(f)}
-                  onClick={() => this.select(f)}
+                  // onClick={() => this.select(f)}
                 />
               })
             }
