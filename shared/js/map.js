@@ -10,6 +10,7 @@ import Tooltip from './tooltip'
 import DemoFilters from './demoFilters'
 import chroma from 'chroma-js'
 import { toDict } from './util.js'
+import ColorScaleKey from './coloScaleKey'
 
 const pattern = hashPattern('ge-hash', 'ge-hash__path', 'ge-hash__rect')
 
@@ -33,6 +34,8 @@ class Map extends PureComponent {
       proj,
       path,
       colorScale: null,
+      colors: [],
+      domain: [],
       showTooltip: false
     }
   }
@@ -64,7 +67,7 @@ class Map extends PureComponent {
 
       window.colorScale = colorScale;
 
-    this.setState({ colorScale })
+    this.setState({ colorScale, colors, domain })
   }
 
   applyFilters = () => {
@@ -129,17 +132,28 @@ class Map extends PureComponent {
   toggleTooltip = (showTooltip) => this.setState({ showTooltip })
 
   render() {
-
-    const { geo, shadeDemo, hovered, ttCoords, selectedFeature, results, filters } = this.props
-    const { width, height, path, hexFc, colorScale, proj, showTooltip, filteredDict } = this.state
-
+    const { geo, shadeDemo, hovered, ttCoords, selectedFeature, results, filters, showKey } = this.props
+    const { width, height, path, hexFc, colorScale, proj, showTooltip, filteredDict, colors, domain } = this.state
+    
     const labelStyle = {
       opacity: showTooltip ? 0 : 1
     }
-    
+
     return (
       <>
         <div className='ge-map__inner' ref={this.wrapper}>
+          {showKey ? 
+            <ColorScaleKey 
+              colors={colors}
+              classes={shadeDemo.customClasses || shadeDemo.steps}
+              domain={domain}
+              parseValue={showKey.parseValue}
+              title={showKey.title}
+              noData={showKey.noData}
+              shape={showKey.shape} />
+            : null
+          }
+
           {showTooltip && <Tooltip constituency={hovered} x={ttCoords.x} y={ttCoords.y} />}
           <svg onMouseEnter={() => this.toggleTooltip(true)} onMouseLeave={() => {this.toggleTooltip(false); this.props.selectFeature(null)}} className='ge-map' height={height} width={width}>
             <defs dangerouslySetInnerHTML={{ __html: pattern }}></defs>

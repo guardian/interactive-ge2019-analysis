@@ -1,0 +1,15 @@
+.gv-key-item {
+  @include fs-textSans(3);
+  display: flex;
+  align-items: center;
+}
+
+.gv-key-bullet {
+  height: 15px;
+  width: 15px;
+}
+
+.gv-key-bullet--circle {
+  border-radius: 50px
+}
+

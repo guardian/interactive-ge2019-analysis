@@ -24,9 +24,9 @@ class Scatter extends Component {
         const yScale = d3.scaleLinear().domain(yDomain).range([width - padding, padding]);
         const r = 3.5;
 
-        console.log(filteredData.find(d => d.ons_id === "N06000008"))
+        // console.log(filteredData.find(d => d.ons_id === "N06000008"))
 
-        window.test=  filteredData.find(d => d.ons_id === "N06000008")
+        // window.test=  filteredData.find(d => d.ons_id === "N06000008")
 
         return <div class="ge-scatter-plot" ref={this.wrapper}>
             <svg width={width} height={width}>
