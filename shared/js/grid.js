@@ -1,35 +1,18 @@
-import React, { Component, createRef, cloneElement, Children } from 'react'
+import React, { PureComponent, Children } from 'react'
 
-class Grid extends Component {
-    wrapper = createRef();
-    
-    constructor(props) {
-        super(props)
-        this.state = {
-            width : 60,
-            padding: 10,
-            hovered: null,
-            ttCoords: { x: 0, y: 0 },
-            selectedFeature: null
-        }
-    }
-
-    setHovered = (hovered, ttCoords, selectedFeature) => this.setState({ hovered, ttCoords, selectedFeature })
-    selectFeature = selectedFeature => this.setState({ selectedFeature })
-
+class Grid extends PureComponent {
     render() {
-        const { children, classes, labels, keyName, itemClasses } = this.props
-        const { selectedFeature, ttCoords, hovered } = this.state
+        const { children, classes, labels, keyName } = this.props
 
         return <div className={`ge-grid ${classes}`}>
             {
             Children.map(children, (child, i) =>
-                <div className={`ge-grid__item ${itemClasses}`} 
+                <div className={`ge-grid__item`} 
                 key={`${keyName}-${i + labels.length}`}>
                 {keyName !== "conslope" &&
                     <h3>{labels[i]}</h3>
                 }
-                {cloneElement(child, { hovered, setHovered: this.setHovered, selectFeature: this.selectFeature, ttCoords, selectedFeature, label: labels[i] })}
+                {child}
             </div>) 
             }
         </div>

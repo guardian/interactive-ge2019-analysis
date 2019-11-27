@@ -67,8 +67,8 @@ class ConstSlopes extends Component {
     return(
       <>
         <DemoFilters filters={filters} filterData={(filteredData, filters) => this.setState({ filteredData, filters })} data={this.props.data} />
-        <Grid keyName='conslope' classes="ge-grid--slope" itemClasses='ge-grid__item--slope' labels={filteredData.map(d => d.name)}>
-          {filteredData.map((d, i) => <Slope data={d} isConstituency={true} key={'conslope' + '-slope-' + i} />)}
+        <Grid keyName='conslope' classes='ge-grid--slope' labels={filteredData.map(d => d.name)}>
+          {filteredData.map((d, i) => <Slope data={d} label={d.name} isConstituency={true} key={'conslope' + '-slope-' + i} />)}
         </Grid>
       </>
     )

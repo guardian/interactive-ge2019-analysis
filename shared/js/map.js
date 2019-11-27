@@ -47,7 +47,6 @@ class Map extends PureComponent {
   setColorScale = (scaleColors, outOfScaleColor, demographic, steps, shiftFirstColor = false, customClasses = null, customDomain = null) => {
 
     // !!!IMPORTANT!!! THIS DOMAIN ISNT RECALCULATED IF FILTERS ARE APPLIED!!!!!!!!!
-    console.log(customDomain)
     const domain = (customDomain) ? customDomain : [min(this.props.results, d => d[demographic]), max(this.props.results, d => d[demographic])]
 
     let colors = chroma
@@ -133,6 +132,10 @@ class Map extends PureComponent {
 
     const { geo, shadeDemo, hovered, ttCoords, selectedFeature, results, filters } = this.props
     const { width, height, path, hexFc, colorScale, proj, showTooltip, filteredDict } = this.state
+
+    const labelStyle = {
+      opacity: showTooltip ? 0 : 1
+    }
     
     return (
       <>
@@ -151,7 +154,7 @@ class Map extends PureComponent {
                   className={shadeDemo ? `ge-const ${thisConst[shadeDemo.selectedDemo] === 'NA' ? 'ge-const--nodata' : ''}` : `ge-const ge-fill--${party} ${thisConst.noData ? 'ge-const--nodata' : ''}`}
                   style={{ fill: colorScale ? colorScale(thisConst[shadeDemo.selectedDemo]).hex() : 'initial'}}
                   onMouseEnter={() => this.hover(f)}
-                  onClick={() => this.select(f)}
+                  // onClick={() => this.select(f)}
                 />
               })
             }
@@ -163,6 +166,7 @@ class Map extends PureComponent {
                 className='ge-const__selected'
               />
             }
+            <g style={labelStyle} className='ge-map-labels'>
             {geo ? null : regionNames
               .filter(f => f.properties.abbr)
               .map((f,i) => {
@@ -171,13 +175,27 @@ class Map extends PureComponent {
 
                 return <g key={'lblg-' + i} className='ge-map-labelg' transform={transform}>
                   {f.properties.name.startsWith('Yorks') ?
-                    <text className='ge-map-label__text'>
-                      <tspan x='10' y='-15'>Yorkshire and</tspan>
-                      <tspan x='10' dy='16'>the Humber</tspan>
-                    </text>
-                    : <text className='ge-map-label__text'> {f.properties.name} </text>}
+                    <g>
+
+                      <text className='ge-map-label__text ge-map-label__text--white'>
+                        <tspan x='10' y='-15'>Yorkshire and</tspan>
+                        <tspan x='10' dy='16'>the Humber</tspan>
+                      </text>
+
+                      <text className='ge-map-label__text'>
+                        <tspan x='10' y='-15'>Yorkshire and</tspan>
+                        <tspan x='10' dy='16'>the Humber</tspan>
+                      </text>
+
+                    </g>
+
+                    : <g>
+                      <text className='ge-map-label__text ge-map-label__text--white'> {f.properties.name} </text>
+                      <text className='ge-map-label__text'> {f.properties.name} </text>
+                    </g>}
                 </g>
             })}
+            </g>
           </svg>
         </div>
         <DemoFilters filters={filters} filterData={filtered => this.setState({ filteredDict: toDict(filtered) })} data={results} />

@@ -22,16 +22,16 @@ const sort2017 = (a, b) => (b['2017'] > a['2017']) ? 1 : (b['2017'] === a['2017'
 
 const position = (_data, yScale) => {
     return _data.slice()
-    .sort(sort2017).map((d,i, arr) => { 
-        const _yPos2017 = yScale(d["2017"])
-        d.yPos2017 = (i > 0 && arr[i - 1].yPos2017 && _yPos2017 - arr[i - 1].yPos2017 < 11) ? _yPos2017 + (11 -(_yPos2017 - arr[i - 1].yPos2017)) : _yPos2017
-        return d;
-    })
-    .sort(sort2019).map((d, i, arr) => {
-        const _yPos2019 = yScale(d["2019"])
-        d.yPos2019 = (i > 0 && arr[i - 1].yPos2019 && _yPos2019 - arr[i - 1].yPos2019 < 11) ? _yPos2019 + (11 -(_yPos2019 - arr[i - 1].yPos2019)) : _yPos2019
-        return d;
-    });
+        .sort(sort2017).map((d,i, arr) => { 
+            const _yPos2017 = yScale(d["2017"])
+            d.yPos2017 = (i > 0 && arr[i - 1].yPos2017 && _yPos2017 - arr[i - 1].yPos2017 < 11) ? _yPos2017 + (11 -(_yPos2017 - arr[i - 1].yPos2017)) : _yPos2017
+            return d;
+        })
+        .sort(sort2019).map((d, i, arr) => {
+            const _yPos2019 = yScale(d["2019"])
+            d.yPos2019 = (i > 0 && arr[i - 1].yPos2019 && _yPos2019 - arr[i - 1].yPos2019 < 11) ? _yPos2019 + (11 -(_yPos2019 - arr[i - 1].yPos2019)) : _yPos2019
+            return d;
+        }); 
 }
  
 const parseParties = (constituency, parties) =>
