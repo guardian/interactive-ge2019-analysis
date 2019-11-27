@@ -24,7 +24,22 @@ const loadAndDraw = async() => {
     document.getElementById("interactive-slot-1")
   )
   render(<Grid keyName='scat' labels={["Scatter one"]}>
-     <Scatter data={data} xDomain={[0, 0.75]} xTicks={[0, 0.25,0.5,0.75]} yTicks={[0, 0.1, 0.2]} yDomain={[0, 0.2]} x="brexit_leave" y="y2015_share_green"/>
+     <Scatter
+        data={data}
+        xDomain={[0.1, 0.9]}
+        xTicks={[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]}
+        yTicks={[-0.1, 0, 0.1, 0.2, 0.3]}
+        yDomain={[-0.15, 0.35]}
+        heightWidthRatio={1.2} 
+        x="brexit_leave"
+        y="change_share_lab"
+        xLabel="Brexit leave vote (%) ▶"
+        yLabel="Change in Labour vote (2017-2019) ▲"
+        xTickTransform={(d) => Math.round(d*100) + "%"}
+        yTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}
+        xMajorTicks={[0.5]}
+        yMajorTicks={[0]} 
+      />
     </Grid>,
     document.getElementById("interactive-slot-2")
   )

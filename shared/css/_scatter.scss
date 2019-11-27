@@ -1,11 +1,22 @@
 .axis {
     line {
         stroke: #dcdcdc;
+        shape-rendering: crispEdges;
     }
 
     text {
         @include fs-textSans(2);
         fill: #767676;
+    }
+}
+
+.major-tick { 
+    line {
+        stroke: #333 !important;
+    }
+
+    text {
+        fill: #333 !important;
     }
 }
 
@@ -15,23 +26,29 @@
         transform: translate(0, 16px); 
     }
 
-    text:first-of-type {
-        text-anchor: start;
+    g:first-of-type {
+        text {
+            text-anchor: start;
+        }
     }
 
-    line:first-of-type {
-        display: none;
+    g:first-of-type {
+        line {
+            display: none;
+        }
     }
 
-    line:last-of-type {
-        display: none;
+    g:last-of-type {
+        line {
+            display: none;
+        }
     }
 }
 
 .axis--y {
-    text:last-of-type, line:last-of-type {
-        display: none;
-    }
+    // text:last-of-type, line:last-of-type {
+    //     display: none;
+    // }
 
     text {
         transform: translateY(-6px);
@@ -45,6 +62,12 @@
 
     svg {
         // overflow: hidden !important;
-        margin-bottom: 24px;
+        margin-bottom: 48px;
     }
+}
+
+.ge-scatter-label {
+    font-weight: bold;
+    fill: #767676;
+    text-anchor: start !important;
 }
