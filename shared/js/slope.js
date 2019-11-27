@@ -1,7 +1,7 @@
 import React, { Component, createRef } from 'react'
 import { scaleLinear } from "d3"
 
-const parties = ['con', 'lab', 'ld', 'snp', 'bxp', 'green', 'dup', 'sf', 'pc'
+const parties = ['con', 'lab', 'ld', 'snp', 'bxp', 'green', 'dup', 'sf', 'pc','ukip'
 //'bxp' 
 ]
 
@@ -22,14 +22,16 @@ const sort2017 = (a, b) => (b['2017'] > a['2017']) ? 1 : (b['2017'] === a['2017'
 
 const position = (_data, yScale) => {
     return _data.slice()
+        .sort(sort2019).slice(0, 3).map((d, i, arr) => {
+            const _yPos2019 = yScale(d["2019"])
+            d.yPos2019 = (i > 0 && arr[i - 1].yPos2019 && _yPos2019 - arr[i - 1].yPos2019 < 11) ? _yPos2019 + (11 -(_yPos2019 - arr[i - 1].yPos2019)) : _yPos2019
+     
+            return d;
+        })
         .sort(sort2017).map((d,i, arr) => { 
             const _yPos2017 = yScale(d["2017"])
             d.yPos2017 = (i > 0 && arr[i - 1].yPos2017 && _yPos2017 - arr[i - 1].yPos2017 < 11) ? _yPos2017 + (11 -(_yPos2017 - arr[i - 1].yPos2017)) : _yPos2017
-            return d;
-        })
-        .sort(sort2019).map((d, i, arr) => {
-            const _yPos2019 = yScale(d["2019"])
-            d.yPos2019 = (i > 0 && arr[i - 1].yPos2019 && _yPos2019 - arr[i - 1].yPos2019 < 11) ? _yPos2019 + (11 -(_yPos2019 - arr[i - 1].yPos2019)) : _yPos2019
+        
             return d;
         }); 
 }
@@ -85,16 +87,19 @@ class Slope extends Component {
                     <svg width={width} height={width}>
                         <text className="ge-slope-chart__label" x={width/2} y={15}>{cleanLabel(label)}</text>
                         <rect width={innerWidth} y={padding} x={padding} height={innerWidth} class={`ge-fill--${winner}`} fillOpacity={winner ? 0.1 : 0}></rect>
-                            {position(data, yScale).map((d,i) => {
-                                return <g key={`${d.ons_id}-` + i}>
+                            {data.map((d,i) => 
+                                <g key={`${d.ons_id}-` + i}>
                                     <line className={`ge-slope-chart__line ge-stroke--${d.party}`} x1={xScale(0) + r} x2={xScale(1) - r} y1={yScale(d["2017"])} y2={yScale(d["2019"])}></line>
                                     <circle className={`ge-slope-chart__circle ge-fill--${d.party} ge-stroke--${d.party}`} cx={xScale(0)} cy={yScale(d["2017"])} r={r}></circle>
-                                    <text x={15} y={d.yPos2017} className={`ge-slope-chart__num ge-fill--${d.party}`}>{cleanNumber(d["2017"])}</text>
-                                    <text x={width - 15} y={d.yPos2019} className={`ge-slope-chart__num  ge-slope-chart__num--right ge-fill--${d.party}`}>{cleanNumber(d["2019"])}</text>
                                     <circle className={`ge-slope-chart__circle ge-fill--${d.party} ge-stroke--${d.party}`} cx={xScale(1)} cy={yScale(d["2019"])} r={r}></circle>
                                 </g>
-                            })
-                        }
+                            )}
+                            {position(data, yScale).map((d, i) => 
+                                <>
+                                    <text x={15} y={d.yPos2017} className={`ge-slope-chart__num ge-fill--${d.party}`}>{cleanNumber(d["2017"])}</text>
+                                    <text x={width - 15} y={d.yPos2019} className={`ge-slope-chart__num  ge-slope-chart__num--right ge-fill--${d.party}`}>{cleanNumber(d["2019"])}</text>
+                                </>
+                            )}
                     </svg>
                 }
             </div>
