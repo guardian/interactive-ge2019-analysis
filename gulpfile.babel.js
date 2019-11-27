@@ -159,7 +159,7 @@ const serve = () => {
       'port': 8000
   });
 
-  watch(["atoms/**/*", "shared/**/*", "!.scss"], series(clear, build, local));
+  watch(["atoms/**/*", "shared/**/*", "!.scss", "atoms/**/client/js/components/*"], series(clear, build, local));
   watch(["atoms/**/*.scss","shared/**/*.scss"], series(buildCSS, local))
 }
 

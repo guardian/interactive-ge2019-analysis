@@ -78,6 +78,7 @@ const loadAndDraw = async() => {
   render(
     <ConstSlopes 
     // filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} 
+    keyName='slopes'
     filters={[]}
     itemClasses="ge-grid--slope"
     data={data} />, document.getElementById("interactive-slot-3")

@@ -26,8 +26,10 @@ class Grid extends Component {
             Children.map(children, (child, i) =>
                 <div className={`ge-grid__item ${itemClasses}`} 
                 key={`${keyName}-${i + labels.length}`}>
-                <h3>{labels[i]}</h3>
-                    {cloneElement(child, { hovered, setHovered: this.setHovered, selectFeature: this.selectFeature, ttCoords, selectedFeature })}
+                {keyName !== "conslope" &&
+                    <h3>{labels[i]}</h3>
+                }
+                {cloneElement(child, { hovered, setHovered: this.setHovered, selectFeature: this.selectFeature, ttCoords, selectedFeature, label: labels[i] })}
             </div>) 
             }
         </div>

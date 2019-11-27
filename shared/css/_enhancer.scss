@@ -66,7 +66,7 @@
     height: 100%;
     min-height: 500px;
     content: ' '; 
-    border-left:1px solid #dfdfdf;
+    border-left:1px solid #dcdcdc;
 
     @include mq(leftCol) {
       left: calc((100% - 1140px)/2 + 170px);
