@@ -36,7 +36,8 @@ class Map extends PureComponent {
       colorScale: null,
       colors: [],
       domain: [],
-      showTooltip: false
+      showTooltip: false,
+      markers: []
     }
   }
 
@@ -133,7 +134,7 @@ class Map extends PureComponent {
 
   render() {
     const { geo, shadeDemo, hovered, ttCoords, selectedFeature, results, filters, showKey } = this.props
-    const { width, height, path, hexFc, colorScale, proj, showTooltip, filteredDict, colors, domain } = this.state
+    const { width, height, path, hexFc, colorScale, proj, showTooltip, filteredDict, colors, domain, markers } = this.state
     
     const labelStyle = {
       opacity: showTooltip ? 0 : 1
@@ -210,6 +211,16 @@ class Map extends PureComponent {
                 </g>
             })}
             </g>
+            {
+              <g className='markers'>
+                {markers.map(m =>
+                  <g className='marker-g'>
+                    <circle cx={m.x} cy={m.y} r={8} fill='#333'/>
+                    <text dominant-baseline="central" className='gv-marker-text' x={m.x} y={m.y}>{m.n}</text>
+                  </g>
+                )}
+              </g>
+            }
           </svg>
         </div>
         <DemoFilters filters={filters} filterData={filtered => this.setState({ filteredDict: toDict(filtered) })} data={results} />
@@ -233,6 +244,15 @@ class Map extends PureComponent {
     const hexFc = this.props.geo ? geoGraphic : feature(hexTopo, hexTopo.objects.hexagons)
     const proj = geoMercator().fitSize([width, height], hexFc)
     const path = geoPath().projection(proj)
+    const markers = this.props.markers.map(m => {
+    const c = path.centroid(hexFc.features.find(f => f.properties.constituency === m.ons))
+      return Object.assign({}, m, {
+        n: m.n,
+        ons: m.ons,
+        x: c[0], 
+        y: c[1]
+      })
+    })
 
     this.setInputRef = node => this.input = node
 
@@ -241,7 +261,8 @@ class Map extends PureComponent {
       proj,
       height,
       hexFc,
-      path
+      path,
+      markers
     })
   }
 }

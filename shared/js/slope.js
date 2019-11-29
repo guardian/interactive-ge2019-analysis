@@ -5,9 +5,10 @@ const parties = ['con', 'lab', 'ld', 'snp', 'bxp', 'green', 'dup', 'sf', 'pc','u
 //'bxp' 
 ]
 
-const cleanLabel = (l) => {
-    if(l && l.length > 18) { 
-        return l.substr(0, 16) + "..."
+const cleanLabel = (l, m) => {
+    const markerOffset = m ? 4 : 0
+    if (l && l.length > (18 - markerOffset)) { 
+        return l.substr(0, 16 - markerOffset) + "..."
     } else {
         return l;
     }
@@ -80,12 +81,19 @@ class Slope extends Component {
 
     render() {
         const { width, data, xScale, yScale, r, winner, padding, innerWidth } = this.state
-        const { label } = this.props
+        const { label, marker } = this.props
         return (
             <div class={`ge-slope-chart`} ref={this.wrapper}>
                 {xScale && yScale && 
                     <svg width={width} height={width}>
-                        <text className="ge-slope-chart__label" x={width/2} y={15}>{cleanLabel(label)}</text>
+                        <text className="ge-slope-chart__label" x={width/2} y={15}>{cleanLabel(label, marker)}</text>
+                        {
+                            marker &&
+                            <g>
+                                <circle cx={width - 10} cy={10} r={8} fill='#333' />
+                                <text x={width - 10} y={10} dominant-baseline="central" className='gv-marker-text'>{marker.n}</text>
+                            </g>
+                        }
                         <rect width={innerWidth} y={padding} x={padding} height={innerWidth} class={`ge-fill--${winner}`} fillOpacity={winner ? 0.1 : 0}></rect>
                             {data.map((d,i) => 
                                 <g key={`${d.ons_id}-` + i}>

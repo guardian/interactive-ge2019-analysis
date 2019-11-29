@@ -8,19 +8,21 @@ class Scatter extends Component {
         super(props)
         this.state = {
             width : 60,
-            padding: 0
+            padding: 0,
+            filteredData: [],
+            markers: []
         }
     }
 
     render() {
-        const { data, i, x, y, xDomain, xLabel, yLabel, yDomain, xTicks, yTicks, heightWidthRatio = 1, xTickTransform = (c) => c, yTickTransform = (c) => c, xMajorTicks, yMajorTicks } = this.props
+        const { i, x, y, xDomain, xLabel, yLabel, yDomain, xTicks, yTicks, heightWidthRatio = 1, xTickTransform = (c) => c, yTickTransform = (c) => c, xMajorTicks, yMajorTicks } = this.props
+        const { markers, filteredData } = this.state
 
-        const filteredData = data.filter(d => {
-            return d[x] !== "NA" && d[y] !== "NA"
-        })
+        // const filteredData = data.filter(d => {
+        //     return d[x] !== "NA" && d[y] !== "NA"
+        // })
 
         const { width, padding } = this.state
-        console.log(width, heightWidthRatio)
         const height = width*heightWidthRatio
         const xScale = d3.scaleLinear().domain(xDomain).range([padding, width - padding]);
         const yScale = d3.scaleLinear().domain(yDomain).range([height - padding, padding]);
@@ -45,13 +47,35 @@ class Scatter extends Component {
                 <g>
                     {filteredData.map(d => <circle id={`${d.ons_id}`} cx={xScale(d[x])} cy={yScale(d[y])} r={r} className={`ge-fill--${d["y2017_winner"]} ge-stroke--${d["y2017_winner"]}`}></circle>)}
                 </g>
+                <g>
+                {markers.map(d =>
+                    <g>
+                        <circle id={`${d.ons_id}`} cx={xScale(d[x])} cy={yScale(d[y])} r={r * 2.5} className={`ge-scatter-marker ge-fill--${d["y2017_winner"]} ge-stroke--${d["y2017_winner"]}`}></circle>
+                        <text x={xScale(d[x])} y={yScale(d[y])} class='gv-marker-text' dominant-baseline="central" >{d.marker}</text>
+                    </g>
+                )}
+                </g>
             </svg>
         </div>
     }
 
     componentDidMount() {
         const width = this.wrapper.current.getBoundingClientRect().width;
-        this.setState({ width })
+        const filteredDemo = this.props.data.filter(d => {
+            return d[this.props.x] !== "NA" && d[this.props.y] !== "NA"
+        })
+
+        const ms = this.props.markers.map(m => m.ons)
+
+        const filteredData = filteredDemo.filter(d => ms.indexOf(d.ons_id) > -1 ? false : d)
+
+        const markers = this.props.markers.map(m => {
+            const obj = filteredDemo.find(d => d.ons_id === m.ons)
+
+            return Object.assign({}, obj, { marker: m.n })
+        })
+
+        this.setState({ width, filteredData, markers })
     }
 }
 

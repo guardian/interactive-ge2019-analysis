@@ -15,3 +15,12 @@
     margin: 0;
     padding: 0;
 }
+
+.gv-marker-text {
+    @include fs-textSans(1);
+    font-weight: bold;
+    fill: #fff;
+    text-anchor: middle;
+    // pointer-events: none;
+    cursor: pointer;
+}

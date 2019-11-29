@@ -17,8 +17,6 @@ import colorScaleKey from "shared/js/map.js"
 
 const turnoutChange = { selectedDemo: 'change_turnout_percent', scaleColors: ['blue', 'white', 'green'], outOfScaleColor: [], shiftFirstColor: false, steps: 6, customClasses: [-0.15, -0.1, -0.05, 0, 0.05, 0.1, 0.15] }
 
-
-
 const parseValue = (a, b, pos) => {
   if (pos === 'first') return `< ${b}`
   if (pos === 'last') return `> ${a}`
@@ -55,6 +53,7 @@ class Maps extends Component {
           selectFeature={this.selectFeature}
           setHovered={this.setHovered}
           showKey={false}
+          markers={this.props.markers}
           resultsDict={dataDict} />
         <Map
           // shadeDemo={labVoteShare} 
@@ -67,6 +66,7 @@ class Maps extends Component {
           selectFeature={this.selectFeature}
           setHovered={this.setHovered}
           showKey={false}
+          markers={[]}
           resultsDict={dataDict} />
         <Map
           shadeDemo={turnoutChange}
@@ -80,6 +80,7 @@ class Maps extends Component {
           selectFeature={this.selectFeature}
           setHovered={this.setHovered}
           showKey={{ parseValue: parseValue, noData: true, shape: 'circle' }}
+          markers={[]}
           resultsDict={dataDict} />
         {/* <Map
       shadeDemo={ldVoteShare}
