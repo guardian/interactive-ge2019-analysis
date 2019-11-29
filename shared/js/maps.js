@@ -19,7 +19,11 @@ const turnoutChange = { selectedDemo: 'change_turnout_percent', scaleColors: ['b
 
 
 
-const parseValue = (num) => `> ${num}`
+const parseValue = (a, b, pos) => {
+  if (pos === 'first') return `< ${b}`
+  if (pos === 'last') return `> ${a}`
+  return `${a} - ${b}`
+}
 
 
 class Maps extends Component {

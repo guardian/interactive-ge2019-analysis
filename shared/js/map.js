@@ -2,7 +2,7 @@ import React, { PureComponent, createRef } from 'react'
 import hexTopo from '../geo/hexagons.json'
 import regions from '../geo/regions_mesh.json'
 import regionNames from '../geo/region_names.json'
-import geoGraphic from '../geo/geo_uk.json'
+// import geoGraphic from '../geo/geo_uk.json'
 import { hashPattern } from './util'
 import { geoMercator, geoPath, max, min } from 'd3'
 import { feature } from 'topojson'
@@ -13,7 +13,7 @@ import { toDict } from './util.js'
 import ColorScaleKey from './coloScaleKey'
 
 const pattern = hashPattern('ge-hash', 'ge-hash__path', 'ge-hash__rect')
-
+let geo = null
 class Map extends PureComponent { 
   wrapper = createRef() 
   constructor(props) {
@@ -141,18 +141,18 @@ class Map extends PureComponent {
 
     return (
       <>
+        {showKey ?
+          <ColorScaleKey
+            colors={colors}
+            classes={shadeDemo.customClasses || shadeDemo.steps}
+            domain={domain}
+            parseValue={showKey.parseValue}
+            title={showKey.title}
+            noData={showKey.noData}
+            shape={showKey.shape} />
+          : null
+        }
         <div className='ge-map__inner' ref={this.wrapper}>
-          {showKey ? 
-            <ColorScaleKey 
-              colors={colors}
-              classes={shadeDemo.customClasses || shadeDemo.steps}
-              domain={domain}
-              parseValue={showKey.parseValue}
-              title={showKey.title}
-              noData={showKey.noData}
-              shape={showKey.shape} />
-            : null
-          }
 
           {showTooltip && <Tooltip constituency={hovered} x={ttCoords.x} y={ttCoords.y} />}
           <svg onMouseEnter={() => this.toggleTooltip(true)} onMouseLeave={() => {this.toggleTooltip(false); this.props.selectFeature(null)}} className='ge-map' height={height} width={width}>
