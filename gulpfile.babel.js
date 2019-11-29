@@ -16,7 +16,7 @@ const file = require("gulp-file");
 sass.compiler = require("node-sass");
 const browserSync = require("browser-sync");
 const browser = browserSync.create();
-const uglify = require("gulp-uglify")
+// const uglify = require("gulp-uglify")
 const cleanCSS = require('gulp-clean-css');
 const es = require('event-stream');
 const mergeStream = require('merge-stream');
@@ -25,6 +25,7 @@ const config = require("./config.json")
 const path = require("path")
 const cdnUrl = 'https://interactive.guim.co.uk';
 const cache = require('gulp-cache');
+const uglify = require('gulp-uglify-es').default;
 
 const isDeploy = gutil.env._.indexOf('deploylive') > -1 || gutil.env._.indexOf('deploypreview') > -1
 const live = gutil.env._.indexOf('deploylive') > -1
@@ -87,6 +88,7 @@ const buildJS = () => {
       atomPath : `<%= atomPath %>`
     }))
     .pipe(isDeploy ? uglify() : gutil.noop())
+    // .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
     .pipe(dest(".build/"));
 }
 
@@ -159,7 +161,7 @@ const serve = () => {
       'port': 8000
   });
 
-  watch(["atoms/**/*", "shared/**/*", "!.scss"], series(clear, build, local));
+  watch(["atoms/**/*", "shared/**/*", "!.scss", "atoms/**/client/js/components/*"], series(clear, build, local));
   watch(["atoms/**/*.scss","shared/**/*.scss"], series(buildCSS, local))
 }
 

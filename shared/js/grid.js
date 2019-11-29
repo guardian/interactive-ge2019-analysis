@@ -9,8 +9,10 @@ class Grid extends PureComponent {
             Children.map(children, (child, i) =>
                 <div className={`ge-grid__item`} 
                 key={`${keyName}-${i + labels.length}`}>
-                <h3>{labels[i]}</h3>
-                    {child}
+                {keyName !== "conslope" &&
+                    <h3>{labels[i]}</h3>
+                }
+                {child}
             </div>) 
             }
         </div>

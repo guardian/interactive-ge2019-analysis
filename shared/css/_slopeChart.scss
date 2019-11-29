@@ -6,10 +6,6 @@
     // border: 1px solid #dcdcdc;
     // box-sizing: border-box;
 
-    rect {
-        transform: translate(10px, 20px);
-    }
-
     svg {
         box-sizing: border-box;
     }
@@ -28,10 +24,25 @@
 
 .ge-slope-chart__line {
     stroke: #000;
-    stroke-width: 3px;
+    stroke-width: 2px;
 }
 
-.ge-slope-chart__circle {
-    fill-opacity: 0.5;
-    stroke-width: 2px;
+.ge-slope-chart__circle {}
+    // s
+    
+.ge-slope-chart__label {
+    @include fs-textSans(2);
+    fill: #000;
+    text-anchor: middle;
+} 
+
+.ge-slope-chart__num {
+    @include fs-textSans(1);
+    font-size: 11px;
+    text-anchor: end;
+    transform: translateY(3px);
+}
+
+.ge-slope-chart__num--right {
+    text-anchor: start;
 }
