@@ -4,7 +4,7 @@ const createClassesArr = (classes, domain) => {
   const chunk = (domain[1] + (-1 * domain[0])) / classes
   let classesArr = [domain[0]]
   let acc = 0
-  for (i = 0; i < classes; i++) {
+  for (let i = 0; i < classes; i++) {
     acc += chunk
     classesArr.push(acc)
   }
@@ -14,6 +14,7 @@ const createClassesArr = (classes, domain) => {
 
 const ColorScaleKey = ({ colors, classes, domain, parseValue, title, noData, shape }) => {
   const classesArr = isNaN(classes) === false ? createClassesArr(classes, domain) : classes
+  console.log(colors, classesArr)
   const slicedCol = colors.slice(1, -1)
   const slicedClass = classesArr.slice(1, -1)
   return(
