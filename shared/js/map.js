@@ -42,10 +42,15 @@ class Map extends PureComponent {
   }
 
   hover = f => {
-    const obj = this.props.resultsDict[f.properties.constituency]
-    const c = this.state.path.bounds(f)
+    if (f) {
+        const obj = this.props.resultsDict[f.properties.constituency]
+        const c = this.state.path.bounds(f)
 
-    this.props.setHovered(obj, { x: (c[0][0] + c[1][0]) / 2, y: c[0][1] }, f)
+        this.props.setHovered(obj, { x: (c[0][0] + c[1][0]) / 2, y: c[0][1] }, f)
+    } else {
+      this.props.setHovered(null)
+    }
+
   }
 
   setColorScale = (scaleColors, outOfScaleColor, demographic, steps, shiftFirstColor = false, customClasses = null, customDomain = null) => {
@@ -134,13 +139,13 @@ class Map extends PureComponent {
   toggleTooltip = (showTooltip) => this.setState({ showTooltip })
 
   render() {
-    const { geo, shadeDemo, hovered, ttCoords, selectedFeature, results, filters, showKey } = this.props
+    const { geo, shadeDemo, hovered, ttCoords, selectedFeature, results, filters, showKey, showRegionNames } = this.props
     const { width, height, path, hexFc, colorScale, proj, showTooltip, filteredDict, colors, domain, markers } = this.state
     
     const labelStyle = {
-      opacity: showTooltip ? 0 : 1
+      opacity: hovered ? 0 : 1
     }
-
+    console.log(hovered)
     return (
       <>
         {showKey ?
@@ -157,7 +162,7 @@ class Map extends PureComponent {
         <div className='ge-map__inner' ref={this.wrapper}>
 
           {showTooltip && <Tooltip constituency={hovered} x={ttCoords.x} y={ttCoords.y} />}
-          <svg onMouseEnter={() => this.toggleTooltip(true)} onMouseLeave={() => {this.toggleTooltip(false); this.props.selectFeature(null)}} className='ge-map' height={height} width={width}>
+          <svg onMouseEnter={() => this.toggleTooltip(true)} onMouseLeave={() => {this.toggleTooltip(false); this.hover(null); this.props.selectFeature(null)}} className='ge-map' height={height} width={width}>
             <defs dangerouslySetInnerHTML={{ __html: pattern }}></defs>
             {
               hexFc.features.map((f, i) => {
@@ -183,7 +188,7 @@ class Map extends PureComponent {
               />
             }
             <g style={labelStyle} className='ge-map-labels'>
-            {geo ? null : regionNames
+            {geo ? null : showRegionNames && regionNames
               .filter(f => f.properties.abbr)
               .map((f,i) => {
                 const p = proj(f.geometry.coordinates)
@@ -215,6 +220,7 @@ class Map extends PureComponent {
             {
               <g className='markers'>
                 {markers.map(m =>
+                  hovered && hovered.ons_id !== m.ons &&
                   <g className='marker-g'>
                     <circle cx={m.x} cy={m.y} r={8} fill='#333'/>
                     <text dominant-baseline="central" className='gv-marker-text' x={m.x} y={m.y}>{m.n}</text>

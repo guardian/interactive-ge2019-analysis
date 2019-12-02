@@ -14,7 +14,6 @@ const createClassesArr = (classes, domain) => {
 
 const ColorScaleKey = ({ colors, classes, domain, parseValue, title, noData, shape }) => {
   const classesArr = isNaN(classes) === false ? createClassesArr(classes, domain) : classes
-  console.log(colors, classesArr)
   const slicedCol = colors.slice(1, -1)
   const slicedClass = classesArr.slice(1, -1)
   return(
