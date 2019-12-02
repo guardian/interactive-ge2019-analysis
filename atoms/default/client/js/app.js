@@ -47,6 +47,7 @@ const loadAndDraw = async() => {
         xMajorTicks={[0.5]}
         yMajorTicks={[0]} 
         markers={markers}
+        resultsDict={dataDict}
       />
     </Grid>,
     document.getElementById("interactive-slot-2")

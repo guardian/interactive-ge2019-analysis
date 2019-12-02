@@ -58,6 +58,7 @@
 .ge-scatter-plot {
     circle {
         fill-opacity: 0.5;
+        cursor: pointer;
     } 
 
     svg {
@@ -75,4 +76,12 @@
 .ge-scatter-marker {
     fill-opacity: 0.95 !important;
     stroke: #000 !important;
+}
+
+.circle-selected {
+    stroke: #000;
+    pointer-events: none;
+    fill: none;
+    // paint-order: stroke;
+    stroke-width: 2px;
 }
