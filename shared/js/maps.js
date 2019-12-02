@@ -7,20 +7,26 @@ import colorScaleKey from "shared/js/map.js"
 // const shadeDemo = { selectedDemo: 'brexit_leave', scaleColors: ['white', '#951d7a'], outOfScaleColor: [], shiftFirstColor: true, steps: 10, customClasses: null }
 // const shadeDemo2 = { selectedDemo: 'y2017_turnout', scaleColors: ['yellow', 'green'], outOfScaleColor: [], shiftFirstColor: false, steps: 3, customClasses: null }
 
-// const conVoteShare = { selectedDemo: 'y2017_share_con', scaleColors: ['white', '#0084c6'], outOfScaleColor: ["#ffffff"], shiftFirstColor: true, steps: 9, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8], customDomain: [0.01, 0.8] }
+const conVoteShare = { selectedDemo: 'y2019poll_share_con', scaleColors: ['white', '#0084c6'], outOfScaleColor: ["purple"], shiftFirstColor: true, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5], customDomain: [0.01, 0.5] }
 
-// const labVoteShare = { selectedDemo: 'y2017_share_lab', scaleColors: ['white', '#c70000'], outOfScaleColor: ["#ffffff"], shiftFirstColor: true, steps: 9, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8], customDomain: [0.01, 0.8] }
+const labVoteShare = { selectedDemo: 'y2019poll_share_lab', scaleColors: ['white', '#c70000'], outOfScaleColor: ["purple"], shiftFirstColor: true, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5], customDomain: [0.01, 0.5] }
 
-// const ldVoteShare = { selectedDemo: 'y2017_share_ld', scaleColors: ['white', '#ee6f00'], outOfScaleColor: ["#ffffff"], shiftFirstColor: true, steps: 9, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8], customDomain: [0.01, 0.8] }
+const ldVoteShare = { selectedDemo: 'y2019poll_share_ld', scaleColors: ['white', '#ee6f00'], outOfScaleColor: ["purple"], shiftFirstColor: true, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5], customDomain: [0.01, 0.5] }
 
-// const greenVoteShare = { selectedDemo: 'y2017_share_green', scaleColors: ['white', '#3db540'], outOfScaleColor: [], shiftFirstColor: true, steps: 9, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8], customDomain: [0.01, 0.8] }
+const greenVoteShare = { selectedDemo: 'y2019poll_share_green', scaleColors: ['white', '#3db540'], outOfScaleColor: ["purple"], shiftFirstColor: true, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5], customDomain: [0.01, 0.5] }
+
+const snpVoteShare = { selectedDemo: 'y2019poll_share_snp', scaleColors: ['white', '#ffbb50'], outOfScaleColor: ["purple"], shiftFirstColor: true, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5], customDomain: [0.01, 0.5] }
 
 const turnoutChange = { selectedDemo: 'change_turnout_percent', scaleColors: ['blue', 'white', 'green'], outOfScaleColor: [], shiftFirstColor: false, steps: 6, customClasses: [-0.15, -0.1, -0.05, 0, 0.05, 0.1, 0.15] }
 
+
+const pc = (a) => Math.round(a*100)
+
+
 const parseValue = (a, b, pos) => {
-  if (pos === 'first') return `< ${b}`
-  if (pos === 'last') return `> ${a}`
-  return `${a} - ${b}`
+  if (pos === 'first') return `< ${pc(b)}%`
+  if (pos === 'last') return `> ${pc(a)}%`
+  return `${pc(a)} - ${pc(b)}%`
 }
 
 
@@ -43,34 +49,7 @@ class Maps extends Component {
       <Grid keyName='maps' classes='ge-grid--300' labels={["Conservative vote share", 'Lab vote share', 'LD vote share', "Green vote share"]}>
         {/* unique key here?*/}
         <Map
-          // shadeDemo={} 
-          filters={[{ "id": 1574688796683, "demoType": "y2017_winner", "operator": "!=", "demoVal": "con" }, { "id": 1574688803429, "demoType": "y2019_winner", "operator": "==", "demoVal": "con" }]}
-          geo={false}
-          results={data}
-          selectedFeature={selectedFeature}
-          ttCoords={ttCoords}
-          hovered={hovered}
-          selectFeature={this.selectFeature}
-          setHovered={this.setHovered}
-          showKey={false}
-          markers={this.props.markers}
-          resultsDict={dataDict} />
-        <Map
-          // shadeDemo={labVoteShare} 
-          filters={[{ "id": 1574688796683, "demoType": "y2017_winner", "operator": "!=", "demoVal": "lab" }, { "id": 1574688803429, "demoType": "y2019_winner", "operator": "==", "demoVal": "lab" }]}
-          geo={false}
-          results={data}
-          selectedFeature={selectedFeature}
-          ttCoords={ttCoords}
-          hovered={hovered}
-          selectFeature={this.selectFeature}
-          setHovered={this.setHovered}
-          showKey={false}
-          markers={[]}
-          resultsDict={dataDict} />
-        <Map
-          shadeDemo={turnoutChange}
-          // filters={[{"id":1574688796683,"demoType":"y2017_winner","operator":"!=","demoVal":"lab"},{"id":1574688803429,"demoType":"y2019_winner","operator":"==","demoVal":"lab"}]}
+          shadeDemo={conVoteShare} 
           filters={[]}
           geo={false}
           results={data}
@@ -79,33 +58,48 @@ class Maps extends Component {
           hovered={hovered}
           selectFeature={this.selectFeature}
           setHovered={this.setHovered}
-          showKey={{ parseValue: parseValue, noData: true, shape: 'circle' }}
+          showKey={{ parseValue: parseValue, noData: true, shape: 'square' }}
+          markers={this.props.markers}
+          resultsDict={dataDict} />
+        <Map
+          shadeDemo={labVoteShare} 
+          filters={[]}
+          geo={false}
+          results={data}
+          selectedFeature={selectedFeature}
+          ttCoords={ttCoords}
+          hovered={hovered}
+          selectFeature={this.selectFeature}
+          setHovered={this.setHovered}
+          showKey={{ parseValue: parseValue, noData: true, shape: 'square' }}
           markers={[]}
           resultsDict={dataDict} />
-        {/* <Map
-      shadeDemo={ldVoteShare}
-      filters={[]}
-      geo={false}
-      results={data}
-      selectedFeature={selectedFeature}
-      ttCoords={ttCoords}
-      hovered={hovered}
-      selectFeature={this.selectFeature}
-      setHovered={this.setHovered}
-      showKey={false}
-      resultsDict={dataDict} />
-    <Map
-      shadeDemo={greenVoteShare}
-      filters={[]}
-      geo={false}
-      results={data}
-      selectedFeature={selectedFeature}
-      ttCoords={ttCoords}
-      hovered={hovered}
-      selectFeature={this.selectFeature}
-      setHovered={this.setHovered}
-      showKey={false}
-      resultsDict={dataDict} /> */}
+        <Map
+          shadeDemo={ldVoteShare} 
+          filters={[]}
+          geo={false}
+          results={data}
+          selectedFeature={selectedFeature}
+          ttCoords={ttCoords}
+          hovered={hovered}
+          selectFeature={this.selectFeature}
+          setHovered={this.setHovered}
+          showKey={{ parseValue: parseValue, noData: true, shape: 'square' }}
+          markers={[]}
+          resultsDict={dataDict} />
+        <Map
+          shadeDemo={snpVoteShare} 
+          filters={[]}
+          geo={false}
+          results={data}
+          selectedFeature={selectedFeature}
+          ttCoords={ttCoords}
+          hovered={hovered}
+          selectFeature={this.selectFeature}
+          setHovered={this.setHovered}
+          markers={[]}
+          showKey={{ parseValue: parseValue, noData: true, shape: 'square' }}
+          resultsDict={dataDict} />
       </Grid>
     )
   }

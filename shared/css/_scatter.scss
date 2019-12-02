@@ -1,7 +1,7 @@
 .axis {
     line {
         stroke: #dcdcdc;
-        shape-rendering: crispEdges;
+        // shape-rendering: crispEdges;
     }
 
     text {
@@ -67,9 +67,10 @@
     }
 }
 
-.ge-scatter-label {
+.axis .ge-scatter-label {
+    fill: #000;
+    @include fs-headline(1);
     font-weight: bold;
-    fill: #767676;
     text-anchor: start !important;
 }
 

@@ -1,7 +1,7 @@
 const fs = require("fs")
 const rp = require("request-promise")
 
-const calcChangeFor = [['y2015_share_lab', 'y2017_share_lab'], ['y2017_share_con', 'y2019_share_con'], ['y2015_turnout_percent', 'y2017_turnout_percent']]
+const calcChangeFor = [['y2017_share_lab', 'y2019poll_share_lab'], ['y2017_share_con', 'y2019poll_share_con'], ['y2017_share_ld', 'y2019poll_share_ld']]
 
 const partyLookup = {
     "Lab Co-op" : "lab",
@@ -76,7 +76,7 @@ Promise.all([
         let newObj = Object.assign({}, ...Object.keys(obj).map(key => ({ [key]: typeof obj[key] === 'boolean' || isNaN(Number(obj[key])) ? obj[key] : Number(obj[key]) })));
 
         return newObj
-    }).filter(v => v.result2019)
+    }).filter(v => true || v.result2019)
 
     const allWithChange = all.map(d => {
         let changes = {}

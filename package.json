@@ -51,6 +51,7 @@
     "request-promise": "^4.2.5",
     "rollup-plugin-preact": "^0.5.2",
     "sass-mq": "^5.0.1",
+    "simple-statistics": "^7.0.7",
     "topojson": "^3.0.2",
     "unfetch": "^4.1.0"
   }

@@ -53,16 +53,17 @@ class Map extends PureComponent {
     // !!!IMPORTANT!!! THIS DOMAIN ISNT RECALCULATED IF FILTERS ARE APPLIED!!!!!!!!!
     const domain = (customDomain) ? customDomain : [min(this.props.results, d => d[demographic]), max(this.props.results, d => d[demographic])]
 
+    const genSteps = customClasses ? customClasses.length - 1 - outOfScaleColor.length : steps;
+
     let colors = chroma
       .scale(scaleColors)
-      .colors(shiftFirstColor ? steps + 1 : steps)
-
-      
+      .colors(shiftFirstColor ? genSteps + 1 : genSteps)
 
     if (shiftFirstColor) colors.shift()
+    colors = outOfScaleColor.concat(colors)
 
     const colorScale = chroma
-      .scale(outOfScaleColor.concat(colors))
+      .scale(colors)
       .domain(domain)
       .classes(customClasses ? customClasses : colors.length)
 
