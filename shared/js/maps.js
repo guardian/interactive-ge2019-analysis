@@ -19,10 +19,14 @@ const snpVoteShare = { selectedDemo: 'y2019poll_share_snp', scaleColors: ['white
 
 const turnoutChange = { selectedDemo: 'change_turnout_percent', scaleColors: ['blue', 'white', 'green'], outOfScaleColor: [], shiftFirstColor: false, steps: 6, customClasses: [-0.15, -0.1, -0.05, 0, 0.05, 0.1, 0.15] }
 
+
+const pc = (a) => Math.round(a*100)
+
+
 const parseValue = (a, b, pos) => {
-  if (pos === 'first') return `< ${b}`
-  if (pos === 'last') return `> ${a}`
-  return `${a} - ${b}`
+  if (pos === 'first') return `< ${pc(b)}%`
+  if (pos === 'last') return `> ${pc(a)}%`
+  return `${pc(a)} - ${pc(b)}%`
 }
 
 
