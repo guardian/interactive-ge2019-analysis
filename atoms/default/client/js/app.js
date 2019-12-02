@@ -31,15 +31,15 @@ const loadAndDraw = async() => {
   render(<Grid keyName='scat' labels={["Scatter one"]}>
      <Scatter
         data={data}
-        xDomain={[0, 0.2]}
-        xTicks={[0, 0.1, 0.2]}
+        xDomain={[0, 0.35]}
+        xTicks={[0,0.1,0.2,0.3]}
         yTicks={[0, 0.2, 0.4, 0.6, 0.8]}
         yDomain={[0, 0.9]}
         heightWidthRatio={1.2}
-        x="unemployed"
-        y="y2019poll_share_con"
-        xLabel="Over 65s (%) ▶"
-        yLabel="Conservative vote (2017-2019) ▲"
+        x="pop_18_25"
+        y="y2019poll_share_lab"
+        xLabel="pop_18_25 (%) ▶"
+        yLabel="Lab vote (2017-2019) ▲"
         xTickTransform={(d) => Math.round(d*100) + "%"}
         yTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}
         xMajorTicks={[0]}
