@@ -2,7 +2,7 @@ import React, { PureComponent, createRef } from 'react'
 import hexTopo from '../geo/hexagons.json'
 import regions from '../geo/regions_mesh.json'
 import regionNames from '../geo/region_names.json'
-// import geoGraphic from '../geo/geo_uk.json'
+import geoGraphic from '../geo/geo_uk.json'
 import { hashPattern } from './util'
 import { geoMercator, geoPath, max, min } from 'd3'
 import { feature } from 'topojson'
@@ -182,45 +182,19 @@ class Map extends PureComponent {
                 className='ge-const__selected'
               />
             }
-            <g style={labelStyle} className='ge-map-labels'>
-            {geo ? null : regionNames
-              .filter(f => f.properties.abbr)
-              .map((f,i) => {
-                const p = proj(f.geometry.coordinates)
-                const transform = `translate(${p[0]}, ${p[1]})`
-
-                return <g key={'lblg-' + i} className='ge-map-labelg' transform={transform}>
-                  {f.properties.name.startsWith('Yorks') ?
-                    <g>
-
-                      <text className='ge-map-label__text ge-map-label__text--white'>
-                        <tspan x='10' y='-15'>Yorkshire and</tspan>
-                        <tspan x='10' dy='16'>the Humber</tspan>
-                      </text>
-
-                      <text className='ge-map-label__text'>
-                        <tspan x='10' y='-15'>Yorkshire and</tspan>
-                        <tspan x='10' dy='16'>the Humber</tspan>
-                      </text>
-
-                    </g>
-
-                    : <g>
-                      <text className='ge-map-label__text ge-map-label__text--white'> {f.properties.name} </text>
-                      <text className='ge-map-label__text'> {f.properties.name} </text>
-                    </g>}
-                </g>
-            })}
-            </g>
             {
-              <g className='markers'>
-                {markers.map(m =>
-                  <g className='marker-g'>
-                    <circle cx={m.x} cy={m.y} r={8} fill='#333'/>
-                    <text dominant-baseline="central" className='gv-marker-text' x={m.x} y={m.y}>{m.n}</text>
-                  </g>
-                )}
-              </g>
+              hexFc.features.map((f, i) => {
+                const thisConst = filteredDict[f.properties.constituency] || {}
+                const party = (thisConst.y2019_winner || 'undeclared').toLowerCase().replace(/\s/g, '')
+                if(party === 'undeclared' || thisConst.y2019_winner === thisConst.y2019_sitting) {
+                  return;
+                }
+                return <path
+                  d={path(f)}
+                  style={{fill: "none"}}
+                  className='ge-const__selected'
+                />
+              })
             }
           </svg>
         </div>

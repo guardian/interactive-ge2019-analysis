@@ -6,7 +6,37 @@ import Maps2 from "shared/js/maps2.js"
 import ConstSlopes from "shared/js/constSlopes.js"
 import fetch from 'unfetch'
 import "core-js/stable";
+import * as d3 from "d3"
 import "regenerator-runtime/runtime";
+
+const partyLookup = {
+  "Lab Co-op" : "lab",
+  "Lab": "lab",
+  "Con": "con",
+  "PC": "pc",
+  "SNP": "snp",
+  "SF": "sf",
+  "Green": "green",
+  "UKIP": "ukip",
+  "DUP": "dup",
+  "Lib Dem": "ld",
+  "LD": "ld",
+  "SDLP": "sdlp"
+}
+
+const cleanName = (p) => {
+  if(partyLookup[p]) {
+      return partyLookup[p]
+  } else {
+
+      return p;
+  }
+}
+
+const find2019Result = (result2019, party) => {
+  const match = result2019.candidates.find(c => cleanName(c.party) === cleanName(party))
+  return match ? match.percentageShare/100 : 0
+}
 
 const toDict = arr => {
   const out = {}
@@ -15,85 +45,66 @@ const toDict = arr => {
   return out
 }
 
-const markers = [
-  { n: 1, ons: "E14001011" },
-  { n: 2, ons: "E14000662" },
-  { n: 3, ons: "E14000973" },
-  { n: 4, ons: "E14000975" }
-]
-
 const loadAndDraw = async() => {
-    const dataRequest = await fetch("<%= path %>/data.json")
-    const data = await dataRequest.json()
+
+  
+  Promise.all([
+      d3.json("https://interactive.guim.co.uk/docsdata-test/1wFmbda8IrBSCK2iVaLLWYhik5FBGNLZaTa4RJKkJkwE.json"),
+      d3.json("https://interactive.guim.co.uk/2019/12/ukelection2019-data/niko/snap/full.json")
+  ]).then(dl => {
+      const full = dl[1]
+      const allDemographicData = dl[0].sheets.data
+  
+      const data = allDemographicData.map(d => {
+          const result2019 = full.find(f => d.ons_id === f.ons)
+          const newFields = {}
+  
+          if(result2019 && result2019.candidates) {
+              newFields.result2019 = true
+              newFields.y2019_winner = cleanName(result2019.winningParty)
+              newFields.y2019_electorate = result2019.y2019_electorate
+              newFields.y2019_turnout = result2019.turnout
+              newFields.y2019_turnout_percent = result2019.percentageTurnout/100
+              newFields.y2019_majority_percent = result2019.majority/100
+              newFields.y2019_sitting = cleanName(result2019.sittingParty)
+              // we can add raw votes majority if needed but it needs to be calculated from the candidates
+              newFields.y2019_share_con = find2019Result(result2019, "Con")
+              newFields.y2019_share_lab = find2019Result(result2019, "Lab")
+              newFields.y2019_share_pc = find2019Result(result2019, "PC")
+              newFields.y2019_share_ukip = find2019Result(result2019, "UKIP")
+              newFields.y2019_share_ld = find2019Result(result2019, "Lib Dem")
+              newFields.y2019_share_snp = find2019Result(result2019, "SNP")
+              newFields.y2019_share_dup = find2019Result(result2019, "DUP")
+              newFields.y2019_share_green = find2019Result(result2019, "Green")
+              newFields.y2019_share_sf = find2019Result(result2019, "SF")
+              d.y2017_winner = cleanName(d.y2017_winner)
+              d.y2015_winner = cleanName(d.y2015_winner)
+              // need to deal with "other" – does this include ind?
+              // need to add brexit party once we have 2019 test data
+  
+              // 2017 data doesn't include raw votes for each party, so I'm not
+              // bringing that across here either. It can be calculated by
+              // multiplying vote share by turnout
+          } else {
+              newFields.result2019 = false
+          }
+  
+          let obj = Object.assign({}, d, newFields)
+  
+          let newObj = Object.assign({}, ...Object.keys(obj).map(key => ({ [key]: typeof obj[key] === 'boolean' || isNaN(Number(obj[key])) ? obj[key] : Number(obj[key]) })));
+  
+          return newObj
+      }).filter(v => true || v.result2019)
+
     const dataDict = toDict(data)
 
   // render(<Grid labels={["Map one", "Map two", "Map three", "Map four"]} items={[<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />]}/>, document.querySelector(".interactive-wrapper"));
-  render(<Maps markers={markers} data={data} dataDict={dataDict} />,
+  render(<Maps markers={[]} data={data} dataDict={dataDict} />,
     document.getElementById("interactive-slot-1")
   )
 
-  render(<Maps2 data={data} dataDict={dataDict} />,
-    document.getElementById("interactive-slot-4")
-  )
-  render(<Grid keyName='scat' labels={["Scatter one"]}>
-     <Scatter
-        data={data}
-        xDomain={[0, 650]}
-        xTicks={[0,200,400, 600]}
-        yTicks={[-0.2, -0.1, 0, 0.1, 0.2]}
-        yDomain={[-0.3, 0.24]}
-        heightWidthRatio={1}
-        x="deprivation_rank"
-        y="change_share_lab"
-        xLabel="Less deprived ▶"
-        yLabel="Change in Lab vote (2017-2019) ▲"
-        // xTickTransform={(d) => Math.round(d*100) + "%"}
-        yTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}
-        xMajorTicks={[0]}
-        yMajorTicks={[0]} 
-        regressionLine={true}
-        markers={markers}
-      />
-    </Grid>,
-    document.getElementById("interactive-slot-2")
-  )
+  });
 
-  // render(<Grid keyName='scat' labels={["Scatter one"]}>
-  //   <Scatter
-  //     data={data}
-  //     xDomain={[0, 0.9]}
-  //     yDomain={[0, 0.3]}
-  //     xTicks={[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]}
-  //     yTicks={[0, 0.1, 0.2, 0.3]}
-  //     x="brexit_leave"
-  //     y="y2019poll_share_bxp"
-  //     xLabel="Conservative vote 2017 (%) ▶"
-  //     yLabel="Change in Conservative vote (2017-2019) ▲"
-  //     xTickTransform={(d) => Math.round(d*100) + "%"}
-  //     yTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}
-  //     xMajorTicks={[0.5]}
-  //     yMajorTicks={[0]}   
-  //   />
-  // </Grid>,
-  // document.getElementById("interactive-slot-2")
-  // )
-
-  render(
-    <ConstSlopes 
-    filters={[{"id":1574937647500,"demoType":"y2017_winner","operator":"==","demoVal":"lab"},{"id":1574937668187,"demoType":"brexit_leave","operator":"top","demoVal":"20"}]} 
-    markers={markers} 
-    // filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} 
-    keyName='slopes'
-    itemClasses="ge-grid--slope"
-    data={data} />, document.getElementById("interactive-slot-3")
-  )
-
-  // // render(<DemographicSlope data={data} demographic="brexit_leave" parties={["con", "lab", "ld"]} />, document.getElementById("slope-demo"));
-  
-  // render(<Grid labels={["Leave voting areas had the lowest green party vote share", "Areas with high youth unemployment voted Labour in high numbers"]}>
-  //   <Scatter data={data} xDomain={[-1, 1]} xTicks={[-1, 0, 1]} yTicks={[-1, 0, 1]} yDomain={[-1, 1]} x="change_turnout_percent" y="change_share_lab"/>
-  //   {/* <Scatter data={data} xDomain={[0, 0.1]} xTicks={[0, 0.025, 0.05, 0.075, 0.1]} yTicks={[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]} yDomain={[0, 0.8]} x="unemployed_18_24" y="y2015_share_lab"/> */}
-  // </Grid>, document.querySelector("#scatter"));
 }
 
 loadAndDraw();
