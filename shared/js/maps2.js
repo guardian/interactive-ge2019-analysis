@@ -29,6 +29,7 @@ class Maps extends Component {
         <Map
           shadeDemo={conVoteShareChange} 
           filters={[]}
+          markers={[]}
           geo={false}
           results={data}
           selectedFeature={selectedFeature}
@@ -40,6 +41,7 @@ class Maps extends Component {
         <Map
           shadeDemo={labVoteShareChange} 
           filters={[]}
+          markers={[]}
           geo={false}
           results={data}
           selectedFeature={selectedFeature}

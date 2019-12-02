@@ -9,12 +9,18 @@
 @import "scatter";
 @import "tooltip";
 @import "demoFIlters";
+@import "key";
 
 .interactive-atom {
     margin: 0;
     padding: 0;
 }
 
-.ge-demographic-filters {
-    // display: none;
+.gv-marker-text {
+    @include fs-textSans(1);
+    font-weight: bold;
+    fill: #fff;
+    text-anchor: middle;
+    // pointer-events: none;
+    cursor: pointer;
 }

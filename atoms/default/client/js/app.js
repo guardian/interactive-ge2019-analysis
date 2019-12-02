@@ -15,13 +15,20 @@ const toDict = arr => {
   return out
 }
 
+const markers = [
+  { n: 1, ons: "E14001011" },
+  { n: 2, ons: "E14000662" },
+  { n: 3, ons: "E14000973" },
+  { n: 4, ons: "E14000975" }
+]
+
 const loadAndDraw = async() => {
     const dataRequest = await fetch("<%= path %>/data.json")
     const data = await dataRequest.json()
     const dataDict = toDict(data)
 
   // render(<Grid labels={["Map one", "Map two", "Map three", "Map four"]} items={[<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />]}/>, document.querySelector(".interactive-wrapper"));
-  render(<Maps data={data} dataDict={dataDict} />,
+  render(<Maps markers={markers} data={data} dataDict={dataDict} />,
     document.getElementById("interactive-slot-1")
   )
 
@@ -45,6 +52,7 @@ const loadAndDraw = async() => {
         xMajorTicks={[0]}
         yMajorTicks={[0]} 
         regressionLine={true}
+        markers={markers}
       />
     </Grid>,
     document.getElementById("interactive-slot-2")
@@ -73,6 +81,8 @@ const loadAndDraw = async() => {
   render(
     <ConstSlopes 
     filters={[{"id":1574937647500,"demoType":"y2017_winner","operator":"==","demoVal":"lab"},{"id":1574937668187,"demoType":"brexit_leave","operator":"top","demoVal":"20"}]} 
+    markers={markers} 
+    // filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} 
     keyName='slopes'
     itemClasses="ge-grid--slope"
     data={data} />, document.getElementById("interactive-slot-3")

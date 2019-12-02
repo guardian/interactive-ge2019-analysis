@@ -57,7 +57,7 @@
 
 .ge-scatter-plot {
     circle {
-        fill-opacity: 0.5 !important;
+        fill-opacity: 0.5;
     } 
 
     svg {
@@ -71,4 +71,9 @@
     @include fs-headline(1);
     font-weight: bold;
     text-anchor: start !important;
+}
+
+.ge-scatter-marker {
+    fill-opacity: 0.95 !important;
+    stroke: #000 !important;
 }

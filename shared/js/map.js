@@ -2,7 +2,7 @@ import React, { PureComponent, createRef } from 'react'
 import hexTopo from '../geo/hexagons.json'
 import regions from '../geo/regions_mesh.json'
 import regionNames from '../geo/region_names.json'
-import geoGraphic from '../geo/geo_uk.json'
+// import geoGraphic from '../geo/geo_uk.json'
 import { hashPattern } from './util'
 import { geoMercator, geoPath, max, min } from 'd3'
 import { feature } from 'topojson'
@@ -10,9 +10,10 @@ import Tooltip from './tooltip'
 import DemoFilters from './demoFilters'
 import chroma from 'chroma-js'
 import { toDict } from './util.js'
+import ColorScaleKey from './coloScaleKey'
 
 const pattern = hashPattern('ge-hash', 'ge-hash__path', 'ge-hash__rect')
-
+let geo = null
 class Map extends PureComponent { 
   wrapper = createRef() 
   constructor(props) {
@@ -33,7 +34,10 @@ class Map extends PureComponent {
       proj,
       path,
       colorScale: null,
-      showTooltip: false
+      colors: [],
+      domain: [],
+      showTooltip: false,
+      markers: []
     }
   }
 
@@ -64,7 +68,7 @@ class Map extends PureComponent {
 
       window.colorScale = colorScale;
 
-    this.setState({ colorScale })
+    this.setState({ colorScale, colors, domain })
   }
 
   applyFilters = () => {
@@ -129,17 +133,28 @@ class Map extends PureComponent {
   toggleTooltip = (showTooltip) => this.setState({ showTooltip })
 
   render() {
-
-    const { geo, shadeDemo, hovered, ttCoords, selectedFeature, results, filters } = this.props
-    const { width, height, path, hexFc, colorScale, proj, showTooltip, filteredDict } = this.state
-
+    const { geo, shadeDemo, hovered, ttCoords, selectedFeature, results, filters, showKey } = this.props
+    const { width, height, path, hexFc, colorScale, proj, showTooltip, filteredDict, colors, domain, markers } = this.state
+    
     const labelStyle = {
       opacity: showTooltip ? 0 : 1
     }
-    
+
     return (
       <>
+        {showKey ?
+          <ColorScaleKey
+            colors={colors}
+            classes={shadeDemo.customClasses || shadeDemo.steps}
+            domain={domain}
+            parseValue={showKey.parseValue}
+            title={showKey.title}
+            noData={showKey.noData}
+            shape={showKey.shape} />
+          : null
+        }
         <div className='ge-map__inner' ref={this.wrapper}>
+
           {showTooltip && <Tooltip constituency={hovered} x={ttCoords.x} y={ttCoords.y} />}
           <svg onMouseEnter={() => this.toggleTooltip(true)} onMouseLeave={() => {this.toggleTooltip(false); this.props.selectFeature(null)}} className='ge-map' height={height} width={width}>
             <defs dangerouslySetInnerHTML={{ __html: pattern }}></defs>
@@ -196,6 +211,16 @@ class Map extends PureComponent {
                 </g>
             })}
             </g>
+            {
+              <g className='markers'>
+                {markers.map(m =>
+                  <g className='marker-g'>
+                    <circle cx={m.x} cy={m.y} r={8} fill='#333'/>
+                    <text dominant-baseline="central" className='gv-marker-text' x={m.x} y={m.y}>{m.n}</text>
+                  </g>
+                )}
+              </g>
+            }
           </svg>
         </div>
         <DemoFilters filters={filters} filterData={filtered => this.setState({ filteredDict: toDict(filtered) })} data={results} />
@@ -219,6 +244,15 @@ class Map extends PureComponent {
     const hexFc = this.props.geo ? geoGraphic : feature(hexTopo, hexTopo.objects.hexagons)
     const proj = geoMercator().fitSize([width, height], hexFc)
     const path = geoPath().projection(proj)
+    const markers = this.props.markers.map(m => {
+    const c = path.centroid(hexFc.features.find(f => f.properties.constituency === m.ons))
+      return Object.assign({}, m, {
+        n: m.n,
+        ons: m.ons,
+        x: c[0], 
+        y: c[1]
+      })
+    })
 
     this.setInputRef = node => this.input = node
 
@@ -227,7 +261,8 @@ class Map extends PureComponent {
       proj,
       height,
       hexFc,
-      path
+      path,
+      markers
     })
   }
 }

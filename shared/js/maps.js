@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import Grid from './grid'
 import Map from "shared/js/map.js"
+import colorScaleKey from "shared/js/map.js"
 
-const filters = [{ "id": 1573731749523, "demoType": "house_price", "operator": ">", "demoVal": "300000" }]
-const shadeDemo = { selectedDemo: 'brexit_leave', scaleColors: ['white', '#951d7a'], outOfScaleColor: [], shiftFirstColor: true, steps: 10, customClasses: null }
-const shadeDemo2 = { selectedDemo: 'y2017_turnout', scaleColors: ['yellow', 'green'], outOfScaleColor: [], shiftFirstColor: false, steps: 3, customClasses: null }
+// const filters = [{ "id": 1573731749523, "demoType": "house_price", "operator": ">", "demoVal": "300000" }]
+// const shadeDemo = { selectedDemo: 'brexit_leave', scaleColors: ['white', '#951d7a'], outOfScaleColor: [], shiftFirstColor: true, steps: 10, customClasses: null }
+// const shadeDemo2 = { selectedDemo: 'y2017_turnout', scaleColors: ['yellow', 'green'], outOfScaleColor: [], shiftFirstColor: false, steps: 3, customClasses: null }
 
 const conVoteShare = { selectedDemo: 'y2019poll_share_con', scaleColors: ['white', '#0084c6'], outOfScaleColor: ["#ffffff"], shiftFirstColor: true, steps: 9, customClasses: [0, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8], customDomain: [0.01, 0.8] }
 
@@ -18,6 +19,13 @@ const snpVoteShare = { selectedDemo: 'y2019poll_share_snp', scaleColors: ['white
 
 const turnoutChange = { selectedDemo: 'change_turnout_percent', scaleColors: ['blue', 'white', 'green'], outOfScaleColor: [], shiftFirstColor: false, steps: 6, customClasses: [-0.15, -0.1, -0.05, 0, 0.05, 0.1, 0.15] }
 
+const parseValue = (a, b, pos) => {
+  if (pos === 'first') return `< ${b}`
+  if (pos === 'last') return `> ${a}`
+  return `${a} - ${b}`
+}
+
+
 class Maps extends Component {
   state = {
     hovered: null,
@@ -28,12 +36,14 @@ class Maps extends Component {
   setHovered = (hovered, ttCoords, selectedFeature) => this.setState({ hovered, ttCoords, selectedFeature })
   selectFeature = selectedFeature => this.setState({ selectedFeature })
 
+
   render() {
     const { selectedFeature, ttCoords, hovered } = this.state
     const { data, dataDict } = this.props
 
     return (
       <Grid keyName='maps' classes='ge-grid--300' labels={["Conservative vote share", 'Lab vote share', 'LD vote share', "Green vote share"]}>
+        {/* unique key here?*/}
         <Map
           shadeDemo={conVoteShare} 
           filters={[]}
@@ -44,6 +54,8 @@ class Maps extends Component {
           hovered={hovered}
           selectFeature={this.selectFeature}
           setHovered={this.setHovered}
+          showKey={false}
+          markers={this.props.markers}
           resultsDict={dataDict} />
         <Map
           shadeDemo={labVoteShare} 
@@ -55,6 +67,8 @@ class Maps extends Component {
           hovered={hovered}
           selectFeature={this.selectFeature}
           setHovered={this.setHovered}
+          showKey={false}
+          markers={[]}
           resultsDict={dataDict} />
         <Map
           shadeDemo={ldVoteShare} 
@@ -66,6 +80,8 @@ class Maps extends Component {
           hovered={hovered}
           selectFeature={this.selectFeature}
           setHovered={this.setHovered}
+          showKey={{ parseValue: parseValue, noData: true, shape: 'circle' }}
+          markers={[]}
           resultsDict={dataDict} />
         {/* <Map
           shadeDemo={greenVoteShare} 
