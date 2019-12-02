@@ -1,5 +1,6 @@
 import React, {Component, createRef} from 'react'
 import * as d3 from "d3"
+import {linearRegression, linearRegressionLine} from 'simple-statistics'
  
 class Scatter extends Component {
     wrapper = createRef();
@@ -13,17 +14,23 @@ class Scatter extends Component {
     }
 
     render() {
-        const { data, i, x, y, xDomain, xLabel, yLabel, yDomain, xTicks, yTicks, heightWidthRatio = 1, xTickTransform = (c) => c, yTickTransform = (c) => c, xMajorTicks, yMajorTicks } = this.props
+        const { data, regressionLine = false, i, x, y, xDomain, xLabel, yLabel, yDomain, xTicks, yTicks, heightWidthRatio = 1, xTickTransform = (c) => c, yTickTransform = (c) => c, xMajorTicks, yMajorTicks } = this.props
 
-        const filteredData = data.filter(d => {
+        const filteredData = data.filter(d => d[x] && d[y] && typeof(d[x]) === "number" && typeof(d[y]) === "number").filter(d => {
             return d[x] !== "NA" && d[y] !== "NA"
         })
-
+        
         const { width, padding } = this.state
-        console.log(width, heightWidthRatio)
         const height = width*heightWidthRatio
         const xScale = d3.scaleLinear().domain(xDomain).range([padding, width - padding]);
         const yScale = d3.scaleLinear().domain(yDomain).range([height - padding, padding]);
+        const lrdata = filteredData.map(d => ([d[x], d[y]]))
+        const lr = linearRegression(lrdata)
+        const line = linearRegressionLine(lr)
+
+        const minX = d3.min(lrdata, d => d[0])
+        const maxX = d3.max(lrdata, d => d[0])
+    
         const r = 3.5;
 
         return <div class="ge-scatter-plot" ref={this.wrapper}>
@@ -45,6 +52,11 @@ class Scatter extends Component {
                 <g>
                     {filteredData.map(d => <circle id={`${d.ons_id}`} cx={xScale(d[x])} cy={yScale(d[y])} r={r} className={`ge-fill--${d["y2017_winner"]} ge-stroke--${d["y2017_winner"]}`}></circle>)}
                 </g>
+                {regressionLine && 
+                    <g>
+                        <line x1={xScale(minX)} y1={yScale(line(minX))} x2={xScale(maxX)} y2={yScale(line(maxX))} stroke="#000" stroke-width="3"></line>
+                    </g>
+                }
             </svg>
         </div>
     }

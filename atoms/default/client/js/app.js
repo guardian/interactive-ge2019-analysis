@@ -2,6 +2,7 @@ import React,{ render } from "react"
 import Scatter from "shared/js/scatter.js"
 import Grid from "shared/js/grid.js"
 import Maps from "shared/js/maps.js"
+import Maps2 from "shared/js/maps2.js"
 import ConstSlopes from "shared/js/constSlopes.js"
 import fetch from 'unfetch'
 import "core-js/stable";
@@ -23,32 +24,56 @@ const loadAndDraw = async() => {
   render(<Maps data={data} dataDict={dataDict} />,
     document.getElementById("interactive-slot-1")
   )
+
+  render(<Maps2 data={data} dataDict={dataDict} />,
+    document.getElementById("interactive-slot-4")
+  )
   render(<Grid keyName='scat' labels={["Scatter one"]}>
      <Scatter
         data={data}
-        xDomain={[0.1, 0.9]}
-        xTicks={[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]}
-        yTicks={[-0.1, 0, 0.1, 0.2, 0.3]}
-        yDomain={[-0.15, 0.35]}
-        heightWidthRatio={1.2} 
-        x="brexit_leave"
-        y="change_share_lab"
-        xLabel="Brexit leave vote (%) ▶"
-        yLabel="Change in Labour vote (2017-2019) ▲"
+        xDomain={[0, 0.2]}
+        xTicks={[0, 0.1, 0.2]}
+        yTicks={[0, 0.2, 0.4, 0.6, 0.8]}
+        yDomain={[0, 0.9]}
+        heightWidthRatio={1.2}
+        x="unemployed"
+        y="y2019poll_share_con"
+        xLabel="Over 65s (%) ▶"
+        yLabel="Conservative vote (2017-2019) ▲"
         xTickTransform={(d) => Math.round(d*100) + "%"}
         yTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}
-        xMajorTicks={[0.5]}
+        xMajorTicks={[0]}
         yMajorTicks={[0]} 
+        regressionLine={true}
       />
     </Grid>,
     document.getElementById("interactive-slot-2")
   )
 
+  // render(<Grid keyName='scat' labels={["Scatter one"]}>
+  //   <Scatter
+  //     data={data}
+  //     xDomain={[0, 0.9]}
+  //     yDomain={[0, 0.3]}
+  //     xTicks={[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]}
+  //     yTicks={[0, 0.1, 0.2, 0.3]}
+  //     x="brexit_leave"
+  //     y="y2019poll_share_bxp"
+  //     xLabel="Conservative vote 2017 (%) ▶"
+  //     yLabel="Change in Conservative vote (2017-2019) ▲"
+  //     xTickTransform={(d) => Math.round(d*100) + "%"}
+  //     yTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}
+  //     xMajorTicks={[0.5]}
+  //     yMajorTicks={[0]}   
+  //   />
+  // </Grid>,
+  // document.getElementById("interactive-slot-2")
+  // )
+
   render(
     <ConstSlopes 
-    // filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} 
+    filters={[{"id":1574937647500,"demoType":"y2017_winner","operator":"==","demoVal":"lab"},{"id":1574937668187,"demoType":"brexit_leave","operator":"top","demoVal":"20"}]} 
     keyName='slopes'
-    filters={[]}
     itemClasses="ge-grid--slope"
     data={data} />, document.getElementById("interactive-slot-3")
   )
