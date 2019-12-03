@@ -1,6 +1,7 @@
 import React, { Component, createRef } from 'react'
 import * as d3 from "d3"
 import Tooltip from './tooltip'
+import DemoFilters from './demoFilters'
 import {linearRegression, linearRegressionLine} from 'simple-statistics'
 import { parseFilters } from './util';
  
@@ -28,14 +29,15 @@ class Scatter extends Component {
         this.setHovered({obj: hovered, marker: marker}, { x, y })
     }
 
-    applyFilters = () => {
+    applyFilters = (externalFilters) => {
+        console.log(externalFilters)
         const { x, y } = this.props
         const filteredDemo = this.props.data.filter(d => d[x] && d[y] && typeof (d[x]) === "number" && typeof (d[y]) === "number").filter(d => {
             return d[x] !== "NA" && d[y] !== "NA"
         })
 
         const ms = this.props.markers.map(m => m.ons)
-        const preMarkerFiltered = parseFilters(filteredDemo, this.props.filters)
+        const preMarkerFiltered = externalFilters ? parseFilters(externalFilters, this.props.filters) : parseFilters(filteredDemo, this.props.filters)
 
         const filteredData = preMarkerFiltered.filter(d => ms.indexOf(d.ons_id) > -1 ? false : d)
 
@@ -70,6 +72,7 @@ class Scatter extends Component {
         const r = 3.5;
         
         return <div class="ge-scatter-plot" ref={this.wrapper}>
+            <DemoFilters filters={this.props.filters} applyFilters={(external) => this.applyFilters(external)} data={this.props.data} />
             {hovered && <Tooltip constituency={hovered.obj} x={ttCoords.x} y={ttCoords.y} />}
             <svg width={width} height={height}>
                 <g class="axis--x axis">
