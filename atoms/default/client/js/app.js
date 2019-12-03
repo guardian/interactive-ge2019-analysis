@@ -22,6 +22,13 @@ const markers = [
   { n: 4, ons: "E14000975" }
 ]
 
+const scatFilters = [{ "id": 1574937668187, "demoType": "brexit_leave", "operator": "top", "demoVal": "20" }]
+const scatMarkers = [
+  { n: 1, ons: 'E14000577'}
+]
+
+
+
 const loadAndDraw = async() => {
     const dataRequest = await fetch("<%= path %>/data.json")
     const data = await dataRequest.json()
@@ -37,6 +44,7 @@ const loadAndDraw = async() => {
   )
   render(<Grid keyName='scat' labels={["Scatter one"]}>
      <Scatter
+        filters={scatFilters}
         data={data}
         xDomain={[0, 650]}
         xTicks={[0,200,400, 600]}
@@ -52,7 +60,7 @@ const loadAndDraw = async() => {
         xMajorTicks={[0]}
         yMajorTicks={[0]} 
         regressionLine={true}
-        markers={markers}
+        markers={scatMarkers}
         resultsDict={dataDict}
       />
     </Grid>,

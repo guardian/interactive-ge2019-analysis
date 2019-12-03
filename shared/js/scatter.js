@@ -2,6 +2,7 @@ import React, { Component, createRef } from 'react'
 import * as d3 from "d3"
 import Tooltip from './tooltip'
 import {linearRegression, linearRegressionLine} from 'simple-statistics'
+import { parseFilters } from './util';
  
 class Scatter extends Component {
     wrapper = createRef();
@@ -11,7 +12,7 @@ class Scatter extends Component {
         this.state = {
             width : 60,
             padding: 0,
-            filteredData: [],
+            filteredData: props.data,
             markers: [],
             hovered: {obj: null, marker: false},
             ttCoords: { x: 0, y: 0 },
@@ -25,6 +26,26 @@ class Scatter extends Component {
         const hovered = this.props.resultsDict[ons]
         // this.props.setHovered(obj, { x, y })
         this.setHovered({obj: hovered, marker: marker}, { x, y })
+    }
+
+    applyFilters = () => {
+        const { x, y } = this.props
+        const filteredDemo = this.props.data.filter(d => d[x] && d[y] && typeof (d[x]) === "number" && typeof (d[y]) === "number").filter(d => {
+            return d[x] !== "NA" && d[y] !== "NA"
+        })
+
+        const ms = this.props.markers.map(m => m.ons)
+        const preMarkerFiltered = parseFilters(filteredDemo, this.props.filters)
+
+        const filteredData = preMarkerFiltered.filter(d => ms.indexOf(d.ons_id) > -1 ? false : d)
+
+        const markers = this.props.markers.map(m => {
+            const obj = preMarkerFiltered.find(d => d.ons_id === m.ons)
+
+            return Object.assign({}, obj, { marker: m.n })
+        })
+
+        this.setState({ filteredData, markers })
     }
 
     render() {
@@ -98,29 +119,29 @@ class Scatter extends Component {
 
 
     componentDidMount() {
-        const { x, y} = this.props
-
         const width = this.wrapper.current.getBoundingClientRect().width;
-        const filteredDemo = this.props.data.filter(d => d[x] && d[y] && typeof(d[x]) === "number" && typeof(d[y]) === "number").filter(d => {
-            return d[x] !== "NA" && d[y] !== "NA"
-        })
-
-
-    {/* .filter(d => d[x] && d[y] && typeof(d[x]) === "number" && typeof(d[y]) === "number").filter(d => {
-            return d[x] !== "NA" && d[y] !== "NA"
-        }) */}
-
-        const ms = this.props.markers.map(m => m.ons)
-
-        const filteredData = filteredDemo.filter(d => ms.indexOf(d.ons_id) > -1 ? false : d)
+        // const filteredDemo = this.props.data.filter(d => d[x] && d[y] && typeof(d[x]) === "number" && typeof(d[y]) === "number").filter(d => {
+        //     return d[x] !== "NA" && d[y] !== "NA"
+        // })
+        // const ms = this.props.markers.map(m => m.ons)
         
-        const markers = this.props.markers.map(m => {
-            const obj = filteredDemo.find(d => d.ons_id === m.ons)
 
-            return Object.assign({}, obj, { marker: m.n })
-        })
+        // parseFilters(filteredDemo, this.props.filters)
 
-        this.setState({ width, filteredData, markers })
+        // const filteredData = filteredDemo.filter(d => ms.indexOf(d.ons_id) > -1 ? false : d)
+        
+        // const markers = this.props.markers.map(m => {
+        //     const obj = filteredDemo.find(d => d.ons_id === m.ons)
+
+        //     return Object.assign({}, obj, { marker: m.n })
+        // })
+
+        this.setState({ width })
+        this.applyFilters()
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.filters !== this.props.filters) this.applyFilters()
     }
 }
 
