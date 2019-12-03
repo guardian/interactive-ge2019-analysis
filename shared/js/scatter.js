@@ -18,11 +18,6 @@ class Scatter extends Component {
     render() {
         const { i, regressionLine = false, x, y, xDomain, xLabel, yLabel, yDomain, xTicks, yTicks, heightWidthRatio = 1, xTickTransform = (c) => c, yTickTransform = (c) => c, xMajorTicks, yMajorTicks } = this.props
         const { markers, filteredData } = this.state
-
-        // const filteredData = data.filter(d => {
-        //     return d[x] !== "NA" && d[y] !== "NA"
-        // })
-
         const { width, padding } = this.state
         const height = width*heightWidthRatio
         const xScale = d3.scaleLinear().domain(xDomain).range([padding, width - padding]);
