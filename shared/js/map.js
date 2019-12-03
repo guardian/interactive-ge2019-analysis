@@ -23,10 +23,12 @@ class Map extends PureComponent {
     const hexFc = props.geo ? geoGraphic : feature(hexTopo, hexTopo.objects.hexagons)
     const proj = geoMercator().fitSize([width, height], hexFc)
     const path = geoPath().projection(proj)
+    const dict = {}
 
     this.setInputRef = node => this.input = node
 
     this.state = {
+      dict,
       filteredDict: props.resultsDict,
       width,
       height,
@@ -85,6 +87,16 @@ class Map extends PureComponent {
 
   toggleTooltip = (showTooltip) => this.setState({ showTooltip })
 
+  getPath = (f, path) => {
+    const {dict} = this.state;
+    if(dict[f.properties.constituency]) {
+      return dict[f.properties.constituency]
+    } else {
+      dict[f.properties.constituency] = path(f)
+      return dict[f.properties.constituency];
+    }
+  }
+
   render() {
     const { geo, shadeDemo, hovered, ttCoords, selectedFeature, results, filters, showKey, showRegionNames } = this.props
     const { width, height, path, hexFc, colorScale, proj, showTooltip, filteredDict, colors, domain, markers } = this.state
@@ -118,7 +130,7 @@ class Map extends PureComponent {
                 
                 return <path
                   key={'pconst-'+i}
-                  d={path(f)}
+                  d={this.getPath(f, path)}
                   className={shadeDemo ? `ge-const ${thisConst[shadeDemo.selectedDemo] === 'NA' ? 'ge-const--nodata' : ''}` : `ge-const ge-fill--${party} ${thisConst.noData ? 'ge-const--nodata' : ''}`}
                   style={{ fill: colorScale ? colorScale(thisConst[shadeDemo.selectedDemo]).hex() : 'initial'}}
                   onMouseEnter={() => this.hover(f)}
@@ -196,8 +208,8 @@ class Map extends PureComponent {
   }
 
   componentDidMount() {
+    const dict = {};
     const width = this.wrapper.current.getBoundingClientRect().width;
-
     const height = width * 1.5
     const hexFc = this.props.geo ? geoGraphic : feature(hexTopo, hexTopo.objects.hexagons)
     const proj = geoMercator().fitSize([width, height], hexFc)
@@ -214,7 +226,9 @@ class Map extends PureComponent {
 
     this.setInputRef = node => this.input = node
 
+
     this.setState({
+      dict,
       width,
       proj,
       height,

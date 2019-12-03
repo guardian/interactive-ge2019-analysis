@@ -31,18 +31,26 @@
     // s
     
 .ge-slope-chart__label {
-    @include fs-textSans(2);
+    @include fs-textSans(3);
+    font-weight: bold;
+
     fill: #000;
-    text-anchor: middle;
+    text-anchor: start;
 } 
 
 .ge-slope-chart__num {
     @include fs-textSans(1);
-    font-size: 11px;
+    font-size: 12px;
     text-anchor: end;
     transform: translateY(3px);
 }
 
 .ge-slope-chart__num--right {
     text-anchor: start;
+}
+
+.slope-axis {
+    stroke: #dcdcdc;
+    stroke-width: 1px;
+    shapeRendering: crispEdges;
 }
