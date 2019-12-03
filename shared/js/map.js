@@ -145,7 +145,7 @@ class Map extends PureComponent {
     const labelStyle = {
       opacity: hovered ? 0 : 1
     }
-    console.log(hovered)
+
     return (
       <>
         {showKey ?
@@ -220,11 +220,15 @@ class Map extends PureComponent {
             {
               <g className='markers'>
                 {markers.map(m =>
-                  hovered && hovered.ons_id !== m.ons &&
+                  hovered ? hovered.ons_id !== m.ons &&
                   <g className='marker-g'>
                     <circle cx={m.x} cy={m.y} r={8} fill='#333'/>
                     <text dominant-baseline="central" className='gv-marker-text' x={m.x} y={m.y}>{m.n}</text>
-                  </g>
+                    </g> :
+                    <g className='marker-g'>
+                      <circle cx={m.x} cy={m.y} r={8} fill='#333' />
+                      <text dominant-baseline="central" className='gv-marker-text' x={m.x} y={m.y}>{m.n}</text>
+                    </g> 
                 )}
               </g>
             }
