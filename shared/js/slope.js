@@ -17,7 +17,15 @@ const cleanLabel = (l, m) => {
             accumulator.push(currentValue);
         }
         return accumulator
-    }, [""]);
+    }, [""]).filter(d => d !== "");
+
+    if(l === "Ashton-upon-Lyne") {
+        console.log(chunks)
+    }
+
+    if(chunks.length === 1 && chunks[0].length > 15) {
+        return [chunkString(l, 14)[0] + "..."]
+    }
 
     if(chunks.length > 2) {
         chunks[1] += "..."
@@ -77,12 +85,8 @@ const parseParties = (constituency, parties) => {
 
     const othersCollapsed = {
         party: 'oth',
-        "2017": (parsed.filter(p => !partiesToKeep.includes(p.party))).map(d => d["2017"])  .reduce(sum, 0),
-        "2019": (parsed.filter(p => !partiesToKeep.includes(p.party))).map(d => d["2019"])  .reduce(sum, 0),
-    }
-    if(constituency.name === "North Antrim") {
-        console.log(constituency)
-        console.log(parsed)
+        "2017": (parsed.filter(p => !partiesToKeep.includes(p.party))).map(d => d["2017"]).reduce(sum, 0),
+        "2019": (parsed.filter(p => !partiesToKeep.includes(p.party))).map(d => d["2019"]).reduce(sum, 0),
     }
 
     if(parsed.length - (parsed.filter(p => partiesToKeep.includes(p.party)).length) > 1) {
@@ -111,7 +115,7 @@ class Slope extends Component {
         const innerWidth = width - (2*padding)
         const innerHeight = height - (3*padding)
         const xScale = scaleLinear().domain([0, 1]).range([padding, width - padding]); 
-        const yScale = scaleLinear().domain([0, 0.9]).range([height - padding, padding*2]);
+        const yScale = scaleLinear().domain([0, this.props.maxY]).range([height - padding, padding*2]);
         const r = 5 * (width / 300);
 
         this.setState({ width, xScale, yScale, r, padding, innerWidth, innerHeight, height })

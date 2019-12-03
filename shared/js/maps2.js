@@ -46,7 +46,8 @@ class Maps extends Component {
           selectFeature={this.selectFeature}
           setHovered={this.setHovered}
           showKey={{ parseValue: parseValue, noData: true, shape: 'square' }}
-          resultsDict={dataDict} />
+          resultsDict={dataDict}
+          showRegionNames={true} />
         <Map
           shadeDemo={labVoteShareChange} 
           filters={[]}

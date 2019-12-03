@@ -53,6 +53,7 @@ const loadAndDraw = async() => {
         yMajorTicks={[0]} 
         regressionLine={true}
         markers={markers}
+        resultsDict={dataDict}
       />
     </Grid>,
     document.getElementById("interactive-slot-2")

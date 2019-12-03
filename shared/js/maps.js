@@ -60,7 +60,9 @@ class Maps extends Component {
           setHovered={this.setHovered}
           showKey={{ parseValue: parseValue, noData: true, shape: 'square' }}
           markers={this.props.markers}
-          resultsDict={dataDict} />
+          resultsDict={dataDict}
+          showRegionNames={true}
+           />
         <Map
           shadeDemo={labVoteShare} 
           filters={[]}

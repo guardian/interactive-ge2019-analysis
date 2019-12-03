@@ -3,6 +3,14 @@ const rp = require("request-promise")
 
 const calcChangeFor = [['y2017_share_lab', 'y2019poll_share_lab'], ['y2017_share_con', 'y2019poll_share_con'], ['y2017_share_ld', 'y2019poll_share_ld']]
 
+const demosToKeep = [
+    // 'name',
+    // 'ons_id',
+    // 'y2017_share_lab',
+    // 'y2019poll_share_lab',
+    // 'y2017_share_con'
+]
+
 const partyLookup = {
     "Lab Co-op" : "lab",
     "Lab": "lab",
@@ -82,7 +90,7 @@ Promise.all([
         let changes = {}
         calcChangeFor.forEach(f => {
             const keyName = 'change_' + f[0].split(/_(.+)/)[1]
-            if (d[f[0]] === 'NA' || d[f[1]] === 'NA' || isNaN(Number(d[f[0]])) || isNaN(Number(d[f[1]])) ) {
+            if (d[f[0]] == undefined || d[f[1]] == undefined || d[f[0]] === 'NA' || d[f[1]] === 'NA' || isNaN(Number(d[f[0]])) || isNaN(Number(d[f[1]])) ) {
                 changes[keyName] = 'NA'
             } else {
                 changes[keyName] = Number(d[f[1]]) - Number(d[f[0]])
@@ -91,6 +99,14 @@ Promise.all([
 
         return  Object.assign({}, d, changes)
     })
+    .map(d =>
+        Object.keys(d)
+            .filter(key => demosToKeep.length === 0 ? key: demosToKeep.includes(key))
+            .reduce((obj, key) => {
+                obj[key] = d[key]
+                return obj
+            }, {})
+    )
 
     fs.writeFileSync("./assets/data.json", JSON.stringify(allWithChange.filter(d => d.name !== 0)))
 });

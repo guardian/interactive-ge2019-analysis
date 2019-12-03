@@ -67,6 +67,6 @@
     transition: opacity 0.2s linear;
 }
 
-.marker-g:hover {
-    display: none;
+.marker-g {
+    pointer-events: none;
 }
