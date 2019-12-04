@@ -35,7 +35,8 @@ class DemoFilters extends Component {
   }
 
   applyFilters = () => {
-    this.props.filterData(parseFilters(this.props.data, this.state.filters))
+    // this.props.filterData(parseFilters(this.props.data, this.state.filters))
+    this.props.applyFilters(this.state.filters)
   }
 
 
