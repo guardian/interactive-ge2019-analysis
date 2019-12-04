@@ -3,7 +3,7 @@ import hexTopo from '../geo/hexagons.json'
 import regions from '../geo/regions_mesh.json'
 import regionNames from '../geo/region_names.json'
 // import geoGraphic from '../geo/geo_uk.json'
-import { hashPattern } from './util'
+import { hashPattern, parseFilters } from './util'
 import { geoMercator, geoPath, max, min } from 'd3'
 import { feature } from 'topojson'
 import Tooltip from './tooltip'
@@ -50,7 +50,7 @@ class Map extends PureComponent {
 
         this.props.setHovered(obj, { x: (c[0][0] + c[1][0]) / 2, y: c[0][1] }, f)
     } else {
-      this.props.setHovered(null, {x: 0, y: 0})
+      this.props.setHovered(null, { x: 0, y: 0 })
     }
 
   }
@@ -80,60 +80,7 @@ class Map extends PureComponent {
   }
 
   applyFilters = () => {
-    let results = this.props.results
-    const { filters } = this.props
-    let noData = []
-
-    filters.forEach(f => {
-
-      if (f.operator === 'top' || f.operator === 'bottom') {
-
-        const pick = results
-          .filter(r => {
-            if (r[f.demoType] === 'NA') noData.push(Object.assign({}, r, { noData: true }))
-
-            return isNaN(Number(r[f.demoType])) === false
-          })
-          .sort((a, b) => Number(a[f.demoType]) > Number(b[f.demoType]) ? -1 : 1)
-        results = f.operator === 'top' ? pick.slice(0, f.demoVal) : pick.slice(1).slice(- Number(f.demoVal))
-
-      }
-
-      results = results.filter(d => {
-        if (d[f.demoType] === 'NA') {
-          noData.push(Object.assign({}, d, { noData: true }))
-          return false
-        }
-        
-        if (f.operator === '<') {
-          return d[f.demoType] < f.demoVal
-        }
-        if (f.operator === '>') {
-          return d[f.demoType] > f.demoVal
-        }
-        if (f.operator === '!=') {
-
-          if (isNaN(Number(d[f.demoType]))) {
-            return d[f.demoType].toLowerCase() != f.demoVal.toLowerCase()
-          } else {
-            return d[f.demoType] != f.demoVal
-          }
-        }
-        if (f.operator === '==') {
-
-          if (isNaN(Number(d[f.demoType]))) {
-            return d[f.demoType].toLowerCase() == f.demoVal.toLowerCase()
-          } else {
-            return d[f.demoType] == f.demoVal
-          }
-        }
-        if (f.operator === 'top' || f.operator === 'bottom') {
-          return d
-        }
-      })
-    })
-
-    const filtered = results.filter(d => d.noData !== true).concat(noData)
+    const filtered = parseFilters(this.props.results, this.props.filters)
 
     this.setState({ filteredDict: toDict(filtered) })
   }

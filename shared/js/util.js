@@ -114,4 +114,64 @@ const toDict = arr => {
 	return out
 }
 
-export { $, $$, round, numberWithCommas, wait, getDimensions, hashPattern, duplicate, pseq, sum, ordinal, featureTest, supportsSticky, toDict }
+
+const parseFilters = (data, filters) => {
+
+	let results = data
+	let noData = []
+
+	filters.forEach(f => {
+
+		if (f.operator === 'top' || f.operator === 'bottom') {
+
+			const pick = results
+				.filter(r => {
+					if (r[f.demoType] === 'NA') noData.push(Object.assign({}, r, { noData: true }))
+
+					return isNaN(Number(r[f.demoType])) === false
+				})
+				.sort((a, b) => Number(a[f.demoType]) > Number(b[f.demoType]) ? -1 : 1)
+			results = f.operator === 'top' ? pick.slice(0, f.demoVal) : pick.slice(1).slice(- Number(f.demoVal))
+
+		}
+
+		results = results.filter(d => {
+			if (d[f.demoType] === 'NA') {
+				noData.push(Object.assign({}, d, { noData: true }))
+				return false
+			}
+
+			if (f.operator === '<') {
+				return d[f.demoType] < f.demoVal
+			}
+			if (f.operator === '>') {
+				return d[f.demoType] > f.demoVal
+			}
+			if (f.operator === '!=') {
+
+				if (isNaN(Number(d[f.demoType]))) {
+					return d[f.demoType].toLowerCase() != f.demoVal.toLowerCase()
+				} else {
+					return d[f.demoType] != f.demoVal
+				}
+			}
+			if (f.operator === '==') {
+
+				if (isNaN(Number(d[f.demoType]))) {
+					return d[f.demoType].toLowerCase() == f.demoVal.toLowerCase()
+				} else {
+					return d[f.demoType] == f.demoVal
+				}
+			}
+			if (f.operator === 'top' || f.operator === 'bottom') {
+				return d
+			}
+		})
+	})
+
+	const filteredData = results.filter(d => d.noData !== true).concat(noData)
+
+	return filteredData
+}
+
+export { $, $$, round, numberWithCommas, wait, getDimensions, hashPattern, duplicate, pseq, sum, ordinal, featureTest, supportsSticky, toDict, parseFilters }
