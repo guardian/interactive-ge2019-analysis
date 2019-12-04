@@ -215,7 +215,7 @@ class Map extends PureComponent {
 
   async componentDidMount() {
     const width = this.wrapper.current.getBoundingClientRect().width;
-    const _geoGraphicTopo = await fetch("<%= path %>/wpc.json");
+    const _geoGraphicTopo = await fetch("<%= path %>/wpc_simp.json");
     const geoGraphicTopo = await _geoGraphicTopo.json();
     const geoGraphic = topojson.feature(geoGraphicTopo, "wpc");
     console.log(geoGraphic)

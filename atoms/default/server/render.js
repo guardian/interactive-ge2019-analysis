@@ -1,3 +1,4 @@
 export async function render() {
-    return ``
+    console.log("fdfd")
+    return `<div id="map"></div>` 
 }

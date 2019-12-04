@@ -100,7 +100,7 @@ const loadAndDraw = async() => {
 
   // render(<Grid labels={["Map one", "Map two", "Map three", "Map four"]} items={[<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />]}/>, document.querySelector(".interactive-wrapper"));
   render(<Maps markers={[]} data={data} dataDict={dataDict} />,
-    document.getElementById("interactive-slot-1")
+    document.getElementById("map")
   )
 
   });
