@@ -111,11 +111,11 @@ class Slope extends Component {
 
     resize = (width) => {
         const padding = 24
-        const height = width * 1.75; 
+        const height = width * 1.25;  
         const innerWidth = width - (2*padding)
-        const innerHeight = height - (3*padding)
+        const innerHeight = height
         const xScale = scaleLinear().domain([0, 1]).range([padding, width - padding]); 
-        const yScale = scaleLinear().domain([0, this.props.maxY]).range([height - padding, padding*2]);
+        const yScale = scaleLinear().domain([0, this.props.maxY]).range([height, 0]);
         const r = 5 * (width / 300);
 
         this.setState({ width, xScale, yScale, r, padding, innerWidth, innerHeight, height })
@@ -128,19 +128,16 @@ class Slope extends Component {
             <div class={`ge-slope-chart`} ref={this.wrapper}>
                 {xScale && yScale && 
                     <svg id={label} width={width} height={height}>
-                        {cleanLabel(label).map((t, i) =>
-                            <text className="ge-slope-chart__label" x={5} y={18+(i*18)}>{t}</text>
-                        )}
-                        {
+                        {/* {
                             marker &&
                             <g>
                                 <circle cx={width - 10} cy={10} r={8} fill='#333' />
                                 <text x={width - 10} y={10} dominant-baseline="central" className='gv-marker-text'>{marker.n}</text>
                             </g>
-                        }
+                        } */} 
                         {/* <rect width={innerWidth} y={padding*2} x={padding} height={innerHeight} class={`ge-fill--${winner}`} fillOpacity={winner ? 0.05 : 0}></rect>  */}
-                        <line className="slope-axis" x1={padding} x2={padding} y1={padding*2} y2={innerHeight + padding*2}></line>
-                        <line className="slope-axis" x1={width - padding} x2={width - padding} y1={padding*2} y2={innerHeight + padding*2}></line>
+                        <line className="slope-axis" x1={padding} x2={padding} y1={0} y2={innerHeight}></line>
+                        <line className="slope-axis" x1={width - padding} x2={width - padding} y1={0} y2={innerHeight}></line>
                             {data.reverse().slice(0, 30).map((d,i) => 
                                 <g key={`${d.ons_id}-` + i}>
                                     <line className={`ge-slope-chart__line ge-stroke--${d.party}`} x1={xScale(0) + r} x2={xScale(1) - r} y1={yScale(d["2017"])} y2={yScale(d["2019"])}></line>

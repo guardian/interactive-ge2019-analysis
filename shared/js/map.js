@@ -50,7 +50,7 @@ class Map extends PureComponent {
 
         this.props.setHovered(obj, { x: (c[0][0] + c[1][0]) / 2, y: c[0][1] }, f)
     } else {
-      this.props.setHovered(null)
+      this.props.setHovered(null, {x: 0, y: 0})
     }
 
   }

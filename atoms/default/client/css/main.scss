@@ -24,3 +24,27 @@
     // pointer-events: none;
     cursor: pointer;
 }
+
+.ge-demographic-filters {
+    display: none !important;
+}
+
+sup {
+    vertical-align: baseline;
+    display: inline-block;
+    background-color: #000;
+    border-radius: 30px;
+    color: #fff;
+    @include fs-textSans(2);
+    height: 24px;
+    width: 24px;
+    position: relative;
+    top: 0;
+    font-weight: bold;
+    text-align: center;
+    margin-right: 5px;
+    margin-left: 5px;
+    transform: translateY(-3px);
+    padding-top: 2px;
+    box-sizing: border-box;
+}

@@ -196,10 +196,13 @@ const upload = () => {
           atomPath : `${cdnUrl}/${s3Path}/${atom}/${version}`
         }))
         .pipe(s3Upload('max-age=31536000', `${s3Path}/${atom}/${version}`))
-        .pipe(file('config.json', JSON.stringify(atomConfig)))
-        .pipe(file('preview', version))
-        .pipe(live ? file('live', version) : gutil.noop())
-        .pipe(s3Upload('max-age=30', `${s3Path}/${atom}`))
+        .on("end", (cb) => 
+          file('config.json', JSON.stringify(atomConfig))
+          .pipe(file('preview', version))
+          .pipe(live ? file('live', version) : gutil.noop())
+          .pipe(s3Upload('max-age=30', `${s3Path}/${atom}`))
+          .on("end", () => cb())
+        )
   });
 
   uploadTasks.push(
