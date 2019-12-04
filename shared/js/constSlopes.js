@@ -11,9 +11,9 @@ class ConstSlopes extends Component {
     filters: this.props.filters
   }
 
-  applyFilters = () => {
+  applyFilters = (externalFilters) => {
     // this.props.filterData(results.filter(d => d.noData !== true).concat(noData))
-    const filteredData = parseFilters(this.props.data, this.state.filters)
+    const filteredData = externalFilters ? parseFilters(this.props.data, externalFilters) : parseFilters(this.props.data, this.state.filters)
     this.setState({ filteredData })
   }
 
@@ -26,7 +26,7 @@ class ConstSlopes extends Component {
     const maxY = max(filteredData, d => Math.max(d.y2017_share_lab, d.y2017_share_con, d.y2017_share_ld, d.y2019_share_lab, d.y2019_share_con, d.y2019_share_ld));
     return(
       <>
-        <DemoFilters filters={filters} filterData={(filteredData, filters) => this.setState({ filteredData, filters })} data={this.props.data} />
+        <DemoFilters filters={filters} applyFilters={(externalFilters) => this.applyFilters(externalFilters)} data={this.props.data} />
         <Grid keyName='conslope' classes='ge-grid--slope' labels={filteredData.map(d => d.name)}>
           {filteredData.map((d, i) => <Slope data={d} maxY={maxY} label={d.name} marker={this.props.markers.find(m => m.ons === d.ons_id)} isConstituency={true} key={'conslope' + '-slope-' + i} />)}
         </Grid>

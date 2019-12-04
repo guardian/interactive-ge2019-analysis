@@ -79,8 +79,8 @@ class Map extends PureComponent {
     this.setState({ colorScale, colors, domain })
   }
 
-  applyFilters = () => {
-    const filtered = parseFilters(this.props.results, this.props.filters)
+  applyFilters = (externalFilters) => {
+    const filtered = externalFilters ? parseFilters(this.props.results, externalFilters) : parseFilters(this.props.results, this.props.filters)
 
     this.setState({ filteredDict: toDict(filtered) })
   }
@@ -193,7 +193,7 @@ class Map extends PureComponent {
             }
           </svg>
         </div>
-        <DemoFilters filters={filters} filterData={filtered => this.setState({ filteredDict: toDict(filtered) })} data={results} />
+        <DemoFilters filters={filters} applyFilters={(externalFilters) => this.applyFilters(externalFilters)} data={results} />
       </>
     )
   }
