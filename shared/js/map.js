@@ -1,8 +1,8 @@
 import React, { PureComponent, createRef } from 'react'
+import * as topojson from "topojson-client";
 import hexTopo from '../geo/hexagons.json'
 import regions from '../geo/regions_mesh.json'
 import regionNames from '../geo/region_names.json'
-import geoGraphic from '../geo/geo_uk.json'
 import { hashPattern } from './util'
 import { geoMercator, geoPath, max, min } from 'd3'
 import { feature } from 'topojson'
@@ -20,7 +20,7 @@ class Map extends PureComponent {
     super(props)
     const width = 100
     const height = width * 1.5
-    const hexFc = props.geo ? geoGraphic : feature(hexTopo, hexTopo.objects.hexagons)
+    const hexFc = props.geo ? feature(hexTopo, hexTopo.objects.hexagons) : feature(hexTopo, hexTopo.objects.hexagons)
     const proj = geoMercator().fitSize([width, height], hexFc)
     const path = geoPath().projection(proj)
 
@@ -213,9 +213,12 @@ class Map extends PureComponent {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const width = this.wrapper.current.getBoundingClientRect().width;
-
+    const _geoGraphicTopo = await fetch("<%= path %>/wpc.json");
+    const geoGraphicTopo = await _geoGraphicTopo.json();
+    const geoGraphic = topojson.feature(geoGraphicTopo, "wpc");
+    console.log(geoGraphic)
     const height = width * 1.5
     const hexFc = this.props.geo ? geoGraphic : feature(hexTopo, hexTopo.objects.hexagons)
     const proj = geoMercator().fitSize([width, height], hexFc)
