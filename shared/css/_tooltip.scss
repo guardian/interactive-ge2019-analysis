@@ -9,10 +9,12 @@
     pointer-events: none;
     user-select: none;
 
-    max-width: 150px;
+    // max-width: 250px;
 
-    display: inline-block;
+    // display: inline-block;
+    display: flex;
     pointer-events: none;
+    z-index: 99999999;
     // background: white;
 }
 
@@ -20,6 +22,15 @@
     @include fs-header(1);
     font-size: 15px;
     line-height: 19px;
-    display: inline-block;
+    // display: inline-block;
     margin: 0;
+    // min-width: 150px;
+}
+
+.ge-tt__demog {
+    // display: inline !important;
+}
+
+.ge-tt__winner {
+    @include fs-textSans(1);
 }

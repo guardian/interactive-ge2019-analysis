@@ -98,7 +98,7 @@ class Map extends PureComponent {
   }
 
   render() {
-    const { geo, shadeDemo, hovered, ttCoords, selectedFeature, results, filters, showKey, showRegionNames } = this.props
+    const { geo, shadeDemo, hovered, ttCoords, selectedFeature, results, filters, showKey, showRegionNames, ttString, titleLabel } = this.props
     const { width, height, path, hexFc, colorScale, proj, showTooltip, filteredDict, colors, domain, markers } = this.state
     
     const labelStyle = {
@@ -120,7 +120,7 @@ class Map extends PureComponent {
         }
         <div className='ge-map__inner' ref={this.wrapper}>
 
-          {showTooltip && <Tooltip constituency={hovered} x={ttCoords.x} y={ttCoords.y} />}
+          {showTooltip && <Tooltip constituency={hovered} x={ttCoords?.x} y={ttCoords?.y} selectedDemo={shadeDemo ?.selectedDemo} ttString={ttString ? ttString(titleLabel, hovered?.[shadeDemo?.selectedDemo]) : null} />}
           <svg onMouseEnter={() => this.toggleTooltip(true)} onMouseLeave={() => {this.toggleTooltip(false); this.hover(null); this.props.selectFeature(null)}} className='ge-map' height={height} width={width}>
             <defs dangerouslySetInnerHTML={{ __html: pattern }}></defs>
             {

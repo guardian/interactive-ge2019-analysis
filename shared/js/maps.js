@@ -20,6 +20,9 @@ const snpVoteShare = { selectedDemo: 'y2019poll_share_snp', scaleColors: ['white
 const turnoutChange = { selectedDemo: 'change_turnout_percent', scaleColors: ['blue', 'white', 'green'], outOfScaleColor: [], shiftFirstColor: false, steps: 6, customClasses: [-0.15, -0.1, -0.05, 0, 0.05, 0.1, 0.15] }
 
 
+const labels = ["Conservative vote share", 'Lab vote share', 'LD vote share', "Green vote share"]
+
+
 const pc = (a) => Math.round(a*100)
 
 
@@ -28,6 +31,9 @@ const parseValue = (a, b, pos) => {
   if (pos === 'last') return `> ${pc(a)}%`
   return `${pc(a)} - ${pc(b)}%`
 }
+
+
+const parseVoteShare = (string, value) => `${!isNaN(value) ? (Number(value) * 100).toFixed(2) + '%' : 'NA'}`
 
 
 class Maps extends Component {
@@ -40,13 +46,12 @@ class Maps extends Component {
   setHovered = (hovered, ttCoords, selectedFeature) => this.setState({ hovered, ttCoords, selectedFeature })
   selectFeature = selectedFeature => this.setState({ selectedFeature })
 
-
   render() {
     const { selectedFeature, ttCoords, hovered } = this.state
     const { data, dataDict } = this.props
 
     return (
-      <Grid keyName='maps' classes='ge-grid--300' labels={["Conservative vote share", 'Lab vote share', 'LD vote share', "Green vote share"]}>
+      <Grid keyName='maps' classes='ge-grid--300' labels={labels}>
         {/* unique key here?*/}
         <Map
           shadeDemo={conVoteShare} 
@@ -62,6 +67,8 @@ class Maps extends Component {
           markers={this.props.markers}
           resultsDict={dataDict}
           showRegionNames={true}
+          ttString={parseVoteShare}
+          titleLabel={labels[0]}
            />
         <Map
           shadeDemo={labVoteShare} 
@@ -75,7 +82,9 @@ class Maps extends Component {
           setHovered={this.setHovered}
           showKey={{ parseValue: parseValue, noData: true, shape: 'square' }}
           markers={[]}
-          resultsDict={dataDict} />
+          resultsDict={dataDict}
+          ttString={parseVoteShare}
+          titleLabel={labels[1]} />
         <Map
           shadeDemo={ldVoteShare} 
           filters={[]}
@@ -88,7 +97,9 @@ class Maps extends Component {
           setHovered={this.setHovered}
           showKey={{ parseValue: parseValue, noData: true, shape: 'square' }}
           markers={[]}
-          resultsDict={dataDict} />
+          resultsDict={dataDict}
+          ttString={parseVoteShare}
+          titleLabel={labels[2]} />
         <Map
           shadeDemo={snpVoteShare} 
           filters={[]}
@@ -101,7 +112,9 @@ class Maps extends Component {
           setHovered={this.setHovered}
           markers={[]}
           showKey={{ parseValue: parseValue, noData: true, shape: 'square' }}
-          resultsDict={dataDict} />
+          resultsDict={dataDict}
+          ttString={parseVoteShare}
+          titleLabel={labels[3]} />
       </Grid>
     )
   }
