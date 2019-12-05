@@ -189,7 +189,7 @@ a, .u-fauxlink {
     .element--immersive {
     	max-width: initial;
       margin-bottom: 24px !important;
-      font-size: 0;
+      // font-size: 0;
 
         @include mq(leftCol) {
           width: 1140px;

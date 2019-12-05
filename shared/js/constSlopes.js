@@ -11,9 +11,9 @@ class ConstSlopes extends Component {
     filters: this.props.filters
   }
 
-  applyFilters = () => {
+  applyFilters = (externalFilters) => {
     // this.props.filterData(results.filter(d => d.noData !== true).concat(noData))
-    const filteredData = parseFilters(this.props.data, this.state.filters)
+    const filteredData = externalFilters ? parseFilters(this.props.data, externalFilters) : parseFilters(this.props.data, this.state.filters)
     this.setState({ filteredData })
   }
 
@@ -26,7 +26,7 @@ class ConstSlopes extends Component {
     const maxY = max(filteredData, d => Math.max(d.y2017_share_lab, d.y2017_share_con, d.y2017_share_ld, d.y2019_share_lab, d.y2019_share_con, d.y2019_share_ld));
     return(
       <>
-        <DemoFilters filters={filters} filterData={(filteredData, filters) => this.setState({ filteredData, filters })} data={this.props.data} />
+        <DemoFilters filters={filters} applyFilters={(externalFilters) => this.applyFilters(externalFilters)} data={this.props.data} />
         <div class="ge-party-key">
             <div class="ge-party-key__party ge-party-key__party--con">Con</div>
             <div class="ge-party-key__party ge-party-key__party--lab">Lab</div>

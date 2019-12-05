@@ -43,7 +43,7 @@ const loadAndDraw = async() => {
   )
   render(<Grid keyName='scat' labels={["Scatter one"]}>
      <Scatter
-        // filters={scatFilters}
+        filters={[]}
         data={data}
         xDomain={[0, 1]}
         xTicks={[0, 0.5, 1]}
