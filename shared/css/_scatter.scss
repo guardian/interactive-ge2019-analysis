@@ -86,3 +86,10 @@
     // paint-order: stroke;
     stroke-width: 2px;
 }
+
+.ge-scatter-voronoi {
+    fill: none;
+    stroke: none;
+    pointer-events: all;
+    cursor: pointer;
+}
