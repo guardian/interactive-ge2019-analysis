@@ -2,6 +2,7 @@ import React, { PureComponent, createRef } from 'react'
 import hexTopo from '../geo/hexagons.json'
 import regions from '../geo/regions_mesh.json'
 import regionNames from '../geo/region_names.json'
+import regionOutline from '../geo/carto_dissolved.json'
 // import geoGraphic from '../geo/geo_uk.json'
 import { hashPattern, parseFilters } from './util'
 import { geoMercator, geoPath, max, min } from 'd3'
@@ -135,6 +136,15 @@ class Map extends PureComponent {
                   style={{ fill: colorScale ? colorScale(thisConst[shadeDemo.selectedDemo]).hex() : 'initial'}}
                   onMouseEnter={() => this.hover(f)}
                   // onClick={() => this.select(f)}
+                />
+              })
+            }
+            {!geo && 
+              regionOutline.features.map((f, i) => {
+                return <path
+                  key={'pregion-'+i}
+                  d={path(f)}
+                  style={{ fill: 'none', stroke: '#333'}}
                 />
               })
             }

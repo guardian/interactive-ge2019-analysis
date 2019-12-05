@@ -23,11 +23,10 @@ const markers = [
 ]
 
 const scatFilters = [{ "id": 1574937668187, "demoType": "brexit_leave", "operator": "top", "demoVal": "20" }]
+
 const scatMarkers = [
   { n: 1, ons: 'E14000577'}
 ]
-
-
 
 const loadAndDraw = async() => {
     const dataRequest = await fetch("<%= path %>/data.json")
@@ -46,15 +45,15 @@ const loadAndDraw = async() => {
      <Scatter
         filters={[]}
         data={data}
-        xDomain={[0, 650]}
-        xTicks={[0,200,400, 600]}
-        yTicks={[-0.2, -0.1, 0, 0.1, 0.2]}
-        yDomain={[-0.3, 0.24]}
+        xDomain={[0, 1]}
+        xTicks={[0, 0.5, 1]}
+        yTicks={[0, 0.25, 0.5, 0.75]}
+        yDomain={[0, 0.85]}
         heightWidthRatio={1}
-        x="deprivation_rank"
-        y="change_share_lab"
-        xLabel="Less deprived ▶"
-        yLabel="Change in Lab vote (2017-2019) ▲"
+        x="brexit_leave"
+        y="y2019poll_share_con"
+        xLabel="Brexit leave vote share (%) ⟶"
+        yLabel="Conservative vote share, 2019 (%) ↑"
         // xTickTransform={(d) => Math.round(d*100) + "%"}
         yTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}
         xMajorTicks={[0]}
@@ -93,6 +92,7 @@ const loadAndDraw = async() => {
     markers={markers} 
     // filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} 
     keyName='slopes'
+    parties={["con", "lab", "ld", "bxp"]}
     itemClasses="ge-grid--slope"
     data={data} />, document.getElementById("interactive-slot-3")
   )
