@@ -62,7 +62,7 @@ const position = (_data, yScale) => {
 
 const sum = (a, b) => a + b
  
-const parseParties = (constituency, parties) => {
+const parseParties = (constituency, parties, partiesToKeep) => {
     const parsed = parties.map(p => {
         if (!constituency[`y2017_share_${p}`]) {
             return {
@@ -79,9 +79,7 @@ const parseParties = (constituency, parties) => {
                 2019: constituency[`y2019poll_share_${p}`] || 0
             }
         }
-    }).filter(p => isNaN(p['2017']) === false && isNaN(p['2019']) === false).filter(p => p["2017"] !== 0 || p["2019"] !== 0).sort(sort2019)
-
-    const partiesToKeep = parsed.filter((p, i) => i < 3 || p["2017"] >= 0.1 || p["2019"] >= 0.1).map(d => d.party);
+    }).filter(p => isNaN(p['2017']) === false && isNaN(p['2019']) === false).filter(p => p["2017"] !== 0 || p["2019"] !== 0).sort(sort2019);
 
     const othersCollapsed = {
         party: 'oth',
@@ -89,7 +87,7 @@ const parseParties = (constituency, parties) => {
         "2019": (parsed.filter(p => !partiesToKeep.includes(p.party))).map(d => d["2019"]).reduce(sum, 0),
     }
 
-    if(parsed.length - (parsed.filter(p => partiesToKeep.includes(p.party)).length) > 1) {
+    if(othersCollapsed["2017"] !== 0 || othersCollapsed["2019"] !== 0) {
         return (parsed.filter(p => partiesToKeep.includes(p.party)).concat([othersCollapsed])).reverse();
     } else {
         return parsed;
@@ -101,10 +99,11 @@ class Slope extends Component {
     
     constructor(props) {
         super(props)
+
         this.state = {
             width: 200,
             innerWidth: 160,
-            data: props.isConstituency ? parseParties(props.data, parties) : props.data,
+            data: props.isConstituency ? parseParties(props.data, parties, props.parties) : props.data,
             winner: props.isConstituency ? props.data.y2017_winner : null
         }
     }
