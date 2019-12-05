@@ -148,10 +148,33 @@ a, .u-fauxlink {
     	font-size: 28px;
     	line-height: 1.2;
     	font-weight: 700;
+      margin-top: 24px;
     	color: #333;
-    	margin-top: 36px;
+    	margin-top: 72px;
     	margin-bottom: 6px;
       margin-bottom: 36px;
+
+      padding-left: 10px;
+      border-bottom: 1px solid #dcdcdc;
+      transform: translateX(-10px);
+      padding-bottom: 24px;
+      padding-right: 200px;
+      box-sizing: border-box;
+      max-width: 630px !important;
+
+      &::after {
+        content: "";
+        display: block;
+        width: 180px;
+        height: 200px;
+        background-image: url("<%= path %>/corbyn.svg");
+        background-repeat: no-repeat;
+        background-position: bottom;
+        background-size: contain;
+        position: absolute;
+        right: 0;
+        bottom: 1px;
+      }
 
       @include mq($until: desktop) {
         font-size: 24px;

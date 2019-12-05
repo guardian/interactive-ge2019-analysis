@@ -43,17 +43,17 @@ const loadAndDraw = async() => {
   )
   render(<Grid keyName='scat' labels={["Scatter one"]}>
      <Scatter
-        filters={scatFilters}
+        // filters={scatFilters}
         data={data}
-        xDomain={[0, 650]}
-        xTicks={[0,200,400, 600]}
-        yTicks={[-0.2, -0.1, 0, 0.1, 0.2]}
-        yDomain={[-0.3, 0.24]}
+        xDomain={[0, 1]}
+        xTicks={[0, 0.5, 1]}
+        yTicks={[0, 0.25, 0.5, 0.75, 1]}
+        yDomain={[0, 1]}
         heightWidthRatio={1}
-        x="deprivation_rank"
-        y="change_share_lab"
-        xLabel="Less deprived ▶"
-        yLabel="Change in Lab vote (2017-2019) ▲"
+        x="brexit_leave"
+        y="y2019poll_share_con"
+        xLabel="Brexit leave ▶"
+        yLabel="Con vote share ▲"
         // xTickTransform={(d) => Math.round(d*100) + "%"}
         yTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}
         xMajorTicks={[0]}
