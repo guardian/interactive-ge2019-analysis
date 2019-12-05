@@ -87,7 +87,7 @@
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
     }
 
-    h3 {
+    .ge-grid__item > h3 {
         @include fs-textSans(3);
         font-weight: bold;
         vertical-align: top;

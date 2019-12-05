@@ -47,13 +47,13 @@ const loadAndDraw = async() => {
         data={data}
         xDomain={[0, 1]}
         xTicks={[0, 0.5, 1]}
-        yTicks={[0, 0.25, 0.5, 0.75, 1]}
-        yDomain={[0, 1]}
+        yTicks={[0, 0.25, 0.5, 0.75]}
+        yDomain={[0, 0.85]}
         heightWidthRatio={1}
         x="brexit_leave"
         y="y2019poll_share_con"
-        xLabel="Brexit leave ▶"
-        yLabel="Con vote share ▲"
+        xLabel="Brexit leave vote share (%) ⟶"
+        yLabel="Conservative vote share, 2019 (%) ↑"
         // xTickTransform={(d) => Math.round(d*100) + "%"}
         yTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}
         xMajorTicks={[0]}
