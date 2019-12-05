@@ -50,7 +50,7 @@ const loadAndDraw = async() => {
   
   Promise.all([
       d3.json("https://interactive.guim.co.uk/docsdata-test/1wFmbda8IrBSCK2iVaLLWYhik5FBGNLZaTa4RJKkJkwE.json"),
-      d3.json("https://interactive.guim.co.uk/2019/12/ukelection2019-data/niko/snap/full.json")
+      d3.json("https://interactive.guim.co.uk/2019/12/ukelection2019-data/prod/snap/full.json")
   ]).then(dl => {
       const full = dl[1]
       const allDemographicData = dl[0].sheets.data

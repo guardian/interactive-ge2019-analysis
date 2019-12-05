@@ -163,7 +163,7 @@ class Map extends PureComponent {
               hexFc.features.map((f, i) => {
                 const thisConst = filteredDict[f.properties.constituency] || {}
                 const party = (thisConst.y2019_winner || 'undeclared').toLowerCase().replace(/\s/g, '')
-                
+                console.log(f.properties.constituency, party);
                 return <path
                   key={'pconst-'+i}
                   id={thisConst.name}
@@ -218,7 +218,6 @@ class Map extends PureComponent {
     const _geoGraphicTopo = await fetch("<%= path %>/wpc_simp.json");
     const geoGraphicTopo = await _geoGraphicTopo.json();
     const geoGraphic = topojson.feature(geoGraphicTopo, "wpc");
-    console.log(geoGraphic)
     const height = width * 1.5
     const hexFc = this.props.geo ? geoGraphic : feature(hexTopo, hexTopo.objects.hexagons)
     const proj = geoMercator().fitSize([width, height], hexFc)
