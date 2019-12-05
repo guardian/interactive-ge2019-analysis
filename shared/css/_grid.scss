@@ -15,6 +15,16 @@
     h3 {
         display: block;
         @include fs-header(2);
+        margin-bottom: 10px;
+    }
+
+    .ge-grid__item:not(:first-of-type) {
+        h3 {
+            @include mq(tablet) {
+                border-left: 1px solid #dcdcdc;
+                padding-left: 10px;
+            }
+        }
     }
 
     h4 {
@@ -85,6 +95,7 @@
         height: 42px;
         margin-top: 2px;
         overflow: hidden;
+        margin-bottom: 0;
         width: 100%;
         display: -webkit-box;
         -webkit-line-clamp: 2;
@@ -93,6 +104,8 @@
         text-overflow: ellipsis;
         padding-right: 5px;
         box-sizing: border-box;
+        padding-left: 0 !important;
+        border-left: 0 !important;
 
         &.has-marker {
             &::before {

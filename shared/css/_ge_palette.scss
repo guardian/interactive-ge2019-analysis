@@ -55,4 +55,10 @@ other $other;
     .ge-color--#{nth($colour, 1)} {
         color: nth($colour, 2) !important;
     }
+
+    .ge-party-key__party--#{nth($colour, 1)} {
+        &::before {
+            background-color: nth($colour, 2) !important;
+        }
+    }
 }

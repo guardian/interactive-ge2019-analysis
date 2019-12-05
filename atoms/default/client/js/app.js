@@ -23,11 +23,10 @@ const markers = [
 ]
 
 const scatFilters = [{ "id": 1574937668187, "demoType": "brexit_leave", "operator": "top", "demoVal": "20" }]
+
 const scatMarkers = [
   { n: 1, ons: 'E14000577'}
 ]
-
-
 
 const loadAndDraw = async() => {
     const dataRequest = await fetch("<%= path %>/data.json")

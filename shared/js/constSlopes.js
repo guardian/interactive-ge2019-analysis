@@ -27,6 +27,16 @@ class ConstSlopes extends Component {
     return(
       <>
         <DemoFilters filters={filters} filterData={(filteredData, filters) => this.setState({ filteredData, filters })} data={this.props.data} />
+        <div class="ge-party-key">
+            <div class="ge-party-key__party ge-party-key__party--con">Con</div>
+            <div class="ge-party-key__party ge-party-key__party--lab">Lab</div>
+            <div class="ge-party-key__party ge-party-key__party--ld">Lib Dem</div>
+            <div class="ge-party-key__party ge-party-key__party--bxp">Brexit</div>
+            <div class="ge-party-key__party ge-party-key__party--ukip">Ukip</div>
+            <div class="ge-party-key__party ge-party-key__party--green">Green</div>
+            <div class="ge-party-key__party ge-party-key__party--snp">SNP</div>
+            <div class="ge-party-key__party ge-party-key__party--other">Other parties</div>
+          </div>
         <Grid keyName='conslope' classes='ge-grid--slope' labels={filteredData.map(d => d.name)}>
           {filteredData.map((d, i) => <Slope data={d} maxY={maxY} label={d.name} marker={this.props.markers.find(m => m.ons === d.ons_id)} isConstituency={true} key={'conslope' + '-slope-' + i} />)}
         </Grid>
