@@ -12,14 +12,14 @@
     align-items: flex-end;
     position: relative;
 
-    h3 {
+    .ge-grid__item > h3 {
         display: block;
         @include fs-header(2);
         margin-bottom: 10px;
     }
 
     .ge-grid__item:not(:first-of-type) {
-        h3 {
+        > h3 {
             @include mq(tablet) {
                 border-left: 1px solid #dcdcdc;
                 padding-left: 10px;
