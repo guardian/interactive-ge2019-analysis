@@ -100,7 +100,7 @@ class Scatter extends Component {
                     {filteredData.map(d => {
                         const cx = xScale(d[x])
                         const cy = yScale(d[y])
-                        return <circle id={`${d.ons_id}`} cx={cx} cy={cy} r={r} className={`ge-fill--${d["y2017_winner"]} ge-stroke--${d["y2017_winner"]}`} />
+                        return <circle id={`${d.ons_id}`} cx={cx} cy={cy} r={r} className={`ge-fill--${d["y2017_winner"].toLowerCase()} ge-stroke--${d["y2017_winner"].toLowerCase()}`} />
                     })}
                 </g>
                 {regressionLine && 
@@ -115,7 +115,7 @@ class Scatter extends Component {
                         const cy = yScale(d[y])
                         return (
                             <g>
-                                <circle id={`${d.ons_id}`} cx={cx} cy={cy} r={r * 2.5} className={`ge-scatter-marker ge-fill--${d["y2017_winner"]} ge-stroke--${d["y2017_winner"]}`}></circle>
+                                <circle id={`${d.ons_id}`} cx={cx} cy={cy} r={r * 2.5} className={`ge-scatter-marker ge-fill--${d["y2017_winner"].toLowerCase()} ge-stroke--${d["y2017_winner"].toLowerCase()}`}></circle>
                                 <text x={cx} y={cy} class='gv-marker-text' dominant-baseline="central" >{d.marker}</text>
                             </g>
                         )
