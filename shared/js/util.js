@@ -126,7 +126,7 @@ const parseFilters = (data, filters) => {
 
 			const pick = results
 				.filter(r => {
-					if (r[f.demoType] === 'NA') noData.push(Object.assign({}, r, { noData: true }))
+					if (isNaN(r[f.demoType])) noData.push(Object.assign({}, r, { noData: true }))
 
 					return isNaN(Number(r[f.demoType])) === false
 				})
@@ -136,7 +136,7 @@ const parseFilters = (data, filters) => {
 		}
 
 		results = results.filter(d => {
-			if (d[f.demoType] === 'NA') {
+			if (isNaN(d[f.demoType])) {
 				noData.push(Object.assign({}, d, { noData: true }))
 				return false
 			}

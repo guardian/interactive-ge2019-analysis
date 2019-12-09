@@ -129,13 +129,15 @@ class Map extends PureComponent {
                 const thisConst = filteredDict[f.properties.constituency] || {}
                 const party = (thisConst.y2019_winner || 'filtered').toLowerCase().replace(/\s/g, '')
                 
+                thisConst.ons_id === 'N06000004' && console.log(thisConst)
+
                 return <path
                   key={'pconst-'+i}
                   d={this.getPath(f, path)}
                   className={shadeDemo ? 
-                    `ge-const ${thisConst[shadeDemo.selectedDemo] === 'NA' ? 'ge-const--nodata' : ''}` :
+                    `ge-const ${isNaN(thisConst[shadeDemo.selectedDemo]) ? 'ge-const--nodata' : ''}` :
                     `ge-const ge-fill--${party} ${thisConst.noData ? 'ge-const--nodata' : ''}`}
-                  style={{ fill: colorScale ? colorScale(thisConst[shadeDemo.selectedDemo]).hex() : '#dcdcdc'}}
+                  style={{ fill: colorScale ? colorScale(thisConst[shadeDemo.selectedDemo]).hex() : '#eaeaea'}}
                   onMouseEnter={() => this.hover(f)}
                   // onClick={() => this.select(f)}
                 />
