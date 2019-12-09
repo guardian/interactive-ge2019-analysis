@@ -93,3 +93,16 @@
     pointer-events: all;
     cursor: pointer;
 }
+
+.ge-scatter-trend {
+    @include fs-textSans(3);
+    text-anchor: start;
+
+    pointer-events: none;
+
+    &.ge-scatter-trend--white {
+      fill: none;
+      stroke: white;
+      stroke-width: 3;
+    }
+}

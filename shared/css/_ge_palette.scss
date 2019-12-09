@@ -15,8 +15,9 @@ $tig: #333333;
 $plaid: #478e39; 
 $sinnfein: #236925; 
 $brexit: #13bece;
-$ind: #767676;
+$ind: #bdbdbd;
 $other: #bdbdbd;
+$filtered: #eaeaea;
 
 $colours: ld $libdem,
 libdem $libdem,
@@ -37,6 +38,7 @@ oth $other,
 sf $sinnfein,
 uup $uup,
 undeclared $undeclared,
+filtered $filtered,
 other $other;
 
 @each $colour in $colours {

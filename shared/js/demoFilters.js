@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { parseFilters } from './util'
+// import { parseFilters } from './util'
 
 class DemoFilters extends Component {
 
