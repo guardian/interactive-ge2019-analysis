@@ -1,7 +1,7 @@
 const fs = require("fs")
 const rp = require("request-promise")
 
-const calcChangeFor = [['y2017_share_lab', 'y2019poll_share_lab'], ['y2017_share_con', 'y2019poll_share_con'], ['y2017_share_ld', 'y2019poll_share_ld']]
+const calcChangeFor = [['y2015_turnout_percent', 'y2017_turnout_percent'],['y2017_share_lab', 'y2019poll_share_lab'], ['y2017_share_con', 'y2019poll_share_con'], ['y2017_share_ld', 'y2019poll_share_ld']]
 
 const demosToKeep = [
     // 'name',
@@ -24,6 +24,16 @@ const partyLookup = {
     "Lib Dem": "ld",
     "LD": "ld"
 }
+
+const partyLookupRev = {
+	"con": "Con",
+	"lab": "Lab",
+	"ld": "LD",
+	"bxp": "Brexit",
+	"ukip": "Ukip"
+  }
+
+const name = (p) => partyLookupRev[p] || p.toUpperCase();
 
 const cleanName = (p) => {
     if(partyLookup[p]) {
@@ -52,7 +62,7 @@ Promise.all([
 
         if(result2019 && result2019.candidates) {
             newFields.result2019 = true
-            newFields.y2019_winner = cleanName(result2019.winningParty)
+            // newFields.y2019_winner = cleanName(result2019.winningParty)
             newFields.y2019_electorate = result2019.y2019_electorate
             newFields.y2019_turnout = result2019.turnout
             newFields.y2019_turnout_percent = result2019.percentageTurnout/100
@@ -69,6 +79,39 @@ Promise.all([
             newFields.y2019_share_sf = find2019Result(result2019, "SF")
             d.y2017_winner = cleanName(d.y2017_winner)
             d.y2015_winner = cleanName(d.y2015_winner)
+
+            // JUST FOR POLL DATA!!!!
+
+            const y2019poll_shares = [
+                {"party": "con", "share": d.y2019poll_share_con},
+                {"party": "lab", "share": d.y2019poll_share_lab},
+                {"party": "ld", "share": d.y2019poll_share_ld},
+                {"party": "green", "share": d.y2019poll_share_green},
+                {"party": "pc", "share": d.y2019poll_share_pc},
+                {"party": "bxp", "share": d.y2019poll_share_bxp},
+                {"party": "snp", "share": d.y2019poll_share_snp}
+            ]
+
+            const maxVoteShare = Math.max(d.y2019poll_share_con, d.y2019poll_share_lab, d.y2019poll_share_ld, d.y2019poll_share_green, d.y2019poll_share_snp, d.y2019poll_share_bxp, d.y2019poll_share_pc)
+
+            if(maxVoteShare > 0) {
+                d.y2019_winner = ((y2019poll_shares.find(v => v.share == maxVoteShare))).party
+                d.y2019_hold_gain = (d.y2019_winner === d.y2017_winner) ? name(d.y2019_winner) + " hold" : name(d.y2019_winner) + " gain from " + name(d.y2017_winner)
+                d.y2019_leave_tactical = false
+                d.y2019_remain_tactical = false
+            
+                if(d.y2019_winner === "con") {
+                    d.y2019_remain_tactical = Number(d.y2019poll_share_lab) + Number(d.y2019poll_share_green) + Number(d.y2019poll_share_pc) + Number(d.y2019poll_share_ld) + Number(d.y2019poll_share_snp) > Number(d.y2019poll_share_con)
+                } 
+
+                if(d.y2019_winner === "lab" || d.y2019_winner === "ld" || d.y2019_winner === "snp") {
+                    d.y2019_leave_tactical = Number(d.y2019poll_share_con) + Number(d.y2019poll_share_bxp) > Number(d[`dy2019_share_${d.y2019_winner}`])
+                } 
+
+                d.y2019_remain_tactical = d.y2019_remain_tactical.toString()
+                d.y2019_leave_tactical = d.y2019_leave_tactical.toString()
+            }
+
             // need to deal with "other" – does this include ind?
             // need to add brexit party once we have 2019 test data
 
@@ -85,6 +128,8 @@ Promise.all([
 
         return newObj
     }).filter(v => true || v.result2019)
+
+    console.log(`REMAIN ALLIANCE COUNT ${all.filter(c => c.y2019_remain_tactical === "true").length}`)
 
     const allWithChange = all.map(d => {
         let changes = {}

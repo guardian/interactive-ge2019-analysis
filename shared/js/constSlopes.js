@@ -2,18 +2,8 @@ import React, { Component } from 'react'
 import Slope from './slope'
 import Grid from './grid'
 import DemoFilters from './demoFilters'
-import { parseFilters } from './util'
+import { parseFilters, name } from './util'
 import { max } from "d3-array"
-
-const partyLookup = {
-  "con": "Con",
-  "lab": "Lab",
-  "ld": "Lib Dem",
-  "bxp": "Brexit",
-  "ukip": "Ukip"
-}
-
-const name = (p) => partyLookup[p] || p.toUpperCase();
 
 class ConstSlopes extends Component {
   state = {

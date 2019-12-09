@@ -20,7 +20,7 @@ const snpVoteShare = { selectedDemo: 'y2019poll_share_snp', scaleColors: ['white
 const turnoutChange = { selectedDemo: 'change_turnout_percent', scaleColors: ['blue', 'white', 'green'], outOfScaleColor: [], shiftFirstColor: false, steps: 6, customClasses: [-0.15, -0.1, -0.05, 0, 0.05, 0.1, 0.15] }
 
 
-const labels = ["Conservative vote share", 'Lab vote share', 'LD vote share', "Green vote share"]
+const labels = ["Conservative gains", 'Labour gains', 'Lib Dem gains', "SNP gains"]
 
 
 const pc = (a) => Math.round(a*100)
@@ -54,8 +54,8 @@ class Maps extends Component {
       <Grid keyName='maps' classes='ge-grid--300' labels={labels}>
         {/* unique key here?*/}
         <Map
-          shadeDemo={conVoteShare} 
-          filters={[]}
+          // shadeDemo={conVoteShare} 
+          filters={[{"id":1575638518431,"demoType":"y2017_winner","operator":"!=","demoVal":"con"},{"id":1575638526495,"demoType":"y2019_winner","operator":"==","demoVal":"con"}]}
           geo={false}
           results={data}
           selectedFeature={selectedFeature}
@@ -71,8 +71,8 @@ class Maps extends Component {
           titleLabel={labels[0]}
            />
         <Map
-          shadeDemo={labVoteShare} 
-          filters={[]}
+          // shadeDemo={labVoteShare} 
+          filters={[{"id":1575638518431,"demoType":"y2017_winner","operator":"!=","demoVal":"lab"},{"id":1575638526495,"demoType":"y2019_winner","operator":"==","demoVal":"lab"}]}
           geo={false}
           results={data}
           selectedFeature={selectedFeature}
@@ -86,8 +86,8 @@ class Maps extends Component {
           ttString={parseVoteShare}
           titleLabel={labels[1]} />
         <Map
-          shadeDemo={ldVoteShare} 
-          filters={[]}
+          // shadeDemo={ldVoteShare} 
+          filters={[{"id":1575638518431,"demoType":"y2017_winner","operator":"!=","demoVal":"ld"},{"id":1575638526495,"demoType":"y2019_winner","operator":"==","demoVal":"ld"}]}
           geo={false}
           results={data}
           selectedFeature={selectedFeature}
@@ -101,8 +101,8 @@ class Maps extends Component {
           ttString={parseVoteShare}
           titleLabel={labels[2]} />
         <Map
-          shadeDemo={snpVoteShare} 
-          filters={[]}
+          // shadeDemo={snpVoteShare} 
+          filters={[{"id":1575638518431,"demoType":"y2017_winner","operator":"!=","demoVal":"snp"},{"id":1575638526495,"demoType":"y2019_winner","operator":"==","demoVal":"snp"}]}
           geo={false}
           results={data}
           selectedFeature={selectedFeature}

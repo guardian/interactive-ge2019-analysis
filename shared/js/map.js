@@ -5,7 +5,7 @@ import regionNames from '../geo/region_names.json'
 import regionOutline from '../geo/carto_dissolved.json'
 // import geoGraphic from '../geo/geo_uk.json'
 import { hashPattern, parseFilters } from './util'
-import { geoMercator, geoPath, max, min } from 'd3'
+import { geoMercator, geoPath, max, min } from 'd3' 
 import { feature } from 'topojson'
 import Tooltip from './tooltip'
 import DemoFilters from './demoFilters'
@@ -81,7 +81,8 @@ class Map extends PureComponent {
   }
 
   applyFilters = (externalFilters) => {
-    const filtered = externalFilters ? parseFilters(this.props.results, externalFilters) : parseFilters(this.props.results, this.props.filters)
+    const noNulls = this.props.results.filter(d => d.y2019_winner)
+    const filtered = externalFilters ? parseFilters(noNulls, externalFilters) : parseFilters(noNulls, this.props.filters)
 
     this.setState({ filteredDict: toDict(filtered) })
   }
@@ -108,7 +109,7 @@ class Map extends PureComponent {
 
     return (
       <>
-        {showKey ?
+        {showKey && shadeDemo ?
           <ColorScaleKey
             colors={colors}
             classes={shadeDemo.customClasses || shadeDemo.steps}
@@ -217,7 +218,7 @@ class Map extends PureComponent {
     }
   }
 
-  componentDidMount() {
+ componentDidMount() {
     const dict = {};
     const width = this.wrapper.current.getBoundingClientRect().width;
     const height = width * 1.5

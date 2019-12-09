@@ -174,4 +174,14 @@ const parseFilters = (data, filters) => {
 	return filteredData
 }
 
-export { $, $$, round, numberWithCommas, wait, getDimensions, hashPattern, duplicate, pseq, sum, ordinal, featureTest, supportsSticky, toDict, parseFilters }
+const partyLookup = {
+	"con": "Con",
+	"lab": "Lab",
+	"ld": "Lib Dem",
+	"bxp": "Brexit",
+	"ukip": "Ukip"
+  }
+  
+  const name = (p) => partyLookup[p] || p.toUpperCase();
+
+export { $, $$, round, numberWithCommas, wait, getDimensions, hashPattern, duplicate, pseq, sum, ordinal, featureTest, supportsSticky, toDict, parseFilters, name }

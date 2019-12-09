@@ -6,9 +6,7 @@ const filters = [{ "id": 1573731749523, "demoType": "house_price", "operator": "
 const shadeDemo = { selectedDemo: 'brexit_leave', scaleColors: ['white', '#951d7a'], outOfScaleColor: [], shiftFirstColor: true, steps: 10, customClasses: null }
 const shadeDemo2 = { selectedDemo: 'y2017_turnout', scaleColors: ['yellow', 'green'], outOfScaleColor: [], shiftFirstColor: false, steps: 3, customClasses: null }
 
-const conVoteShareChange = { selectedDemo: 'change_share_con', scaleColors: ['white', '#0084c6'], outOfScaleColor: ["#999999"], shiftFirstColor: true, customClasses: [-5, 0, 0.05, 0.1, 0.15], customDomain: [0.001, 0.3] }
-
-const labVoteShareChange = { selectedDemo: 'change_share_lab', scaleColors: ['white', '#c70000'], outOfScaleColor: ["#999999"], shiftFirstColor: true, customClasses: [-5, 0, 0.05, 0.1, 0.15], customDomain: [0.001, 0.3] }
+const ldVoteShareChange = { selectedDemo: 'change_share_con', scaleColors: ['white', '#ee6f00'], outOfScaleColor: ["#999999"], shiftFirstColor: true, customClasses: [-5, 0, 0.05, 0.1, 0.15], customDomain: [0.001, 0.3] }
 
 const pc = (a) => Math.round(a*100)
 
@@ -33,10 +31,10 @@ class Maps extends Component {
     const { data, dataDict } = this.props
 
     return (
-      <Grid keyName='maps' classes='ge-grid--300' labels={["Where the Conservative vote increased", "Where the Labour vote increased"]}>
+      <Grid keyName='maps' classes='ge-grid--300' labels={["Lib Dem vote share change in remain-voting areas", "Lib Dem vote share change in leave-voting areas"]}>
         <Map
-          shadeDemo={conVoteShareChange} 
-          filters={[]}
+          shadeDemo={ldVoteShareChange} 
+          filters={[{"id":1575650556014,"demoType":"brexit_leave","operator":"<","demoVal":"0.5"}]}
           markers={[]}
           geo={false}
           results={data}
@@ -49,8 +47,8 @@ class Maps extends Component {
           resultsDict={dataDict}
           showRegionNames={true} />
         <Map
-          shadeDemo={labVoteShareChange} 
-          filters={[]}
+          shadeDemo={ldVoteShareChange} 
+          filters={[{"id":1575650556014,"demoType":"brexit_leave","operator":">","demoVal":"0.5"}]}
           markers={[]}
           geo={false}
           results={data}

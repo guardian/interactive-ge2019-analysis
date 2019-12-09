@@ -16,6 +16,7 @@
         display: block;
         @include fs-header(2);
         margin-bottom: 10px;
+        min-height: 48px;
     }
 
     .ge-grid__item:not(:first-of-type) {
@@ -85,6 +86,9 @@
 .ge-grid--slope {
     @supports (display: grid) {
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
+        @include mq($until: tablet) {
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
+        }
     }
 
     .ge-grid__item > h3 {
@@ -106,6 +110,7 @@
         box-sizing: border-box;
         padding-left: 0 !important;
         border-left: 0 !important;
+        min-height: auto !important;
 
         &.has-marker {
             &::before {
@@ -129,6 +134,9 @@
 
     >.ge-grid__item {
         flex: 1 0 120px;
+        @include mq($until: tablet) {
+            flex: 1 0 100px;
+        }
         // border-right: 1px solid #eaeaea;
         // border-bottom: 1px solid #eaeaea;
         font-size: 0;

@@ -6,9 +6,7 @@ const filters = [{ "id": 1573731749523, "demoType": "house_price", "operator": "
 const shadeDemo = { selectedDemo: 'brexit_leave', scaleColors: ['white', '#951d7a'], outOfScaleColor: [], shiftFirstColor: true, steps: 10, customClasses: null }
 const shadeDemo2 = { selectedDemo: 'y2017_turnout', scaleColors: ['yellow', 'green'], outOfScaleColor: [], shiftFirstColor: false, steps: 3, customClasses: null }
 
-const conVoteShareChange = { selectedDemo: 'change_share_con', scaleColors: ['white', '#0084c6'], outOfScaleColor: ["#999999"], shiftFirstColor: true, customClasses: [-5, 0, 0.05, 0.1, 0.15], customDomain: [0.001, 0.3] }
-
-const labVoteShareChange = { selectedDemo: 'change_share_lab', scaleColors: ['white', '#c70000'], outOfScaleColor: ["#999999"], shiftFirstColor: true, customClasses: [-5, 0, 0.05, 0.1, 0.15], customDomain: [0.001, 0.3] }
+const ldVoteShareChange = { selectedDemo: 'change_share_con', scaleColors: ['white', '#ee6f00'], outOfScaleColor: ["#999999"], shiftFirstColor: true, customClasses: [-5, 0, 0.05, 0.1, 0.15], customDomain: [0.001, 0.3] }
 
 const pc = (a) => Math.round(a*100)
 
@@ -17,6 +15,8 @@ const parseValue = (a, b, pos) => {
   if (pos === 'last') return `> ${pc(a)}%`
   return `${pc(a)} - ${pc(b)}%`
 }
+
+const parseVoteShare = (string, value) => `${!isNaN(value) ? (Number(value) * 100).toFixed(2) + '%' : 'NA'}`
 
 class Maps extends Component {
   state = {
@@ -33,11 +33,10 @@ class Maps extends Component {
     const { data, dataDict } = this.props
 
     return (
-      <Grid keyName='maps' classes='ge-grid--300' labels={["Where the Conservative vote increased", "Where the Labour vote increased"]}>
-        <Map
-          shadeDemo={conVoteShareChange} 
-          filters={[]}
-          markers={[]}
+      <Grid keyName='maps' classes='ge-grid--300' labels={["Seats the Tories could have lost if voters had voted tactically"]}>
+          <Map
+          // shadeDemo={labVoteShare} 
+          filters={[{"id":1575884132343,"demoType":"y2019_remain_tactical","operator":"==","demoVal":"true"}]}
           geo={false}
           results={data}
           selectedFeature={selectedFeature}
@@ -46,21 +45,10 @@ class Maps extends Component {
           selectFeature={this.selectFeature}
           setHovered={this.setHovered}
           showKey={{ parseValue: parseValue, noData: true, shape: 'square' }}
+          markers={[]}
           resultsDict={dataDict}
-          showRegionNames={true} />
-        <Map
-          shadeDemo={labVoteShareChange} 
-          filters={[]}
-          markers={[]}
-          geo={false}
-          results={data}
-          selectedFeature={selectedFeature}
-          ttCoords={ttCoords}
-          hovered={hovered}
-          selectFeature={this.selectFeature}
-          setHovered={this.setHovered}
-          showKey={{ parseValue: parseValue, noData: true, shape: 'square' }}
-          resultsDict={dataDict} />
+          ttString={parseVoteShare}
+          titleLabel={""} />
       </Grid>
     )
   }
