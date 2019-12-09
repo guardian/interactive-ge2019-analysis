@@ -82,11 +82,7 @@ class Map extends PureComponent {
 
   applyFilters = (externalFilters) => {
     const noNulls = this.props.results.filter(d => d.y2019_winner)
-    const filtered = externalFilters ? parseFilters(noNulls, externalFilters) : parseFilters(noNulls, this.props.filters)
-
-    console.log(filtered.length)
-    console.log(this.props.filters)
-    
+    const filtered = externalFilters ? parseFilters(noNulls, externalFilters) : parseFilters(noNulls, this.props.filters) 
 
     this.setState({ filteredDict: toDict(filtered) })
   }

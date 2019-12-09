@@ -136,7 +136,6 @@ const parseFilters = (data, filters) => {
 		}
 
 		results = results.filter(d => {
-			console.log(d[f.demoType])
 			if (d[f.demoType] === 'NA' || d[f.demoType] ==='#NA') {
 				noData.push(Object.assign({}, d, { noData: true }))
 				return false
