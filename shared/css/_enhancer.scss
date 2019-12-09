@@ -26,6 +26,25 @@
     font-size: 50px;
     line-height: 50px;
   }
+
+    &::before {
+      content: "";
+      display: block;
+      background-image: url('<%= path %>/header.svg');
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center 1px;
+      width: 100%;
+      height: 25vw;
+      border-top: 1px solid #dcdcdc;
+      @include mq(tablet) {
+        border-top: 0;
+        height: 173px; 
+      }
+      margin-top: -5px;
+      border-bottom: 1px solid #dcdcdc;
+      margin-bottom: -1px;
+  }
 }
 
 .headline {
@@ -34,7 +53,6 @@
 }
 
 .content__standfirst, .standfirst {
-
   font-weight: 200;
   line-height: 24px;
   font-size: 18px;
@@ -160,8 +178,18 @@ a, .u-fauxlink {
       padding-right: 200px;
       box-sizing: border-box;
       max-width: 630px !important;
+      min-height: 124px;
+      display: block;
 
-      &::after {
+      @include mq($until: tablet) {
+        min-height: auto;
+        padding-right: 0;
+        width: 100%;
+        border-bottom: 0;
+        margin-top: 0;
+      }
+
+      &::before {
         content: "";
         display: block;
         width: 180px;
@@ -173,6 +201,39 @@ a, .u-fauxlink {
         position: absolute;
         right: 0;
         bottom: 1px;
+
+        @include mq($until: tablet) {
+          position: relative;
+          background-size: 180px 200px;
+          background-position: 0 25px;
+          width: 100%;
+          // background-position: 0px 2px;
+          border-bottom: 1px solid #dcdcdc;
+        }
+      }
+
+      &:nth-of-type(1) {
+        &::before {
+          background-image: url("<%= path %>/red-wall.svg");
+        }
+      }
+
+      &:nth-of-type(2) {
+        &::before {
+          background-image: url("<%= path %>/turnout.svg");
+        }
+      }
+
+      &:nth-of-type(6) {
+        &::before {
+          background-image: url("<%= path %>/tory_win.svg");
+        }
+      }
+
+      &:nth-of-type(7) {
+        &::before {
+          background-image: url("<%= path %>/snp_mock.svg");
+        }
       }
 
       @include mq($until: desktop) {

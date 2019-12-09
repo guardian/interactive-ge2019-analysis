@@ -10,6 +10,6 @@ const Tooltip = ({ constituency, x, y, ttString }) => {
           <div className='ge-tt__demog'>{ttString}</div>
       </div>
     )
-  }
+  } 
 }
 export default Tooltip

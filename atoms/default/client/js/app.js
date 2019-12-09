@@ -3,6 +3,8 @@ import Scatter from "shared/js/scatter.js"
 import Grid from "shared/js/grid.js"
 import Maps from "shared/js/maps.js"
 import Maps2 from "shared/js/maps2.js"
+import Maps3 from "shared/js/maps3.js"
+import Maps4 from "shared/js/maps4.js"
 import ConstSlopes from "shared/js/constSlopes.js"
 import fetch from 'unfetch'
 import "core-js/stable";
@@ -45,20 +47,29 @@ const loadAndDraw = async() => {
   render(<Maps2 data={data} dataDict={dataDict} />,
     document.getElementById("interactive-slot-4")
   )
-  render(<Grid keyName='scat' labels={["Scatter one"]}>
-     <Scatter
+
+  render(<Maps3 data={data} dataDict={dataDict} />,
+    document.getElementById("interactive-slot-6")
+  )
+
+  render(<Maps4 data={data} dataDict={dataDict} />,
+    document.getElementById("interactive-slot-7")
+  )
+
+  render(<Grid keyName='scat' labels={["Labour vote share decreased most in areas where turnout was higher than in 2017"]}>
+    <Scatter
         filters={[]}
         data={data}
-        xDomain={[0, 1]}
-        xTicks={[0, 0.5, 1]}
-        yTicks={[0, 0.25, 0.5, 0.75]}
-        yDomain={[0, 0.85]}
+        xDomain={[-0.15,0.15]}
+        xTicks={[-0.1, -0.05, 0, 0.05, 0.1]}
+        yTicks={[-0.2, -0.1, 0, 0.1]}
+        yDomain={[-0.25, 0.15]}
         heightWidthRatio={1}
-        x="brexit_leave"
-        y="y2019poll_share_con"
-        xLabel="Brexit leave vote share (%) ⟶"
-        yLabel="Conservative vote share, 2019 (%) ↑"
-        // xTickTransform={(d) => Math.round(d*100) + "%"}
+        x="change_turnout_percent"
+        y="change_share_lab"
+        xLabel="Change in turnout, 2017-2019 ⟶"
+        yLabel="Change in Labour vote share, 2017-2019 (%) ↑"
+        xTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}
         yTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}
         xMajorTicks={[0]}
         yMajorTicks={[0]} 
@@ -99,6 +110,40 @@ const loadAndDraw = async() => {
     parties={["con", "lab", "ld", "bxp"]}
     itemClasses="ge-grid--slope"
     data={data} />, document.getElementById("interactive-slot-3")
+  )
+
+  render(
+    <ConstSlopes 
+    filters={[{"id":1574937647500,"demoType":"region","operator":"==","demoVal":"Scotland"},{"id":1575897561779,"demoType":"y2017_winner","operator":"!=","demoVal":"snp"}]} 
+    markers={[]} 
+    // filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} 
+    keyName='slopes'
+    parties={["con", "lab", "ld", "snp"]}
+    itemClasses="ge-grid--slope"
+    data={data} />, document.getElementById("interactive-slot-6")
+  )
+
+  // render(
+  //   <ConstSlopes 
+  //   filters={[{"id":1574937647500,"demoType":"y2017_winner","operator":"==","demoVal":"con"},{"id":1574937668187,"demoType":"y2017_majority_percent","operator":"bottom","demoVal":"20"}]} 
+  //   markers={[]} 
+  //   // filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} 
+  //   keyName='slopes'
+  //   parties={["con", "lab", "ld", "snp"]}
+  //   itemClasses="ge-grid--slope"
+  //   data={data} />, document.getElementById("interactive-slot-5")
+  // )
+
+
+  render(
+    <ConstSlopes 
+    filters={[{"id":1574937647500,"demoType":"y2017_winner","operator":"==","demoVal":"con"},{"id":1574937668187,"demoType":"y2017_majority_percent","operator":"bottom","demoVal":"20"}]} 
+    markers={[]} 
+    // filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} 
+    keyName='slopes'
+    parties={["con", "lab", "ld", "snp"]}
+    itemClasses="ge-grid--slope"
+    data={data} />, document.getElementById("interactive-slot-5")
   )
 
   // // render(<DemographicSlope data={data} demographic="brexit_leave" parties={["con", "lab", "ld"]} />, document.getElementById("slope-demo"));

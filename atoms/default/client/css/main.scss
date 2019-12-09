@@ -26,7 +26,11 @@
 }
 
 .ge-demographic-filters {
-    display: none !important;
+    display: none;
+
+    .local & {
+        display: block !important;
+    }
 }
 
 sup {
