@@ -119,7 +119,7 @@ a, .u-fauxlink {
   padding-top: 12px;
   border-top: none;
 }
-.content__main-column--interactive {
+.content__main-column--interactive, .article .from-content-api {
     & > p,& > h2,& > ul, & > sub, .element-atom, .element-interactive,.element-video {
       
       // strong {
