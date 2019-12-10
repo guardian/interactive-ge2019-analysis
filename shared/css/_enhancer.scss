@@ -49,11 +49,11 @@
       background-size: contain;
       background-position: 10px 1px;
       
-      height: 25vw;
+      height: 40vw;
       border-top: 1px solid #dcdcdc;
       @include mq(tablet) {
         border-top: 0;
-        height: 173px; 
+        height: 285px; 
       }
       margin-top: -4px;
       border-bottom: 1px solid #dcdcdc;
