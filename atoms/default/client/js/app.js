@@ -21,7 +21,8 @@ const partyLookup = {
   "DUP": "dup",
   "Lib Dem": "ld",
   "LD": "ld",
-  "SDLP": "sdlp"
+  "SDLP": "sdlp",
+  "Alliance": "alliance"
 }
 
 const cleanName = (p) => {

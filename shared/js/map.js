@@ -42,10 +42,10 @@ class Map extends PureComponent {
   }
 
   hover = f => {
-    const obj = this.props.resultsDict[f.properties.constituency]
-    const c = this.state.path.bounds(f)
+    // const obj = this.props.resultsDict[f.properties.constituency]
+    // const c = this.state.path.bounds(f)
 
-    this.props.setHovered(obj, { x: (c[0][0] + c[1][0]) / 2, y: c[0][1] }, f)
+    // this.props.setHovered(obj, { x: (c[0][0] + c[1][0]) / 2, y: c[0][1] }, f)
   }
 
   setColorScale = (scaleColors, outOfScaleColor, demographic, steps, shiftFirstColor = false, customClasses = null, customDomain = null) => {
