@@ -18,23 +18,20 @@ const toDict = arr => {
 }
 
 const markers = [
-  { n: 1, ons: "E14001011" },
-  { n: 2, ons: "E14000662" },
-  { n: 3, ons: "E14000973" },
-  { n: 4, ons: "E14000975" }
+  { n: 1, ons: "E14001011" }
 ]
 
 const scatFilters = [{ "id": 1574937668187, "demoType": "brexit_leave", "operator": "top", "demoVal": "20" }]
 
 const scatMarkers = [
-  { n: 1, ons: 'E14000577'}
+  
 ]
 
 const loadAndDraw = async() => {
     const dataRequest = await fetch("<%= path %>/data.json")
     const premap = await dataRequest.json()
     const data = await premap.map(d => Object.assign({}, d, { 
-      winArr: d.y2019_hold_gain ? d.y2019_hold_gain.match(/^(\S+)\s(.*)/).slice(1) : 'SNP gain from PC'.match(/^(\S+)\s(.*)/).slice(1), // change this to 'Undeclared',
+      winArr: d.y2019_hold_gain ? d.y2019_hold_gain.match(/^(\S+)\s(.*)/).slice(1) : ['Undeclared',''], // change this to 'Undeclared',
       y2019_winner: d.y2019_winner ? d.y2019_winner : 'undeclared'
     }))
     const dataDict = toDict(data)
@@ -48,13 +45,13 @@ const loadAndDraw = async() => {
     document.getElementById("interactive-slot-4")
   )
 
-  render(<Maps3 data={data} dataDict={dataDict} />,
-    document.getElementById("interactive-slot-6")
+  render(<Maps4 data={data} dataDict={dataDict} />,
+    document.getElementById("interactive-slot-7")
   )
 
-  render(<Maps4 data={data} dataDict={dataDict} />,
-    document.getElementById("interactive-slot-8")
-  )
+  // render(<Maps4 data={data} dataDict={dataDict} />,
+  //   document.getElementById("interactive-slot-8")
+  // )
 
   render(<Grid keyName='scat' labels={["Labour vote share decreased most in areas where turnout was higher than in 2017"]}>
     <Scatter
@@ -104,7 +101,7 @@ const loadAndDraw = async() => {
   render(
     <ConstSlopes 
     filters={[{"id":1574937647500,"demoType":"y2017_winner","operator":"==","demoVal":"lab"},{"id":1574937668187,"demoType":"brexit_leave","operator":"top","demoVal":"20"}]} 
-    markers={markers} 
+    markers={[]} 
     // filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} 
     keyName='slopes'
     parties={["con", "lab", "ld", "bxp"]}
@@ -120,7 +117,7 @@ const loadAndDraw = async() => {
     keyName='slopes'
     parties={["con", "lab", "ld", "snp"]}
     itemClasses="ge-grid--slope"
-    data={data} />, document.getElementById("interactive-slot-7")
+    data={data} />, document.getElementById("interactive-slot-6")
   )
 
   // render(

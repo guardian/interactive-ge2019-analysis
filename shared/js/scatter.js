@@ -1,9 +1,11 @@
 import React, { Component, createRef } from 'react'
-import * as d3 from "d3"
 import Tooltip from './tooltip'
 import DemoFilters from './demoFilters'
 import {linearRegression, linearRegressionLine} from 'simple-statistics'
 import { parseFilters } from './util';
+import {scaleLinear } from "d3-scale"
+import { voronoi } from "d3-voronoi"
+import { max, min } from "d3-array"
  
 class Scatter extends Component {
     wrapper = createRef();
@@ -23,9 +25,9 @@ class Scatter extends Component {
             markers: [],
             hovered: {obj: null, marker: false},
             ttCoords: { x: 0, y: 0 },
-            xScale: d3.scaleLinear().domain(props.xDomain).range([padding, width - padding]),
-            yScale: d3.scaleLinear().domain(props.yDomain).range([height - padding, padding]),
-            voronoi: []
+            xScale: scaleLinear().domain(props.xDomain).range([padding, width - padding]),
+            yScale: scaleLinear().domain(props.yDomain).range([height - padding, padding]),
+            genVoronoi: []
         }
     }
 
@@ -54,27 +56,26 @@ class Scatter extends Component {
 
             return Object.assign({}, obj, { marker: m.n })
         })
-
-
-        const voronoi = d3.voronoi()
+        
+        const genVoronoi = voronoi()
             .extent([[0, 0], [width, height]])
             .x(d => xScale(d[x]))
             .y(d => yScale(d[y]))
             .polygons(filteredData.concat(markers))
 
-        this.setState({ filteredData, markers, voronoi: voronoi.map(v => Object.assign({}, v, { path: "M" + v.join("L") + "Z"})) })
+        this.setState({ filteredData, markers, genVoronoi: genVoronoi.map(v => Object.assign({}, v, { path: "M" + v.join("L") + "Z"})) })
     }
 
     render() {
         const { i, regressionLine = false, x, y, xDomain, xLabel, yLabel, yDomain, xTicks, yTicks, heightWidthRatio = 1, xTickTransform = (c) => c, yTickTransform = (c) => c, xMajorTicks, yMajorTicks } = this.props
-        const { markers, filteredData, hovered, ttCoords, xScale, yScale, width, height, voronoi } = this.state
+        const { markers, filteredData, hovered, ttCoords, xScale, yScale, width, height, genVoronoi } = this.state
         
         const lrdata = filteredData.map(d => ([d[x], d[y]]))
         const lr = linearRegression(lrdata)
         const line = linearRegressionLine(lr)
 
-        const minX = d3.min(lrdata, d => d[0])
-        const maxX = d3.max(lrdata, d => d[0])
+        const minX = min(lrdata, d => d[0])
+        const maxX = max(lrdata, d => d[0])
     
         const r = 3.5;
         
@@ -127,7 +128,7 @@ class Scatter extends Component {
                 {hovered.obj && <circle cx={xScale(hovered.obj[x])} cy={yScale(hovered.obj[y])} r={hovered.marker ? r * 2.5 : r} class='circle-selected' />}
                 <g>
                     {
-                        voronoi.map(area => {
+                        genVoronoi.map(area => {
                             const cx = xScale(area.data[x])
                             const cy = yScale(area.data[y])
                             const isMarker = area.data.marker !== undefined
@@ -147,8 +148,8 @@ class Scatter extends Component {
         const width = this.wrapper.current.getBoundingClientRect().width;
         const height = heightWidthRatio * width
         const padding = this.state.padding
-        const xScale = d3.scaleLinear().domain(this.props.xDomain).range([padding, width - padding]);
-        const yScale = d3.scaleLinear().domain(this.props.yDomain).range([height - padding, padding]);
+        const xScale = scaleLinear().domain(this.props.xDomain).range([padding, width - padding]);
+        const yScale = scaleLinear().domain(this.props.yDomain).range([height - padding, padding]);
 
         
         this.setState({ width, height, xScale, yScale }, () => this.applyFilters())

@@ -119,7 +119,7 @@ a, .u-fauxlink {
   padding-top: 12px;
   border-top: none;
 }
-.content__main-column--interactive {
+.content__main-column--interactive, .article .from-content-api {
     & > p,& > h2,& > ul, & > sub, .element-atom, .element-interactive,.element-video {
       
       // strong {
@@ -140,11 +140,8 @@ a, .u-fauxlink {
     }
 
     & > p {
-        @include fs-headline(3);
-        font-size: 18px;
+        font-size: 17px;
         line-height: 24px;
-
-        font-weight: 300;
 
         strong, b {
           background-color: none;
@@ -186,14 +183,15 @@ a, .u-fauxlink {
         padding-right: 0;
         width: 100%;
         border-bottom: 0;
-        margin-top: 0;
+        margin-top: 1px;
+        margin-bottom: 0px;
       }
 
       &::before {
         content: "";
         display: block;
         width: 180px;
-        height: 200px;
+        height: 180px;
         background-image: url("<%= path %>/corbyn.svg");
         background-repeat: no-repeat;
         background-position: bottom;
@@ -204,8 +202,8 @@ a, .u-fauxlink {
 
         @include mq($until: tablet) {
           position: relative;
-          background-size: 180px 200px;
-          background-position: 0 25px;
+          background-size: 180px 180px;
+          background-position: 0 0px;
           width: 100%;
           // background-position: 0px 2px;
           border-bottom: 1px solid #dcdcdc;
@@ -224,15 +222,35 @@ a, .u-fauxlink {
         }
       }
 
+      &:nth-of-type(3) {
+        &::before {
+          background-image: url("<%= path %>/corbyn_farage.svg");
+        }
+      }
+
+      &:nth-of-type(4) {
+        &::before {
+          background-image: url("<%= path %>/tactical.svg");
+        }
+      }
+
+      &:nth-of-type(5) {
+        &::before {
+          background-image: url("<%= path %>/boris_flag.svg");
+        }
+      }
+
       &:nth-of-type(6) {
         &::before {
           background-image: url("<%= path %>/tory_win.svg");
         }
       }
 
+      
+
       &:nth-of-type(7) {
         &::before {
-          background-image: url("<%= path %>/snp_mock.svg");
+          background-image: url("<%= path %>/nicola_scotland.svg");
         }
       }
 

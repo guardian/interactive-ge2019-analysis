@@ -1,7 +1,8 @@
 import React, { PureComponent, createRef } from 'react'
 import loadJson from './loadJson'
 import { hashPattern, parseFilters } from './util'
-import { geoMercator, geoPath, max, min } from 'd3' 
+import { geoMercator, geoPath } from 'd3-geo' 
+import { max, min } from "d3-array"
 import { feature } from 'topojson'
 import Tooltip from './tooltip'
 import DemoFilters from './demoFilters'
