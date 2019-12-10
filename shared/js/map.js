@@ -1,9 +1,5 @@
 import React, { PureComponent, createRef } from 'react'
-import hexTopo from '../geo/hexagons.json'
-import regions from '../geo/regions_mesh.json'
-import regionNames from '../geo/region_names.json'
-import regionOutline from '../geo/carto_dissolved.json'
-// import geoGraphic from '../geo/geo_uk.json'
+import loadJson from './loadJson'
 import { hashPattern, parseFilters } from './util'
 import { geoMercator, geoPath, max, min } from 'd3' 
 import { feature } from 'topojson'
@@ -21,9 +17,6 @@ class Map extends PureComponent {
     super(props)
     const width = 100
     const height = width * 1.5
-    const hexFc = props.geo ? geoGraphic : feature(hexTopo, hexTopo.objects.hexagons)
-    const proj = geoMercator().fitSize([width, height], hexFc)
-    const path = geoPath().projection(proj)
     const dict = {}
 
     this.setInputRef = node => this.input = node
@@ -33,14 +26,19 @@ class Map extends PureComponent {
       filteredDict: props.resultsDict,
       width,
       height,
-      hexFc,
-      proj,
-      path,
+      features: [],
+      proj: [],
+      path: () => [],
       colorScale: null,
       colors: [],
       domain: [],
       showTooltip: false,
-      markers: []
+      markers: [],
+      hexTopo: [],
+      regions: [],
+      regionNames: [],
+      regionOutline: [],
+      geoGraphic: []
     }
   }
 
@@ -101,7 +99,11 @@ class Map extends PureComponent {
 
   render() {
     const { geo, shadeDemo, hovered, ttCoords, selectedFeature, results, filters, showKey, showRegionNames, ttString, titleLabel } = this.props
-    const { width, height, path, hexFc, colorScale, proj, showTooltip, filteredDict, colors, domain, markers } = this.state
+    const { width, height, path, features, colorScale, proj, showTooltip, filteredDict, colors, domain, markers,
+      regions,
+      regionNames,
+      regionOutline,
+    } = this.state
     
     const labelStyle = {
       opacity: hovered ? 0 : 1
@@ -126,7 +128,7 @@ class Map extends PureComponent {
           <svg onMouseEnter={() => this.toggleTooltip(true)} onMouseLeave={() => {this.toggleTooltip(false); this.hover(null); this.props.selectFeature(null)}} className='ge-map' height={height} width={width}>
             <defs dangerouslySetInnerHTML={{ __html: pattern }}></defs>
             {
-              hexFc.features.map((f, i) => {
+              features.map((f, i) => {
                 const thisConst = filteredDict[f.properties.constituency] || {}
                 const party = (thisConst.y2019_winner || 'filtered').toLowerCase().replace(/\s/g, '')
 
@@ -143,7 +145,7 @@ class Map extends PureComponent {
               })
             }
             {!geo && 
-              regionOutline.features.map((f, i) => {
+              regionOutline.map((f, i) => {
                 return <path
                   key={'pregion-'+i}
                   d={path(f)}
@@ -220,10 +222,13 @@ class Map extends PureComponent {
     }
   }
 
- componentDidMount() {
+ async componentDidMount() {
     const dict = {};
     const width = this.wrapper.current.getBoundingClientRect().width;
     const height = width * 1.5
+
+     const [hexTopo, regions, regionNames, regionOutline ] = await Promise.all([loadJson("<%= path %>/hexagons.json"), loadJson('<%= path %>/regions_mesh.json'), loadJson('<%= path %>/region_names.json'), loadJson('<%= path %>/carto_dissolved.json')])
+
     const hexFc = this.props.geo ? geoGraphic : feature(hexTopo, hexTopo.objects.hexagons)
     const proj = geoMercator().fitSize([width, height], hexFc)
     const path = geoPath().projection(proj)
@@ -245,9 +250,14 @@ class Map extends PureComponent {
       width,
       proj,
       height,
-      hexFc,
+      features: hexFc.features,
       path,
-      markers
+      markers,
+      hexTopo,
+      regions,
+      regionNames,
+      regionOutline: regionOutline.features,
+      // geoGraphic
     })
   }
 }
