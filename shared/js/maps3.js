@@ -16,6 +16,8 @@ const parseValue = (a, b, pos) => {
   return `${pc(a)} - ${pc(b)}%`
 }
 
+const parseVoteShare = (string, value) => `${!isNaN(value) ? (Number(value) * 100).toFixed(2) + '%' : 'NA'}`
+
 class Maps extends Component {
   state = {
     hovered: null,
@@ -40,6 +42,7 @@ class Maps extends Component {
           results={data}
           selectedFeature={selectedFeature}
           ttCoords={ttCoords}
+          ttString={parseVoteShare}
           hovered={hovered}
           selectFeature={this.selectFeature}
           setHovered={this.setHovered}
@@ -54,6 +57,7 @@ class Maps extends Component {
           results={data}
           selectedFeature={selectedFeature}
           ttCoords={ttCoords}
+          ttString={parseVoteShare} 
           hovered={hovered}
           selectFeature={this.selectFeature}
           setHovered={this.setHovered}
