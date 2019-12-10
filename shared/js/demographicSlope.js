@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Slope from "shared/js/slope"
 import Grid from "shared/js/grid"
-import * as d3 from "d3"
+import {sum} from "d3-array"
 
 class DemographicSlope extends Component {
 
@@ -26,13 +26,13 @@ class DemographicSlope extends Component {
 
         const binAverages = binned.map((bin) => {
             return parties.map(p => {
-                const totalVotesBin2019 = d3.sum(bin, d => d.y2017_turnout)
-                const totalVotesBin2017 = d3.sum(bin, d => d.y2015_turnout)
+                const totalVotesBin2019 = sum(bin, d => d.y2017_turnout)
+                const totalVotesBin2017 = sum(bin, d => d.y2015_turnout)
                 
                 return {
                     "party": p,
-                    "2019": d3.sum(bin, d => Math.round(d[`y2017_share_${p}`]*d[`y2017_turnout`]))/totalVotesBin2019,
-                    "2017": d3.sum(bin, d => Math.round(d[`y2015_share_${p}`]*d[`y2015_turnout`]))/totalVotesBin2017
+                    "2019": sum(bin, d => Math.round(d[`y2017_share_${p}`]*d[`y2017_turnout`]))/totalVotesBin2019,
+                    "2017": sum(bin, d => Math.round(d[`y2015_share_${p}`]*d[`y2015_turnout`]))/totalVotesBin2017
                 }
             });
         });

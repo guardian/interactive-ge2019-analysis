@@ -18,16 +18,13 @@ const toDict = arr => {
 }
 
 const markers = [
-  { n: 1, ons: "E14001011" },
-  { n: 2, ons: "E14000662" },
-  { n: 3, ons: "E14000973" },
-  { n: 4, ons: "E14000975" }
+  { n: 1, ons: "E14001011" }
 ]
 
 const scatFilters = [{ "id": 1574937668187, "demoType": "brexit_leave", "operator": "top", "demoVal": "20" }]
 
 const scatMarkers = [
-  { n: 1, ons: 'E14000577'}
+  
 ]
 
 const loadAndDraw = async() => {
@@ -104,7 +101,7 @@ const loadAndDraw = async() => {
   render(
     <ConstSlopes 
     filters={[{"id":1574937647500,"demoType":"y2017_winner","operator":"==","demoVal":"lab"},{"id":1574937668187,"demoType":"brexit_leave","operator":"top","demoVal":"20"}]} 
-    markers={markers} 
+    markers={[]} 
     // filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} 
     keyName='slopes'
     parties={["con", "lab", "ld", "bxp"]}

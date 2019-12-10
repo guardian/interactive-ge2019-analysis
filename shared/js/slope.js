@@ -1,9 +1,10 @@
 import React, { Component, createRef } from 'react'
-import { scaleLinear, max } from "d3"
+import { scaleLinear } from "d3-scale"
+import { max } from "d3-array" 
 
 const parties = ['con', 'lab', 'ld', 'snp', 'bxp', 'green', 'dup', 'sf', 'pc','ukip', 'ind', 'sdlp'
 //'bxp' 
-]
+] 
 
 function chunkString(str, length) {
     return str.match(new RegExp('.{1,' + length + '}', 'g'));
