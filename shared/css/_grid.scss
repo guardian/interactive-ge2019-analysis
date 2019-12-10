@@ -28,6 +28,15 @@
         }
     }
 
+    .ge-grid__item {
+        > h3 {
+            @include mq(tablet, wide) {
+                border-left: 1px solid #dcdcdc;
+                padding-left: 10px;
+            }
+        }
+    }
+
     h4 {
         @include fs-textSans(3);
     }

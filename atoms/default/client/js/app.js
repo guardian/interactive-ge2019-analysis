@@ -30,6 +30,7 @@ const scatMarkers = [
 const loadAndDraw = async() => {
     const dataRequest = await fetch("<%= path %>/data.json")
     const premap = await dataRequest.json()
+
     const data = await premap.map(d => Object.assign({}, d, { 
       winArr: d.y2019_hold_gain ? d.y2019_hold_gain.match(/^(\S+)\s(.*)/).slice(1) : ['Undeclared',''], // change this to 'Undeclared',
       y2019_winner: d.y2019_winner ? d.y2019_winner : 'undeclared'

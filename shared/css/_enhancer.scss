@@ -10,6 +10,20 @@
     margin: 0 !important;
 }
 
+.content__meta-container {
+  @include mq(desktop) {
+    margin-left: -10px !important;
+    width: 970px !important;
+    .meta__contact-wrap,.meta__extras {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
+  @include mq(wide) {
+    width: 1050px !important;
+  }
+}
+
 .content--interactive .content__headline, .headline {
   @include fs-titlepiece(1);
   font-size: 32px;
@@ -33,17 +47,24 @@
       background-image: url('<%= path %>/header.svg');
       background-repeat: no-repeat;
       background-size: contain;
-      background-position: center 1px;
-      width: 100%;
+      background-position: 10px 1px;
+      
       height: 25vw;
       border-top: 1px solid #dcdcdc;
       @include mq(tablet) {
         border-top: 0;
         height: 173px; 
       }
-      margin-top: -5px;
+      margin-top: -4px;
       border-bottom: 1px solid #dcdcdc;
       margin-bottom: -1px;
+      @include mq(desktop) {
+        margin-left: -10px;
+        width: 970px;
+      }
+      @include mq(wide) {
+        width: 1050px;
+      }
   }
 }
 
