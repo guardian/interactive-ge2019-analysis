@@ -10,7 +10,7 @@ import { toDict } from './util.js'
 import ColorScaleKey from './coloScaleKey'
 
 const pattern = hashPattern('ge-hash', 'ge-hash__path', 'ge-hash__rect')
-let geo = null
+// let geo = null
 class Map extends PureComponent { 
   wrapper = createRef() 
   constructor(props) {
@@ -39,6 +39,13 @@ class Map extends PureComponent {
       regionNames: [],
       regionOutline: [],
       geoGraphic: []
+    }
+
+    this.applyFilters()
+
+    if (this.props.shadeDemo) {
+      const { selectedDemo, scaleColors, outOfScaleColor, shiftFirstColor, steps, customDomain, customClasses } = this.props.shadeDemo
+      this.setColorScale(scaleColors, outOfScaleColor, selectedDemo, steps, shiftFirstColor, customClasses, customDomain)
     }
   }
 
@@ -213,21 +220,12 @@ class Map extends PureComponent {
     )
   }
 
-  componentWillMount() {
-    this.applyFilters()
-
-    if (this.props.shadeDemo) {
-      const { selectedDemo, scaleColors, outOfScaleColor, shiftFirstColor, steps, customDomain, customClasses } = this.props.shadeDemo
-      this.setColorScale(scaleColors, outOfScaleColor, selectedDemo, steps, shiftFirstColor, customClasses, customDomain)
-    }
-  }
-
  async componentDidMount() {
     const dict = {};
     const width = this.wrapper.current.getBoundingClientRect().width;
     const height = width * 1.5
 
-     const [hexTopo, regions, regionNames, regionOutline ] = await Promise.all([loadJson("<%= path %>/hexagons.json"), loadJson('<%= path %>/regions_mesh.json'), loadJson('<%= path %>/region_names.json'), loadJson('<%= path %>/carto_dissolved.json')])
+   const [hexTopo, regions, regionNames, regionOutline] = await Promise.all([loadJson("<%= path %>/maps/hexagons.json"), loadJson('<%= path %>/maps/regions_mesh.json'), loadJson('<%= path %>/maps/region_names.json'), loadJson('<%= path %>/maps/carto_dissolved.json')])
 
     const hexFc = this.props.geo ? geoGraphic : feature(hexTopo, hexTopo.objects.hexagons)
     const proj = geoMercator().fitSize([width, height], hexFc)
