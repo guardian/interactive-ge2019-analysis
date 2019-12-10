@@ -131,8 +131,8 @@ const parseFilters = (data, filters) => {
 					return isNaN(Number(r[f.demoType])) === false
 				})
 				.sort((a, b) => Number(a[f.demoType]) > Number(b[f.demoType]) ? -1 : 1)
-			results = f.operator === 'top' ? pick.slice(0, f.demoVal) : pick.slice(1).slice(- Number(f.demoVal))
 
+			results = f.operator === 'top' ? pick.slice(0, f.demoVal) : pick.slice(1).slice(- Number(f.demoVal)).sort((a, b) => Number(a[f.demoType]) < Number(b[f.demoType]) ? -1 : 1)
 		}
 
 		results = results.filter(d => {
