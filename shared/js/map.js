@@ -33,12 +33,7 @@ class Map extends PureComponent {
       colors: [],
       domain: [],
       showTooltip: false,
-      markers: [],
-      // hexTopo: [],
-      // regions: [],
-      // regionNames: [],
-      // regionOutline: [],
-      // geoGraphic: []
+      markers: []
     }
 
     this.applyFilters()
@@ -222,9 +217,9 @@ class Map extends PureComponent {
     const width = this.wrapper.current.getBoundingClientRect().width;
     const height = width * 1.5
 
-    const { hexTopo, regions, regionNames, regionOutline } = this.props.cartography 
+    const { hexTopo } = this.props.cartography
 
-    const hexFc = this.props.geo ? geoGraphic : feature(hexTopo, hexTopo.objects.hexagons)
+    const hexFc = this.props.cartography.geo ? geoGraphic : feature(hexTopo, hexTopo.objects.hexagons)
     const proj = geoMercator().fitSize([width, height], hexFc)
     const path = geoPath().projection(proj)
     const markers = this.props.markers.map(m => {
@@ -247,12 +242,7 @@ class Map extends PureComponent {
       height,
       features: hexFc.features,
       path,
-      markers,
-      // hexTopo,
-      // regions,
-      // regionNames,
-      // regionOutline: regionOutline.features,
-      // geoGraphic
+      markers
     })
   }
 }
