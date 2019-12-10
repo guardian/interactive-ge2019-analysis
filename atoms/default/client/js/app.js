@@ -48,13 +48,13 @@ const loadAndDraw = async() => {
     document.getElementById("interactive-slot-4")
   )
 
-  render(<Maps3 data={data} dataDict={dataDict} />,
-    document.getElementById("interactive-slot-6")
+  render(<Maps4 data={data} dataDict={dataDict} />,
+    document.getElementById("interactive-slot-7")
   )
 
-  render(<Maps4 data={data} dataDict={dataDict} />,
-    document.getElementById("interactive-slot-8")
-  )
+  // render(<Maps4 data={data} dataDict={dataDict} />,
+  //   document.getElementById("interactive-slot-8")
+  // )
 
   render(<Grid keyName='scat' labels={["Labour vote share decreased most in areas where turnout was higher than in 2017"]}>
     <Scatter
@@ -120,7 +120,7 @@ const loadAndDraw = async() => {
     keyName='slopes'
     parties={["con", "lab", "ld", "snp"]}
     itemClasses="ge-grid--slope"
-    data={data} />, document.getElementById("interactive-slot-7")
+    data={data} />, document.getElementById("interactive-slot-6")
   )
 
   // render(
