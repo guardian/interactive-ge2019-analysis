@@ -82,7 +82,7 @@ class Map extends PureComponent {
 
   applyFilters = (externalFilters) => {
     const noNulls = this.props.results.filter(d => d.y2019_winner)
-    const filtered = externalFilters ? parseFilters(noNulls, externalFilters) : parseFilters(noNulls, this.props.filters)
+    const filtered = externalFilters ? parseFilters(noNulls, externalFilters) : parseFilters(noNulls, this.props.filters) 
 
     this.setState({ filteredDict: toDict(filtered) })
   }
@@ -129,8 +129,6 @@ class Map extends PureComponent {
               hexFc.features.map((f, i) => {
                 const thisConst = filteredDict[f.properties.constituency] || {}
                 const party = (thisConst.y2019_winner || 'filtered').toLowerCase().replace(/\s/g, '')
-                
-                thisConst.ons_id === 'N06000004' && console.log(thisConst)
 
                 return <path
                   key={'pconst-'+i}

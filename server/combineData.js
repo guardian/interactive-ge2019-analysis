@@ -60,6 +60,9 @@ Promise.all([
         const result2019 = full.find(f => d.ons_id === f.ons)
         const newFields = {}
 
+        d.y2019_leave_tactical = 'false'
+        d.y2019_remain_tactical = 'false'
+
         if(result2019 && result2019.candidates) {
             newFields.result2019 = true
             // newFields.y2019_winner = cleanName(result2019.winningParty)
