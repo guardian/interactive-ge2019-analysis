@@ -30,7 +30,7 @@ class Maps extends Component {
 
   render() {
     const { selectedFeature, ttCoords, hovered } = this.state
-    const { data, dataDict } = this.props
+    const { data, dataDict, cartography } = this.props
 
     return (
       <Grid keyName='maps' classes='ge-grid--300' labels={["Seats the Tories could have lost if voters had voted tactically"]}>
@@ -48,7 +48,8 @@ class Maps extends Component {
           markers={[]}
           resultsDict={dataDict}
           ttString={parseVoteShare}
-          titleLabel={""} />
+          titleLabel={""}
+          cartography={cartography} />
       </Grid>
     )
   }

@@ -30,7 +30,7 @@ class Maps extends Component {
 
   render() {
     const { selectedFeature, ttCoords, hovered } = this.state
-    const { data, dataDict } = this.props
+    const { data, dataDict, cartography } = this.props
 
     return (
       <Grid keyName='maps' classes='ge-grid--300' labels={["Lib Dem vote share change in remain-voting areas", "Lib Dem vote share change in leave-voting areas"]}>
@@ -48,7 +48,8 @@ class Maps extends Component {
           setHovered={this.setHovered}
           showKey={{ parseValue: parseValue, noData: true, shape: 'square' }}
           resultsDict={dataDict}
-          showRegionNames={true} />
+          showRegionNames={true}
+          cartography={cartography} />
         <Map
           shadeDemo={ldVoteShareChange} 
           filters={[{"id":1575650556014,"demoType":"brexit_leave","operator":">","demoVal":"0.5"}]}
@@ -62,7 +63,8 @@ class Maps extends Component {
           selectFeature={this.selectFeature}
           setHovered={this.setHovered}
           showKey={{ parseValue: parseValue, noData: true, shape: 'square' }}
-          resultsDict={dataDict} />
+          resultsDict={dataDict}
+          cartography={cartography} />
       </Grid>
     )
   }
