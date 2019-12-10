@@ -4,8 +4,8 @@
 }
 
 .ge-const {
-    fill: #eaeaea;
-    stroke: #f6f6f6;
+    fill: none;
+    stroke: #dcdcdc;
     stroke-width: 0.5;
     cursor: pointer;
 }
@@ -23,7 +23,7 @@
 
 .ge-region {
     fill: none;
-    stroke: #f6f6f6;
+    stroke: #dcdcdc;
     stroke-width: 2;
     pointer-events: none;
 }
