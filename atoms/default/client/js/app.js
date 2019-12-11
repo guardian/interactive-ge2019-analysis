@@ -1,4 +1,5 @@
 import React,{ render } from "react"
+import loadJson from 'shared/js/loadJson.js'
 import Scatter from "shared/js/scatter.js"
 import Grid from "shared/js/grid.js"
 import Maps from "shared/js/maps.js"
@@ -28,31 +29,32 @@ const scatMarkers = [
 ]
 
 const loadAndDraw = async() => {
-    const dataRequest = await fetch("<%= path %>/data.json")
-    const premap = await dataRequest.json()
+  const dataRequest = await fetch("<%= path %>/data.json")
+  const premap = await dataRequest.json()
 
-    const data = await premap.map(d => Object.assign({}, d, { 
-      winArr: d.y2019_hold_gain ? d.y2019_hold_gain.match(/^(\S+)\s(.*)/).slice(1) : ['Undeclared',''], // change this to 'Undeclared',
-      y2019_winner: d.y2019_winner ? d.y2019_winner : 'undeclared'
-    }))
-    const dataDict = toDict(data)
+  const data = premap.map(d => Object.assign({}, d, { 
+    winArr: d.y2019_hold_gain ? d.y2019_hold_gain.match(/^(\S+)\s(.*)/).slice(1) : ['Undeclared',''], // change this to 'Undeclared',
+    y2019_winner: d.y2019_winner ? d.y2019_winner : 'undeclared'
+  }))
+  const dataDict = toDict(data)
 
-  // render(<Grid labels={["Map one", "Map two", "Map three", "Map four"]} items={[<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />]}/>, document.querySelector(".interactive-wrapper"));
-  render(<Maps markers={markers} data={data} dataDict={dataDict} />,
-    document.getElementById("interactive-slot-1")
-  )
+  //load and draw maps async
+  Promise.all([loadJson("<%= path %>/maps/hexagons.json"), loadJson('<%= path %>/maps/regions_mesh.json'), loadJson('<%= path %>/maps/region_names.json'), loadJson('<%= path %>/maps/carto_dissolved.json')])
+    .then(([hexTopo, regions, regionNames, regionOutline]) => {
+      const cartography = { hexTopo, regions, regionNames, regionOutline }
 
-  render(<Maps2 data={data} dataDict={dataDict} />,
-    document.getElementById("interactive-slot-4")
-  )
+      render(<Maps cartography={cartography} markers={markers} data={data} dataDict={dataDict} />,
+        document.getElementById("interactive-slot-1")
+      )
 
-  render(<Maps4 data={data} dataDict={dataDict} />,
-    document.getElementById("interactive-slot-7")
-  )
+      render(<Maps2 cartography={cartography} data={data} dataDict={dataDict} />,
+        document.getElementById("interactive-slot-4")
+      )
 
-  // render(<Maps4 data={data} dataDict={dataDict} />,
-  //   document.getElementById("interactive-slot-8")
-  // )
+      render(<Maps4 cartography={cartography} data={data} dataDict={dataDict} />,
+        document.getElementById("interactive-slot-7")
+      )
+    })
 
   render(<Grid keyName='scat' labels={["Labour vote share decreased most in areas where turnout was higher than in 2017"]}>
     <Scatter
@@ -143,6 +145,22 @@ const loadAndDraw = async() => {
     itemClasses="ge-grid--slope"
     data={data} />, document.getElementById("interactive-slot-5")
   )
+
+  // const [hexTopo, regions, regionNames, regionOutline] = await Promise.all([loadJson("<%= path %>/maps/hexagons.json"), loadJson('<%= path %>/maps/regions_mesh.json'), loadJson('<%= path %>/maps/region_names.json'), loadJson('<%= path %>/maps/carto_dissolved.json')])
+
+  // const cartography = {
+  //   hexTopo,
+  //   regions,
+  //   regionNames,
+  //   regionOutline,
+  // }
+
+  // render(<Grid labels={["Map one", "Map two", "Map three", "Map four"]} items={[<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />,<Map results={data} resultsDict={toDict(data, 'ons')} />]}/>, document.querySelector(".interactive-wrapper"));
+
+  // render(<Maps4 data={data} dataDict={dataDict} />,
+  //   document.getElementById("interactive-slot-8")
+  // )
+
 
   // // render(<DemographicSlope data={data} demographic="brexit_leave" parties={["con", "lab", "ld"]} />, document.getElementById("slope-demo"));
   
