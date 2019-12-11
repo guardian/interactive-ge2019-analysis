@@ -49,6 +49,7 @@ class Maps extends Component {
           resultsDict={dataDict}
           ttString={parseVoteShare}
           titleLabel={""}
+          showRegionNames={true}
           cartography={cartography} />
       </Grid>
     )
