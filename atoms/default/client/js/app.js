@@ -81,26 +81,6 @@ const loadAndDraw = async() => {
     document.getElementById("interactive-slot-2")
   )
 
-  // render(<Grid keyName='scat' labels={["Scatter one"]}>
-  //   <Scatter
-  //     data={data}
-  //     xDomain={[0, 0.9]}
-  //     yDomain={[0, 0.3]}
-  //     xTicks={[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]}
-  //     yTicks={[0, 0.1, 0.2, 0.3]}
-  //     x="brexit_leave"
-  //     y="y2019poll_share_bxp"
-  //     xLabel="Conservative vote 2017 (%) ▶"
-  //     yLabel="Change in Conservative vote (2017-2019) ▲"
-  //     xTickTransform={(d) => Math.round(d*100) + "%"}
-  //     yTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}
-  //     xMajorTicks={[0.5]}
-  //     yMajorTicks={[0]}   
-  //   />
-  // </Grid>,
-  // document.getElementById("interactive-slot-2")
-  // )
-
   render(
     <ConstSlopes 
     filters={[{"id":1574937647500,"demoType":"y2017_winner","operator":"==","demoVal":"lab"},{"id":1574937668187,"demoType":"brexit_leave","operator":"top","demoVal":"20"}]} 
