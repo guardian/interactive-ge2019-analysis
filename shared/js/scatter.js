@@ -107,8 +107,8 @@ class Scatter extends Component {
                 {regressionLine && 
                     <g>
                         <line x1={xScale(minX)} y1={yScale(line(minX))} x2={xScale(maxX)} y2={yScale(line(maxX))} stroke="#000" stroke-width="3"></line>
-                        <text class='ge-scatter-trend ge-scatter-trend--white' x={xScale(maxX)} y={yScale(line(maxX))}>Trend</text>
-                        <text class='ge-scatter-trend' x={xScale(maxX)} y={yScale(line(maxX))}>Trend</text>
+                        <text class='ge-scatter-trend ge-scatter-trend--white' x={xScale(maxX)} y={yScale(line(maxX))} dominant-baseline="central">Trend</text>
+                        <text class='ge-scatter-trend' x={xScale(maxX) + 5} y={yScale(line(maxX))} dominant-baseline="central">Trend</text>
                     </g>
                 }
                 <g>
