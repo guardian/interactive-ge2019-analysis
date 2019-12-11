@@ -60,14 +60,14 @@ const loadAndDraw = async() => {
     <Scatter
         filters={[]}
         data={data}
-        xDomain={[-0.15,0.15]}
-        xTicks={[-0.1, -0.05, 0, 0.05, 0.1]}
+        xDomain={[0, 0.25]}
+        xTicks={[0, 0.05, 0.1, 0.15, 0.2, 0.25]}
         yTicks={[-0.2, -0.1, 0, 0.1]}
         yDomain={[-0.25, 0.15]}
         heightWidthRatio={1}
-        x="change_turnout_percent"
+        x="perc_jewish"
         y="change_share_lab"
-        xLabel="Change in turnout, 2017-2019 ⟶"
+        xLabel="Jewish % ⟶"
         yLabel="Change in Labour vote share, 2017-2019 (%) ↑"
         xTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}
         yTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}

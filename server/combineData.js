@@ -1,13 +1,13 @@
 const fs = require("fs")
 const rp = require("request-promise")
 
-const calcChangeFor = [['y2017_turnout_percent', 'y2019_turnout_percent'],['y2017_share_lab', 'y2019_share_lab'], ['y2017_share_con', 'y2019_share_con'], ['y2017_share_ld', 'y2019_share_ld']]
+const calcChangeFor = [['y2017_share_con', 'y2019poll2_share_con'], ['y2017_share_lab', 'y2019poll2_share_lab'], ['y2017_turnout_percent', 'y2019_turnout_percent']]
 
 const demosToKeep = [
     // 'name',
     // 'ons_id',
     // 'y2017_share_lab',
-    // 'y2019poll_share_lab',
+    // 'y2019poll2_share_lab',
     // 'y2017_share_con'
 ]
 
@@ -53,10 +53,10 @@ const find2019Result = (result2019, party) => {
 
 Promise.all([
     rp({json: true, uri: "https://interactive.guim.co.uk/docsdata-test/1wFmbda8IrBSCK2iVaLLWYhik5FBGNLZaTa4RJKkJkwE.json"}),
-    rp({json: true, uri: "https://interactive.guim.co.uk/2019/12/ukelection2019-data/prod/snap/full.json"})
+    rp({json: true, uri: "https://interactive.guim.co.uk/2019/12/ukelection2019-data/prod/snap/full.json"}) 
 ]).then(dl => {
     const full = dl[1]
-    const allDemographicData = dl[0].sheets.data
+    const allDemographicData = dl[0].sheets.data_full
 
     const all = allDemographicData.map(d => {
         const result2019 = full.find(f => d.ons_id === f.ons)
@@ -67,7 +67,7 @@ Promise.all([
 
         if(result2019 && result2019.candidates) {
             newFields.result2019 = true
-            newFields.y2019_winner = cleanName(result2019.winningParty)
+            // newFields.y2019_winner = cleanName(result2019.winningParty)
             newFields.y2019_electorate = result2019.y2019_electorate
             newFields.y2019_turnout = result2019.turnout
             newFields.y2019_turnout_percent = result2019.percentageTurnout/100
@@ -87,36 +87,37 @@ Promise.all([
 
             // JUST FOR POLL DATA!!!!
 
-            // const y2019poll_shares = [
-            //     {"party": "con", "share": d.y2019poll_share_con},
-            //     {"party": "lab", "share": d.y2019poll_share_lab},
-            //     {"party": "ld", "share": d.y2019poll_share_ld},
-            //     {"party": "green", "share": d.y2019poll_share_green},
-            //     {"party": "pc", "share": d.y2019poll_share_pc},
-            //     {"party": "bxp", "share": d.y2019poll_share_bxp},
-            //     {"party": "snp", "share": d.y2019poll_share_snp}
-            // ]
+            const y2019poll2_shares = [
+                {"party": "con", "share": d.y2019poll2_share_con},
+                {"party": "lab", "share": d.y2019poll2_share_lab},
+                {"party": "ld", "share": d.y2019poll2_share_ld},
+                {"party": "green", "share": d.y2019poll2_share_green},
+                {"party": "pc", "share": d.y2019poll2_share_pc},
+                {"party": "bxp", "share": d.y2019poll2_share_bxp},
+                {"party": "snp", "share": d.y2019poll2_share_snp}
+            ];
 
-            // const maxVoteShare = Math.max(d.y2019poll_share_con, d.y2019poll_share_lab, d.y2019poll_share_ld, d.y2019poll_share_green, d.y2019poll_share_snp, d.y2019poll_share_bxp, d.y2019poll_share_pc)
+            // console.log(y2019poll2_shares)
 
-            // if(maxVoteShare > 0) {
-                // d.y2019_winner = ((y2019poll_shares.find(v => v.share == maxVoteShare))).party
-              
+            const maxVoteShare = Math.max(d.y2019poll2_share_con, d.y2019poll2_share_lab, d.y2019poll2_share_ld, d.y2019poll2_share_green, d.y2019poll2_share_snp, d.y2019poll2_share_bxp, d.y2019poll2_share_pc)
+
+            if(maxVoteShare > 0) {
+                newFields.y2019_winner = ((y2019poll2_shares.find(v => v.share == maxVoteShare))).party
                 newFields.y2019_hold_gain = (newFields.y2019_winner === d.y2017_winner) ? name(newFields.y2019_winner) + " hold" : name(newFields.y2019_winner) + " gain from " + name(d.y2017_winner)
                 newFields.y2019_leave_tactical = false
                 newFields.y2019_remain_tactical = false
             
                 if(newFields.y2019_winner === "con") {
-                    newFields.y2019_remain_tactical = Number(newFields.y2019_share_lab) + Number(newFields.y2019_share_green) + Number(newFields.y2019_share_pc) + Number(newFields.y2019_share_ld) + Number(newFields.y2019_share_snp) > Number(newFields.y2019_share_con)
-                } 
+                    newFields.y2019_remain_tactical = (Number(d.y2019poll2_share_lab) + Number(d.y2019poll2_share_green) + Number(d.y2019poll2_share_pc) + Number(d.y2019poll2_share_ld) + Number(d.y2019poll2_share_snp)) > Number(d.y2019poll2_share_con)
+                }  
 
                 if(newFields.y2019_winner === "lab" || newFields.y2019_winner === "ld" || newFields.y2019_winner === "snp") {
-                    newFields.y2019_leave_tactical = Number(newFields.y2019_share_con) + Number(newFields.y2019_share_bxp) > Number(newFields[`y2019_share_${d.y2019_winner}`])
+                    newFields.y2019_leave_tactical = Number(d.y2019poll2_share_con) + Number(d.y2019poll2_share_bxp) > Number(d[`y2019poll2_share_${d.y2019_winner}`])
                 } 
 
                 newFields.y2019_remain_tactical = newFields.y2019_remain_tactical.toString()
                 newFields.y2019_leave_tactical = newFields.y2019_leave_tactical.toString()
-            // }
+            }
 
             // need to deal with "other" – does this include ind?
             // need to add brexit party once we have 2019 test data

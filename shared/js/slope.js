@@ -70,14 +70,14 @@ const parseParties = (constituency, parties, partiesToKeep) => {
                 // name: constituency.name,
                 party: p,
                 2017: 0,
-                2019: constituency[`y2019poll_share_${p}`] || 0
+                2019: constituency[`y2019poll2_share_${p}`] || 0
             }
         } else {
             return {
                 // name: constituency.name,
                 party: p,
                 2017: constituency[`y2017_share_${p}`],
-                2019: constituency[`y2019poll_share_${p}`] || 0
+                2019: constituency[`y2019poll2_share_${p}`] || 0
             }
         }
     }).filter(p => isNaN(p['2017']) === false && isNaN(p['2019']) === false).filter(p => p["2017"] !== 0 || p["2019"] !== 0).sort(sort2019);

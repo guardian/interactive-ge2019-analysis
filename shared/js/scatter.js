@@ -101,7 +101,7 @@ class Scatter extends Component {
                     {filteredData.map(d => {
                         const cx = xScale(d[x])
                         const cy = yScale(d[y])
-                        return <circle id={`${d.ons_id}`} cx={cx} cy={cy} r={r} className={`ge-fill--${d["y2017_winner"].toLowerCase()} ge-stroke--${d["y2017_winner"].toLowerCase()}`} />
+                        return <circle id={`${d.ons_id}`} cx={cx} cy={cy} r={r} className={`ge-fill--${d["y2019_winner"].toLowerCase()} ge-stroke--${d["y2019_winner"].toLowerCase()}`} />
                     })}
                 </g>
                 {regressionLine && 
