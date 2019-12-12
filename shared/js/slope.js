@@ -2,9 +2,7 @@ import React, { Component, createRef } from 'react'
 import { scaleLinear } from "d3-scale"
 import { max } from "d3-array" 
 
-const parties = ['con', 'lab', 'ld', 'snp', 'bxp', 'green', 'dup', 'sf', 'pc','ukip', 'ind', 'sdlp'
-//'bxp' 
-] 
+const parties = [] 
 
 function chunkString(str, length) {
     return str.match(new RegExp('.{1,' + length + '}', 'g'));
@@ -64,7 +62,9 @@ const position = (_data, yScale) => {
 const sum = (a, b) => a + b
  
 const parseParties = (constituency, parties, partiesToKeep) => {
-    const parsed = parties.map(p => {
+    const _ = Object.keys(constituency).filter(c => c.indexOf("_share_") > -1).map(d => d.split("_")[2]).filter((v,i, arr) => arr.indexOf(v) === i)
+   
+    const parsed = _.map(p => {
         if (!constituency[`y2017_share_${p}`]) {
             return {
                 // name: constituency.name,
@@ -81,6 +81,8 @@ const parseParties = (constituency, parties, partiesToKeep) => {
             }
         }
     }).filter(p => isNaN(p['2017']) === false && isNaN(p['2019']) === false).filter(p => p["2017"] !== 0 || p["2019"] !== 0).sort(sort2019);
+
+    console.log(constituency.name, parsed)
 
     const othersCollapsed = {
         party: 'oth',
@@ -124,6 +126,8 @@ class Slope extends Component {
     render() {
         const { width, data, xScale, yScale, r, winner, padding, innerWidth, height, innerHeight } = this.state
         const { label, marker } = this.props
+
+        console.log(label, data)
         return (
             <div class={`ge-slope-chart`} ref={this.wrapper}>
                 {xScale && yScale && 
