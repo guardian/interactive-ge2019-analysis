@@ -103,7 +103,7 @@ Promise.all([
                 d[`y2017_share_${cleanName(p)}`] = find2017Result(result2019, p)
             });
 
-            d.y2017_winner = cleanName(d.y2017_winner)
+            d.y2017_winner = cleanName(d.y2017_winner) 
             d.y2015_winner = cleanName(d.y2015_winner)
 
             // JUST FOR POLL DATA!!!!
