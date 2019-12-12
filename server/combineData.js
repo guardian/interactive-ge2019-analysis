@@ -1,7 +1,7 @@
 const fs = require("fs")
 const rp = require("request-promise")
 
-const calcChangeFor = [['y2017_turnout_percent', 'y2019_turnout_percent'],['y2017_share_lab', 'y2019_share_lab'], ['y2017_share_con', 'y2019_share_con'], ['y2017_share_ld', 'y2019_share_ld']]
+const calcChangeFor = []
 
 const demosToKeep = [
     // 'name',
@@ -53,7 +53,7 @@ const find2019Result = (result2019, party) => {
 
 Promise.all([
     rp({json: true, uri: "https://interactive.guim.co.uk/docsdata-test/1wFmbda8IrBSCK2iVaLLWYhik5FBGNLZaTa4RJKkJkwE.json"}),
-    rp({json: true, uri: "https://interactive.guim.co.uk/2019/12/ukelection2019-data/prod/snap/full.json"})
+    rp({json: true, uri: "https://interactive.guim.co.uk/2019/12/ukelection2019-data/niko/snap/full.json"})
 ]).then(dl => {
     const full = dl[1]
     const allDemographicData = dl[0].sheets.data

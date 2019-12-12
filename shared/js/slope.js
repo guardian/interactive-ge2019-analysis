@@ -21,7 +21,7 @@ const cleanLabel = (l, m) => {
     }, [""]).filter(d => d !== "");
 
     if(l === "Ashton-upon-Lyne") {
-        console.log(chunks)
+        // console.log(chunks)
     }
 
     if(chunks.length === 1 && chunks[0].length > 15) {

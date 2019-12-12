@@ -36,6 +36,7 @@ const loadAndDraw = async() => {
     winArr: d.y2019_hold_gain ? d.y2019_hold_gain.match(/^(\S+)\s(.*)/).slice(1) : ['Undeclared',''], // change this to 'Undeclared',
     y2019_winner: d.y2019_winner ? d.y2019_winner : 'undeclared'
   }))
+
   const dataDict = toDict(data)
 
   //load and draw maps async
@@ -109,7 +110,7 @@ const loadAndDraw = async() => {
     keyName='slopes'
     parties={["con", "lab", "ld", "bxp"]}
     itemClasses="ge-grid--slope"
-    data={data} />, document.getElementById("interactive-slot-3")
+    data={data.filter(d => d.y2019_winner != 'undeclared')} />, document.getElementById("interactive-slot-3")
   )
 
   render(
@@ -120,7 +121,7 @@ const loadAndDraw = async() => {
     keyName='slopes'
     parties={["con", "lab", "ld", "snp"]}
     itemClasses="ge-grid--slope"
-    data={data} />, document.getElementById("interactive-slot-6")
+    data={data.filter(d => d.y2019_winner != 'undeclared')} />, document.getElementById("interactive-slot-6")
   )
 
   // render(
@@ -143,7 +144,7 @@ const loadAndDraw = async() => {
     keyName='slopes'
     parties={["con", "lab", "ld", "snp"]}
     itemClasses="ge-grid--slope"
-    data={data} />, document.getElementById("interactive-slot-5")
+    data={data.filter(d => d.y2019_winner != 'undeclared')} />, document.getElementById("interactive-slot-5")
   )
 
   // const [hexTopo, regions, regionNames, regionOutline] = await Promise.all([loadJson("<%= path %>/maps/hexagons.json"), loadJson('<%= path %>/maps/regions_mesh.json'), loadJson('<%= path %>/maps/region_names.json'), loadJson('<%= path %>/maps/carto_dissolved.json')])
