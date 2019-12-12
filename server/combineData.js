@@ -1,7 +1,7 @@
 const fs = require("fs")
 const rp = require("request-promise")
 
-const calcChangeFor = []
+const calcChangeFor = [['y2017_turnout_percent', 'y2019_turnout_percent'], ['y2017_share_lab', 'y2019_share_lab'], ['y2017_share_con', 'y2019_share_con'], ['y2017_share_ld', 'y2019_share_ld']]
 
 const demosToKeep = [
     // 'name',

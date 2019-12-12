@@ -135,7 +135,6 @@ const loadAndDraw = async() => {
   //   data={data} />, document.getElementById("interactive-slot-5")
   // )
 
-
   render(
     <ConstSlopes 
     filters={[{"id":1574937647500,"demoType":"y2017_winner","operator":"==","demoVal":"con"},{"id":1574937668187,"demoType":"y2017_majority_percent","operator":"bottom","demoVal":"20"}]} 
