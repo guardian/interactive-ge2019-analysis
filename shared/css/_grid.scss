@@ -82,13 +82,21 @@
     }
 }
 
-.ge-grid-150 {
+.ge-grid--150 {
     @supports (display: grid) {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
 
     >.ge-grid__item {
         flex: 1 0 150px;
+    }
+}
+
+.ge-grid--scatter {
+     >.ge-grid__item {
+        @include mq(tablet) {
+            margin-right: 20px;
+        }
     }
 }
 

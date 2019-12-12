@@ -56,14 +56,14 @@ const loadAndDraw = async() => {
       )
     })
 
-  render(<Grid keyName='scat' labels={["Labour vote share decreased most in areas where turnout was higher than in 2017"]}>
+  render(<Grid classes='ge-grid--scatter ge-grid--300' keyName='scat' labels={["Labour vote share decreased most in areas where turnout was higher than in 2017", "Labour vote share decreased most in areas where turnout was higher than in 2017"]}>
     <Scatter
         filters={[]}
         data={data}
-        xDomain={[-0.15,0.15]}
-        xTicks={[-0.1, -0.05, 0, 0.05, 0.1]}
-        yTicks={[-0.2, -0.1, 0, 0.1]}
-        yDomain={[-0.25, 0.15]}
+        xDomain={[-0.5,0.5]}
+        xTicks={[-0.5, 0, 0.5]}
+        yTicks={[-0.5, 0, 0.5]}
+        yDomain={[-0.75, 0.75]}
         heightWidthRatio={1}
         x="change_turnout_percent"
         y="change_share_lab"
@@ -77,6 +77,26 @@ const loadAndDraw = async() => {
         markers={scatMarkers}
         resultsDict={dataDict}
       />
+    <Scatter
+      filters={[]}
+      data={data}
+      xDomain={[-0.5, 0.5]}
+      xTicks={[-0.5, 0, 0.5]}
+      yTicks={[-0.5, 0, 0.5]}
+      yDomain={[-0.75, 0.75]}
+      heightWidthRatio={1}
+      x="change_turnout_percent"
+      y="change_share_lab"
+      xLabel="Change in turnout, 2017-2019 ⟶"
+      yLabel="Change in Labour vote share, 2017-2019 (%) ↑"
+      xTickTransform={(d) => (d > 0) ? "+" + Math.round(d * 100) + "%" : Math.round(d * 100) + "%"}
+      yTickTransform={(d) => (d > 0) ? "+" + Math.round(d * 100) + "%" : Math.round(d * 100) + "%"}
+      xMajorTicks={[0]}
+      yMajorTicks={[0]}
+      regressionLine={true}
+      markers={scatMarkers}
+      resultsDict={dataDict}
+    />
     </Grid>,
     document.getElementById("interactive-slot-2")
   )
