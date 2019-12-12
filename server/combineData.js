@@ -1,7 +1,7 @@
 const fs = require("fs")
 const rp = require("request-promise")
 
-const calcChangeFor = [['y2017_turnout_percent', 'y2019_turnout_percent'], ['y2017_share_lab', 'y2019_share_lab'], ['y2017_share_con', 'y2019_share_con'], ['y2017_share_ld', 'y2019_share_ld']]
+const calcChangeFor = [['y2017_turnout_percent', 'y2019_turnout_percent'],['y2017_share_lab', 'y2019_share_lab'], ['y2017_share_con', 'y2019_share_con'], ['y2017_share_ld', 'y2019_share_ld']]
 
 const demosToKeep = [
     // 'name',
@@ -47,20 +47,9 @@ const cleanName = (p) => {
     }
 }
 
-function flatten(arr) {
-    return arr.reduce(function (flat, toFlatten) {
-        return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
-    }, []);
-}
-
 const find2019Result = (result2019, party) => {
     const match = result2019.candidates.find(c => cleanName(c.party) === cleanName(party))
     return match ? match.percentageShare/100 : 0
-}
-
-const find2017Result = (result2019, party) => {
-    const match = result2019.candidates.find(c => cleanName(c.party) === cleanName(party))
-    return match && match.percentageShareChange ? (match.percentageShare - match.percentageShareChange)/100 : 0
 }
 
 Promise.all([
@@ -70,12 +59,10 @@ Promise.all([
     const full = dl[1]
     const allDemographicData = dl[0].sheets.data
 
-    const allParties = flatten(full.filter(d => d.candidates).map(d => d.candidates)).map(d => d.party).filter((v,i, arr) => arr.indexOf(v) === i)
-    console.log(allParties)
     const all = allDemographicData.map(d => {
         const result2019 = full.find(f => d.ons_id === f.ons)
         const newFields = {}
-        
+
         d.y2019_leave_tactical = 'false'
         d.y2019_remain_tactical = 'false'
 
@@ -87,23 +74,17 @@ Promise.all([
             newFields.y2019_turnout_percent = result2019.percentageTurnout/100
             newFields.y2019_majority_percent = result2019.majority/100
             // we can add raw votes majority if needed but it needs to be calculated from the candidates
-            // newFields.y2019_share_con = find2019Result(result2019, "Con")
-            // newFields.y2019_share_lab = find2019Result(result2019, "Lab")
-            // newFields.y2019_share_pc = find2019Result(result2019, "PC")
-            // newFields.y2019_share_ukip = find2019Result(result2019, "UKIP")
-            // newFields.y2019_share_ld = find2019Result(result2019, "Lib Dem")
-            // newFields.y2019_share_snp = find2019Result(result2019, "SNP")
-            // newFields.y2019_share_dup = find2019Result(result2019, "DUP")
-            // newFields.y2019_share_green = find2019Result(result2019, "Green")
-            // newFields.y2019_share_sf = find2019Result(result2019, "SF")
-            // newFields.y2019_share_bxp = find2019Result(result2019, "Brexit")
-
-            allParties.forEach(p => {
-                d[`y2019_share_${cleanName(p)}`] = find2019Result(result2019, p)
-                d[`y2017_share_${cleanName(p)}`] = find2017Result(result2019, p)
-            });
-
-            d.y2017_winner = cleanName(d.y2017_winner) 
+            newFields.y2019_share_con = find2019Result(result2019, "Con")
+            newFields.y2019_share_lab = find2019Result(result2019, "Lab")
+            newFields.y2019_share_pc = find2019Result(result2019, "PC")
+            newFields.y2019_share_ukip = find2019Result(result2019, "UKIP")
+            newFields.y2019_share_ld = find2019Result(result2019, "Lib Dem")
+            newFields.y2019_share_snp = find2019Result(result2019, "SNP")
+            newFields.y2019_share_dup = find2019Result(result2019, "DUP")
+            newFields.y2019_share_green = find2019Result(result2019, "Green")
+            newFields.y2019_share_sf = find2019Result(result2019, "SF")
+            newFields.y2019_share_bxp = find2019Result(result2019, "Brexit")
+            d.y2017_winner = cleanName(d.y2017_winner)
             d.y2015_winner = cleanName(d.y2015_winner)
 
             // JUST FOR POLL DATA!!!!

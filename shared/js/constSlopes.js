@@ -30,9 +30,9 @@ class ConstSlopes extends Component {
   render() {
     const { filteredData, filters } = this.state
     const { parties } = this.props
-
-    const resultsForParties = flatten(filteredData.map(d => parties.map(p => d[`y2017_share_${p}`]).concat(parties.map(p => d[`y2019_share_${p}`])))).filter(d => d)
   
+    const resultsForParties = flatten(filteredData.map(d => parties.map(p => d[`y2017_share_${p}`]).concat(parties.map(p => d[`y2019_share_${p}`])))).filter(d => d)
+    
     const maxY = max(resultsForParties)
  
     return(
