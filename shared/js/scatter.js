@@ -62,14 +62,14 @@ class Scatter extends Component {
             .x(d => xScale(d[x]))
             .y(d => yScale(d[y]))
             .polygons(filteredData.concat(markers))
-
+        console.log(filteredData, 'apply')
         this.setState({ filteredData, markers, genVoronoi: genVoronoi.map(v => Object.assign({}, v, { path: "M" + v.join("L") + "Z"})) })
     }
 
     render() {
         const { i, regressionLine = false, x, y, xDomain, xLabel, yLabel, yDomain, xTicks, yTicks, heightWidthRatio = 1, xTickTransform = (c) => c, yTickTransform = (c) => c, xMajorTicks, yMajorTicks } = this.props
         const { markers, filteredData, hovered, ttCoords, xScale, yScale, width, height, genVoronoi } = this.state
-        
+        console.log(filteredData)
         const lrdata = filteredData.map(d => ([d[x], d[y]]))
         const lr = linearRegression(lrdata)
         const line = linearRegressionLine(lr)
@@ -101,7 +101,7 @@ class Scatter extends Component {
                     {filteredData.map(d => {
                         const cx = xScale(d[x])
                         const cy = yScale(d[y])
-                        return <circle id={`${d.ons_id}`} cx={cx} cy={cy} r={r} className={`ge-fill--${d["y2017_winner"].toLowerCase()} ge-stroke--${d["y2017_winner"].toLowerCase()}`} />
+                        return <circle id={`${d.ons_id}`} cx={cx} cy={cy} r={r} className={`ge-fill--${d["y2019_winner"].toLowerCase()} ge-stroke--${d["y2019_winner"].toLowerCase()}`} />
                     })}
                 </g>
                 {regressionLine && 
@@ -118,7 +118,7 @@ class Scatter extends Component {
                         const cy = yScale(d[y])
                         return (
                             <g>
-                                <circle id={`${d.ons_id}`} cx={cx} cy={cy} r={r * 2.5} className={`ge-scatter-marker ge-fill--${d["y2017_winner"].toLowerCase()} ge-stroke--${d["y2017_winner"].toLowerCase()}`}></circle>
+                                <circle id={`${d.ons_id}`} cx={cx} cy={cy} r={r * 2.5} className={`ge-scatter-marker ge-fill--${d["y2019_winner"].toLowerCase()} ge-stroke--${d["y2019_winner"].toLowerCase()}`}></circle>
                                 <text x={cx} y={cy} class='gv-marker-text' dominant-baseline="central" >{d.marker}</text>
                             </g>
                         )
