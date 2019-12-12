@@ -5,6 +5,12 @@ import DemoFilters from './demoFilters'
 import { parseFilters, name } from './util'
 import { max } from "d3-array"
 
+function flatten(arr) {
+  return arr.reduce(function (flat, toFlatten) {
+    return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
+  }, []);
+}
+
 class ConstSlopes extends Component {
   state = {
     filteredData: this.props.data,
@@ -24,7 +30,11 @@ class ConstSlopes extends Component {
   render() {
     const { filteredData, filters } = this.state
     const { parties } = this.props
-    const maxY = max(filteredData, d => Math.max(d.y2017_share_lab, d.y2017_share_con, d.y2017_share_ld, d.y2019_share_lab, d.y2019_share_con, d.y2019_share_ld));
+
+    const resultsForParties = flatten(filteredData.map(d => parties.map(p => d[`y2017_share_${p}`]).concat(parties.map(p => d[`y2019_share_${p}`])))).filter(d => d)
+  
+    const maxY = max(resultsForParties)
+ 
     return(
       <>
         <DemoFilters filters={filters} applyFilters={(externalFilters) => this.applyFilters(externalFilters)} data={this.props.data} />
