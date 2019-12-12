@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Grid from './grid'
 import Map from "shared/js/map.js"
+import PartyKey from './partyKey'
 
 const filters = [{ "id": 1573731749523, "demoType": "house_price", "operator": ">", "demoVal": "300000" }]
 const shadeDemo = { selectedDemo: 'brexit_leave', scaleColors: ['white', '#951d7a'], outOfScaleColor: [], shiftFirstColor: true, steps: 10, customClasses: null }
@@ -30,9 +31,11 @@ class Maps extends Component {
 
   render() {
     const { selectedFeature, ttCoords, hovered } = this.state
-    const { data, dataDict, cartography } = this.props
+    const { data, dataDict, cartography, parties, showPartyKey } = this.props
 
     return (
+      <>
+      { showPartyKey && <PartyKey parties={parties} />}
       <Grid keyName='maps' classes='ge-grid--300' labels={["Seats the Tories could have lost if voters had voted tactically"]}>
           <Map
           // shadeDemo={labVoteShare} 
@@ -52,6 +55,7 @@ class Maps extends Component {
           showRegionNames={true}
           cartography={cartography} />
       </Grid>
+      </>
     )
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Grid from './grid'
 import Map from "shared/js/map.js"
+import PartyKey from './partyKey'
 // import colorScaleKey from "shared/js/map.js"
 
 // const filters = [{ "id": 1573731749523, "demoType": "house_price", "operator": ">", "demoVal": "300000" }]
@@ -48,9 +49,11 @@ class Maps extends Component {
 
   render() {
     const { selectedFeature, ttCoords, hovered } = this.state
-    const { data, dataDict, cartography } = this.props
+    const { data, dataDict, cartography, showPartyKey, parties } = this.props
 
     return (
+      <>
+      {showPartyKey && <PartyKey parties={parties} />}
       <Grid keyName='maps' classes='ge-grid--300' labels={labels}>
         {/* unique key here?*/}
         <Map
@@ -120,6 +123,7 @@ class Maps extends Component {
           cartography={cartography}
           titleLabel={labels[3]} />
       </Grid>
+      </>
     )
   }
 }

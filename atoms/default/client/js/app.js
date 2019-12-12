@@ -7,6 +7,7 @@ import Maps2 from "shared/js/maps2.js"
 import Maps3 from "shared/js/maps3.js"
 import Maps4 from "shared/js/maps4.js"
 import ConstSlopes from "shared/js/constSlopes.js"
+import PartyKey from "shared/js/partyKey.js"
 import fetch from 'unfetch'
 import "core-js/stable";
 import "regenerator-runtime/runtime";
@@ -44,7 +45,7 @@ const loadAndDraw = async() => {
     .then(([hexTopo, regions, regionNames, regionOutline]) => {
       const cartography = { hexTopo, regions, regionNames, regionOutline }
 
-      render(<Maps cartography={cartography} markers={markers} data={data} dataDict={dataDict} />,
+      render(<Maps cartography={cartography} markers={markers} data={data} dataDict={dataDict} showPartyKey={true} parties={['con', 'lab', 'ld']} />,
         document.getElementById("interactive-slot-1")
       )
 
@@ -57,7 +58,9 @@ const loadAndDraw = async() => {
       )
     })
 
-  render(<Grid classes='ge-grid--scatter ge-grid--300' keyName='scat' labels={["Labour vote share decreased most in areas where turnout was higher than in 2017", "Labour vote share decreased most in areas where turnout was higher than in 2017"]}>
+  render(
+    <>
+  <Grid classes='ge-grid--scatter ge-grid--300' keyName='scat' labels={["Labour vote share decreased most in areas where turnout was higher than in 2017", "Labour vote share decreased most in areas where turnout was higher than in 2017"]}>
     <Scatter
         filters={[]}
         data={data}
@@ -98,18 +101,21 @@ const loadAndDraw = async() => {
       markers={scatMarkers}
       resultsDict={dataDict}
     />
-    </Grid>,
+    </Grid>
+      <PartyKey parties={['con', 'lab', 'bxp']} />
+    </>,
     document.getElementById("interactive-slot-2")
   )
 
   render(
-    <ConstSlopes 
+    <ConstSlopes
     filters={[{"id":1574937647500,"demoType":"y2017_winner","operator":"==","demoVal":"lab"},{"id":1574937668187,"demoType":"brexit_leave","operator":"top","demoVal":"20"}]} 
     markers={[]} 
     // filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} 
     keyName='slopes'
     parties={["con", "lab", "ld", "bxp"]}
     itemClasses="ge-grid--slope"
+    showPartyKey={true}
     data={data.filter(d => d.y2019_winner != 'undeclared')} />, document.getElementById("interactive-slot-3")
   )
 
@@ -121,6 +127,7 @@ const loadAndDraw = async() => {
     keyName='slopes'
     parties={["con", "lab", "ld", "snp"]}
     itemClasses="ge-grid--slope"
+    showPartyKey={true}
     data={data.filter(d => d.y2019_winner != 'undeclared')} />, document.getElementById("interactive-slot-6")
   )
 
@@ -144,6 +151,7 @@ const loadAndDraw = async() => {
     keyName='slopes'
     parties={["con", "lab", "ld", "snp"]}
     itemClasses="ge-grid--slope"
+    showPartyKey={true}
     data={data.filter(d => d.y2019_winner != 'undeclared')} />, document.getElementById("interactive-slot-5")
   )
 

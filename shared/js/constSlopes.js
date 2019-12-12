@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import Slope from './slope'
 import Grid from './grid'
 import DemoFilters from './demoFilters'
-import { parseFilters, name } from './util'
+import { parseFilters } from './util'
 import { max } from "d3-array"
+import PartyKey from './partyKey'
 
 function flatten(arr) {
   return arr.reduce(function (flat, toFlatten) {
@@ -29,7 +30,7 @@ class ConstSlopes extends Component {
 
   render() {
     const { filteredData, filters } = this.state
-    const { parties } = this.props
+    const { parties, showPartyKey } = this.props
   
     const resultsForParties = flatten(filteredData.map(d => parties.map(p => d[`y2017_share_${p}`]).concat(parties.map(p => d[`y2019_share_${p}`])))).filter(d => d)
     
@@ -38,10 +39,7 @@ class ConstSlopes extends Component {
     return(
       <>
         <DemoFilters filters={filters} applyFilters={(externalFilters) => this.applyFilters(externalFilters)} data={this.props.data} />
-        <div class="ge-party-key">
-            {parties.map(p => <div className={`ge-party-key__party ge-party-key__party--${p}`}>{name(p)}</div>)}
-            <div class="ge-party-key__party ge-party-key__party--other">Other parties</div>
-          </div>
+        {showPartyKey && <PartyKey parties={parties} />}
         <Grid keyName='conslope' classes='ge-grid--slope' labels={filteredData.map(d => d.name)}>
           {filteredData.map((d, i) => <Slope data={d} maxY={maxY} parties={parties} label={d.name} marker={this.props.markers.find(m => m.ons === d.ons_id)} isConstituency={true} key={'conslope' + '-slope-' + i} />)}
         </Grid>
