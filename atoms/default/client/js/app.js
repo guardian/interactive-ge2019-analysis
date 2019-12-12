@@ -39,6 +39,11 @@ const find2019Result = (result2019, party) => {
   return match ? match.percentageShare/100 : 0
 }
 
+const findChange = (result2019, party) => {
+  const match = result2019.candidates.find(c => cleanName(c.party) === cleanName(party))
+  return match ? (match.percentageShare - match.percentageShareChange)/100 : 0
+}
+
 const toDict = arr => {
   const out = {}
   arr.forEach(o => out[o.ons_id] = o)
@@ -51,11 +56,11 @@ const loadAndDraw = async() => {
   
   Promise.all([
       d3.json("https://interactive.guim.co.uk/docsdata-test/1wFmbda8IrBSCK2iVaLLWYhik5FBGNLZaTa4RJKkJkwE.json"),
-      d3.json("https://interactive.guim.co.uk/2019/12/ukelection2019-data/prod/snap/full.json")
+      d3.json("https://interactive.guim.co.uk/2019/12/ukelection2019-data/niko/snap/full.json")
   ]).then(dl => {
       const full = dl[1]
       const allDemographicData = dl[0].sheets.data
-  
+
       const data = allDemographicData.map(d => {
           const result2019 = full.find(f => d.ons_id === f.ons)
           const newFields = {}
