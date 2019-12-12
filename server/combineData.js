@@ -22,7 +22,8 @@ const partyLookup = {
     "UKIP": "ukip",
     "DUP": "dup",
     "Lib Dem": "ld",
-    "LD": "ld"
+    "LD": "ld",
+    "Brexit": "bxp"
 }
 
 const partyLookupRev = {
@@ -53,7 +54,7 @@ const find2019Result = (result2019, party) => {
 
 Promise.all([
     rp({json: true, uri: "https://interactive.guim.co.uk/docsdata-test/1wFmbda8IrBSCK2iVaLLWYhik5FBGNLZaTa4RJKkJkwE.json"}),
-    rp({json: true, uri: "https://interactive.guim.co.uk/2019/12/ukelection2019-data/prod/snap/full.json"})
+    rp({json: true, uri: "https://interactive.guim.co.uk/2019/12/ukelection2019-data/niko/snap/full.json"})
 ]).then(dl => {
     const full = dl[1]
     const allDemographicData = dl[0].sheets.data
@@ -82,6 +83,7 @@ Promise.all([
             newFields.y2019_share_dup = find2019Result(result2019, "DUP")
             newFields.y2019_share_green = find2019Result(result2019, "Green")
             newFields.y2019_share_sf = find2019Result(result2019, "SF")
+            newFields.y2019_share_bxp = find2019Result(result2019, "Brexit")
             d.y2017_winner = cleanName(d.y2017_winner)
             d.y2015_winner = cleanName(d.y2015_winner)
 

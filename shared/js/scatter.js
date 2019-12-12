@@ -134,7 +134,7 @@ class Scatter extends Component {
                             const isMarker = area.data.marker !== undefined
                             const offset = isMarker ? 25 : 30
 
-                            return <path d={area.path} class='ge-scatter-voronoi' onMouseEnter={() => { this.hover(area.data.ons_id, cx, cy + offset, isMarker)}} />
+                            return <path d={area.path} class='ge-scatter-voronoi' onClick={() => this.hover(area.data.ons_id, cx, cy + offset, isMarker)} onMouseEnter={() => { this.hover(area.data.ons_id, cx, cy + offset, isMarker)}} />
                         })
                     }
                 </g>
