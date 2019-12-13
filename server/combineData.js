@@ -88,9 +88,10 @@ Promise.all([
             newFields.y2019_share_green = find2019Result(result2019, "Green")
             newFields.y2019_share_sf = find2019Result(result2019, "SF")
             newFields.y2019_share_bxp = find2019Result(result2019, "Brexit")
+            newFields.y2019_lab_con_swing = ((newFields.y2019_share_con - d.y2017_share_con) - (newFields.y2019_share_lab - d.y2017_share_lab))/2
             d.y2017_winner = cleanName(d.y2017_winner)
             d.y2015_winner = cleanName(d.y2015_winner)
-
+       
             // JUST FOR POLL DATA!!!!
 
             // const y2019poll_shares = [

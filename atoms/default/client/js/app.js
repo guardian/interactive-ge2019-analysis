@@ -55,7 +55,7 @@ const loadAndDraw = async() => {
         document.getElementById("interactive-slot-4")
       )
 
-      render(<Maps4 cartography={cartography} data={data} dataDict={dataDict} />,
+      render(<Maps3 cartography={cartography} data={data} dataDict={dataDict} />,
         document.getElementById("interactive-slot-7")
       )
     })
@@ -66,14 +66,34 @@ const loadAndDraw = async() => {
     <Scatter
         filters={[]}
         data={data}
-        xDomain={[-0.5,0.5]}
-        xTicks={[-0.5, 0, 0.5]}
-        yTicks={[-0.5, 0, 0.5]}
-        yDomain={[-0.75, 0.75]}
+        xDomain={[0, 1]}
+        xTicks={[0, 0.25, 0.5, 0.75, 1]}
+        yTicks={[-0.2, -0.1, 0, 0.1, 0.2]}
+        yDomain={[-0.25, 0.25]}
         heightWidthRatio={1}
-        x="change_turnout_percent"
+        x="brexit_leave"
+        y="change_share_con"
+        xLabel="Brexit leave (%) ⟶"
+        yLabel="Change in Conservative vote share, 2017-2019 (%) ↑"
+        xTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}
+        yTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}
+        xMajorTicks={[0]}
+        yMajorTicks={[0]} 
+        regressionLine={true}
+        markers={scatMarkers}
+        resultsDict={dataDict}
+      />
+      <Scatter
+        filters={[]}
+        data={data}
+        xDomain={[0, 1]}
+        xTicks={[0, 0.25, 0.5, 0.75, 1]}
+        yTicks={[-0.2, -0.1, 0, 0.1, 0.2]}
+        yDomain={[-0.25, 0.25]}
+        heightWidthRatio={1}
+        x="brexit_leave"
         y="change_share_lab"
-        xLabel="Change in turnout, 2017-2019 ⟶"
+        xLabel="Brexit leave (%) ⟶"
         yLabel="Change in Labour vote share, 2017-2019 (%) ↑"
         xTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}
         yTickTransform={(d) => (d > 0) ? "+" + Math.round(d*100) + "%" : Math.round(d*100) + "%"}
@@ -83,26 +103,6 @@ const loadAndDraw = async() => {
         markers={scatMarkers}
         resultsDict={dataDict}
       />
-    <Scatter
-      filters={[]}
-      data={data}
-      xDomain={[-0.5, 0.5]}
-      xTicks={[-0.5, 0, 0.5]}
-      yTicks={[-0.5, 0, 0.5]}
-      yDomain={[-0.75, 0.75]}
-      heightWidthRatio={1}
-      x="change_turnout_percent"
-      y="change_share_lab"
-      xLabel="Change in turnout, 2017-2019 ⟶"
-      yLabel="Change in Labour vote share, 2017-2019 (%) ↑"
-      xTickTransform={(d) => (d > 0) ? "+" + Math.round(d * 100) + "%" : Math.round(d * 100) + "%"}
-      yTickTransform={(d) => (d > 0) ? "+" + Math.round(d * 100) + "%" : Math.round(d * 100) + "%"}
-      xMajorTicks={[0]}
-      yMajorTicks={[0]}
-      regressionLine={true}
-      markers={scatMarkers}
-      resultsDict={dataDict}
-    />
     </Grid>
       <PartyKey parties={['con', 'lab', 'bxp']} />
     </>,

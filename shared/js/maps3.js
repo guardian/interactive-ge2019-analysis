@@ -9,6 +9,8 @@ const shadeDemo2 = { selectedDemo: 'y2017_turnout', scaleColors: ['yellow', 'gre
 
 const ldVoteShareChange = { selectedDemo: 'change_share_con', scaleColors: ['white', '#ee6f00'], outOfScaleColor: ["#999999"], shiftFirstColor: true, customClasses: [-5, 0, 0.05, 0.1, 0.15], customDomain: [0.001, 0.3] }
 
+const swing = { selectedDemo: 'y2019_lab_con_swing', scaleColors: ['#c70000', '#fff', '#0084c6'], outOfScaleColor: [], shiftFirstColor: false, customClasses: [-0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3], customDomain: [-0.5, 0.5] }
+
 const pc = (a) => Math.round(a*100)
 
 const parseValue = (a, b, pos) => {
@@ -31,13 +33,13 @@ class Maps extends Component {
 
   render() {
     const { selectedFeature, ttCoords, hovered } = this.state
-    const { data, dataDict, cartography, parties } = this.props
+    const { data, dataDict, cartography, parties, showPartyKey = false } = this.props
 
     return (
       <>
       {showPartyKey && <PartyKey parties={parties} />}
       <Grid keyName='maps' classes='ge-grid--300' labels={["Lib Dem vote share change in remain-voting areas", "Lib Dem vote share change in leave-voting areas"]}>
-        <Map
+        {/* <Map
           shadeDemo={ldVoteShareChange} 
           filters={[{"id":1575650556014,"demoType":"brexit_leave","operator":"<","demoVal":"0.5"}]}
           markers={[]}
@@ -67,6 +69,23 @@ class Maps extends Component {
           setHovered={this.setHovered}
           showKey={{ parseValue: parseValue, noData: true, shape: 'square' }}
           resultsDict={dataDict}
+          cartography={cartography} /> */}
+          <Map
+          shadeDemo={swing} 
+          filters={[]}
+          markers={[]}
+          geo={false}
+          results={data}
+          selectedFeature={selectedFeature}
+          ttCoords={ttCoords}
+          ttString={parseVoteShare}
+          hovered={hovered}
+          selectFeature={this.selectFeature}
+          setHovered={this.setHovered}
+          showKey={{ parseValue: parseValue, noData: true, shape: 'square' }}
+          resultsDict={dataDict}
+          showRegionNames={true}
+          showPartyKey={false}
           cartography={cartography} />
       </Grid>
       </>

@@ -50,7 +50,7 @@ class Maps extends Component {
   render() {
     const { selectedFeature, ttCoords, hovered } = this.state
     const { data, dataDict, cartography, showPartyKey, parties } = this.props
-    console.log(data.map(d => d.y2019_sitting));
+
     return (
       <>
       {showPartyKey && <PartyKey parties={parties} />}
@@ -58,7 +58,7 @@ class Maps extends Component {
         {/* unique key here?*/}
         <Map
           // shadeDemo={conVoteShare} 
-          filters={[{"id":1575638518431,"demoType":"y2019_sitting","operator":"!=","demoVal":"con"},{"id":1575638526495,"demoType":"y2019_winner","operator":"==","demoVal":"con"}]}
+          filters={[{"id":1575638518431,"demoType":"y2017_winner","operator":"!=","demoVal":"con"},{"id":1575638526495,"demoType":"y2019_winner","operator":"==","demoVal":"con"}]}
           geo={false}
           results={data}
           selectedFeature={selectedFeature}
@@ -76,7 +76,7 @@ class Maps extends Component {
            />
         <Map
           // shadeDemo={labVoteShare} 
-          filters={[{"id":1575638518431,"demoType":"y2019_sitting","operator":"!=","demoVal":"lab"},{"id":1575638526495,"demoType":"y2019_winner","operator":"==","demoVal":"lab"}]}
+          filters={[{"id":1575638518431,"demoType":"y2017_winner","operator":"!=","demoVal":"lab"},{"id":1575638526495,"demoType":"y2019_winner","operator":"==","demoVal":"lab"}]}
           geo={false}
           results={data}
           selectedFeature={selectedFeature}
@@ -92,7 +92,7 @@ class Maps extends Component {
           titleLabel={labels[1]} />
         <Map
           // shadeDemo={ldVoteShare} 
-          filters={[{"id":1575638518431,"demoType":"y2019_sitting","operator":"!=","demoVal":"ld"},{"id":1575638526495,"demoType":"y2019_winner","operator":"==","demoVal":"ld"}]}
+          filters={[{"id":1575638518431,"demoType":"y2017_winner","operator":"!=","demoVal":"ld"},{"id":1575638526495,"demoType":"y2019_winner","operator":"==","demoVal":"ld"}]}
           geo={false}
           results={data}
           selectedFeature={selectedFeature}
@@ -108,7 +108,7 @@ class Maps extends Component {
           titleLabel={labels[2]} />
         <Map
           // shadeDemo={snpVoteShare} 
-          filters={[{"id":1575638518431,"demoType":"y2019_sitting","operator":"!=","demoVal":"snp"},{"id":1575638526495,"demoType":"y2019_winner","operator":"==","demoVal":"snp"}]}
+          filters={[{"id":1575638518431,"demoType":"y2017_winner","operator":"!=","demoVal":"snp"},{"id":1575638526495,"demoType":"y2019_winner","operator":"==","demoVal":"snp"}]}
           geo={false}
           results={data}
           selectedFeature={selectedFeature}
