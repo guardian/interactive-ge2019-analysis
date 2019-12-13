@@ -236,7 +236,7 @@ a,
       background-size: contain;
       position: absolute;
       right: 0;
-      bottom: 1px;
+      bottom: 0px;
 
       @include mq($until: tablet) {
         position: relative;
