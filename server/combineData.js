@@ -54,7 +54,7 @@ const find2019Result = (result2019, party) => {
 
 Promise.all([
     rp({json: true, uri: "https://interactive.guim.co.uk/docsdata-test/1wFmbda8IrBSCK2iVaLLWYhik5FBGNLZaTa4RJKkJkwE.json"}),
-    rp({json: true, uri: "https://interactive.guim.co.uk/2019/12/ukelection2019-data/niko/snap/full.json"})
+    rp({json: true, uri: "https://interactive.guim.co.uk/2019/12/ukelection2019-data/prod/snap/full.json"})
 ]).then(dl => {
     const full = dl[1]
     const allDemographicData = dl[0].sheets.data
@@ -65,6 +65,10 @@ Promise.all([
 
         d.y2019_leave_tactical = 'false'
         d.y2019_remain_tactical = 'false'
+
+        if(result2019) {
+            d.y2019_sitting = cleanName(result2019.sittingParty) 
+        }
 
         if(result2019 && result2019.candidates) {
             newFields.result2019 = true
@@ -138,6 +142,7 @@ Promise.all([
     }).filter(v => true || v.result2019)
 
     console.log(`REMAIN ALLIANCE COUNT ${all.filter(c => c.y2019_remain_tactical === "true").length}`)
+    console.log(`LEAVE ALLIANCE COUNT ${all.filter(c => c.y2019_leave_tactical === "true").length}`) 
 
     const allWithChange = all.map(d => {
         let changes = {}

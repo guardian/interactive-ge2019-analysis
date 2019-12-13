@@ -38,6 +38,8 @@ const loadAndDraw = async() => {
     y2019_winner: d.y2019_winner ? d.y2019_winner : 'undeclared'
   }))
 
+  console.log(data);
+
   const dataDict = toDict(data)
 
   //load and draw maps async
