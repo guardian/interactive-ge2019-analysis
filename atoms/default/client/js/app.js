@@ -42,7 +42,7 @@ const loadAndDraw = async() => {
     y2019_winner: d.y2019_winner ? d.y2019_winner : 'undeclared'
   }))
 
-  console.log(data);
+  // console.log(data);
 
   const dataDict = toDict(data)
 
@@ -51,7 +51,7 @@ const loadAndDraw = async() => {
     .then(([hexTopo, regions, regionNames, regionOutline]) => {
       const cartography = { hexTopo, regions, regionNames, regionOutline }
 
-      render(<Maps cartography={cartography} markers={markers} data={data} dataDict={dataDict} showPartyKey={true} parties={['con', 'lab', 'ld']} />,
+      render(<Maps cartography={cartography} markers={markers} data={data} dataDict={dataDict} showPartyKey={false} parties={['con', 'lab', 'ld']} />,
         document.getElementById("interactive-slot-1")
       )
 
@@ -66,12 +66,13 @@ const loadAndDraw = async() => {
 
   render(
     <>
-  <Grid classes='ge-grid--scatter ge-grid--300' keyName='scat' labels={["Labour vote share decreased most in areas where turnout was higher than in 2017", "Labour vote share decreased most in areas where turnout was higher than in 2017"]}>
+      <PartyKey parties={['con', 'lab', 'ld','snp', 'grn', 'pc']} />
+      <Grid classes='ge-grid--scatter ge-grid--300' keyName='scat' labels={["Areas that voted to leave the EU swung to the Tories...", "...and deserted Labour"]}>
     <Scatter
         filters={[]}
         data={data}
-        xDomain={[0, 1]}
-        xTicks={[0, 0.25, 0.5, 0.75, 1]}
+        xDomain={[0.15, 0.85]}
+        xTicks={[0.25, 0.5, 0.75]}
         yTicks={[-0.2, -0.1, 0, 0.1, 0.2]}
         yDomain={[-0.25, 0.25]}
         heightWidthRatio={1}
@@ -90,8 +91,8 @@ const loadAndDraw = async() => {
       <Scatter
         filters={[]}
         data={data}
-        xDomain={[0, 1]}
-        xTicks={[0, 0.25, 0.5, 0.75, 1]}
+        xDomain={[0.15, 0.85]}
+        xTicks={[0.25, 0.5, 0.75]}
         yTicks={[-0.2, -0.1, 0, 0.1, 0.2]}
         yDomain={[-0.25, 0.25]}
         heightWidthRatio={1}
@@ -106,9 +107,9 @@ const loadAndDraw = async() => {
         regressionLine={true}
         markers={scatMarkers}
         resultsDict={dataDict}
+        trendOffset={10}
       />
     </Grid>
-      <PartyKey parties={['con', 'lab', 'bxp']} />
     </>,
     document.getElementById("interactive-slot-2")
   )

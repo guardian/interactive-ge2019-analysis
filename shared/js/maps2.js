@@ -48,7 +48,7 @@ class Maps extends Component {
           hovered={hovered}
           selectFeature={this.selectFeature}
           setHovered={this.setHovered}
-          showKey={{ parseValue: parseValue, noData: true, shape: 'square' }}
+          showKey={{ parseValue: parseValue, noData: false, shape: 'square' }}
           resultsDict={dataDict}
           showRegionNames={true}
           cartography={cartography} />
@@ -63,7 +63,7 @@ class Maps extends Component {
           hovered={hovered}
           selectFeature={this.selectFeature}
           setHovered={this.setHovered}
-          showKey={{ parseValue: parseValue, noData: true, shape: 'square' }}
+          showKey={{ parseValue: parseValue, noData: false, shape: 'square' }}
           resultsDict={dataDict}
           cartography={cartography} />
       </Grid>

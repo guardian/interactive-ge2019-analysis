@@ -37,7 +37,7 @@ const ColorScaleKey = ({ colors, classes, domain, parseValue, title, noData, sha
       </div>
       <div class='gv-key-item'>
         {noData ? <div class={`gv-key-bullet gv-key-bullet--${shape} gv-key-nodata`}>&nbsp;</div> : null}
-        <span>No data</span>
+        {noData ? <span>No data</span> : null}
       </div>
       <div class='gv-key-item'>
         <div class={`gv-key-bullet gv-key-bullet--${shape} ge-background--undeclared`}>&nbsp;</div>

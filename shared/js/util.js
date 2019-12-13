@@ -179,7 +179,9 @@ const partyLookup = {
 	"lab": "Lab",
 	"ld": "Lib Dem",
 	"bxp": "Brexit",
-	"ukip": "Ukip"
+	"ukip": "Ukip",
+	'grn': 'Green',
+	'pc': 'Plaid'
   }
   
   const name = (p) => partyLookup[p] || p.toUpperCase();

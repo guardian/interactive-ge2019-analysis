@@ -22,27 +22,27 @@
 
 .axis--x {
     text {
-        text-anchor: end;
+        text-anchor: middle;
         transform: translate(0, 16px); 
     }
 
-    g:first-of-type {
-        text {
-            text-anchor: start;
-        }
-    }
+    // g:first-of-type {
+    //     text {
+    //         text-anchor: start;
+    //     }
+    // }
 
-    g:first-of-type {
-        line {
-            display: none;
-        }
-    }
+    // g:first-of-type {
+    //     line {
+    //         // display: none;
+    //     }
+    // }
 
-    g:last-of-type {
-        line {
-            display: none;
-        }
-    }
+    // g:last-of-type {
+    //     line {
+    //         // display: none;
+    //     }
+    // }
 }
 
 .axis--y {
@@ -103,6 +103,6 @@
     &.ge-scatter-trend--white {
       fill: none;
       stroke: white;
-      stroke-width: 3;
+      stroke-width: 2;
     }
 }

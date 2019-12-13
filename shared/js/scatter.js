@@ -49,7 +49,7 @@ class Scatter extends Component {
         const ms = this.props.markers.map(m => m.ons)
         const preMarkerFiltered = externalFilters ? parseFilters(filteredDemo, externalFilters) : parseFilters(filteredDemo, this.props.filters)
 
-        const filteredData = preMarkerFiltered.filter(d => ms.indexOf(d.ons_id) > -1 ? false : d)
+        const filteredData = preMarkerFiltered.filter(d => ms.indexOf(d.ons_id) > -1 ? false : d).filter(d => d.ons_id !== 'E14000608' && d.ons_id !== 'E14000637')
 
         const markers = this.props.markers.map(m => {
             const obj = preMarkerFiltered.find(d => d.ons_id === m.ons)
@@ -66,7 +66,7 @@ class Scatter extends Component {
     }
 
     render() {
-        const { i, regressionLine = false, x, y, xDomain, xLabel, yLabel, yDomain, xTicks, yTicks, heightWidthRatio = 1, xTickTransform = (c) => c, yTickTransform = (c) => c, xMajorTicks, yMajorTicks } = this.props
+        const { i, regressionLine = false, x, y, xDomain, xLabel, yLabel, yDomain, xTicks, yTicks, heightWidthRatio = 1, xTickTransform = (c) => c, yTickTransform = (c) => c, xMajorTicks, yMajorTicks, trendOffset } = this.props
         const { markers, filteredData, hovered, ttCoords, xScale, yScale, width, height, genVoronoi } = this.state
         const lrdata = filteredData.map(d => ([d[x], d[y]]))
         const lr = linearRegression(lrdata)
@@ -77,6 +77,8 @@ class Scatter extends Component {
 
         const minX = preMin === 'NA' ? 0 : preMin
         const maxX = preMax === 'NA' ? 0 : preMax
+
+        const tOffset = trendOffset || 0
 
         const r = 3.5;
 
@@ -111,7 +113,7 @@ class Scatter extends Component {
                     <g>
                         <line x1={xScale(minX)} y1={yScale(line(minX))} x2={xScale(maxX)} y2={yScale(line(maxX))} stroke="#000" stroke-width="3"></line>
                         <text class='ge-scatter-trend ge-scatter-trend--white' x={xScale(maxX)} y={yScale(line(maxX))} dominant-baseline="central">Trend</text>
-                        <text class='ge-scatter-trend' x={trendLabelPos === 'end' ? xScale(maxX) + 5 : xScale(minX) - 5} y={trendLabelPos === 'end' ? yScale(line(maxX)) : yScale(line(minX))} dominant-baseline="central">Trend</text>
+                        <text class='ge-scatter-trend' x={trendLabelPos === 'end' ? xScale(maxX) + 5 : xScale(minX) - 5} y={trendLabelPos === 'end' ? yScale(line(maxX)) +10 : yScale(line(minX))} dominant-baseline="central">Trend</text>
                     </g>
                 }
                 <g>
