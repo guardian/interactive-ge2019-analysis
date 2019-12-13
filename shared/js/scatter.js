@@ -84,7 +84,7 @@ class Scatter extends Component {
         
         return <div class="ge-scatter-plot" ref={this.wrapper}>
             <DemoFilters filters={this.props.filters} applyFilters={(externalFilters) => this.applyFilters(externalFilters)} data={this.props.data} />
-            {hovered && <Tooltip constituency={hovered.obj} x={ttCoords.x} y={ttCoords.y} />}
+            {hovered && <Tooltip constituency={hovered.obj} x={ttCoords.x} y={ttCoords.y + 65} />}
             <svg width={width} height={height} onMouseLeave={() => this.hover(null, 0, 0, false)}>
                 <g class="axis--x axis">
                     {xTicks.map(d => <g className={xMajorTicks.includes(d) ? `major-tick` : ``}>

@@ -20,13 +20,17 @@ const toDict = arr => {
 }
 
 const markers = [
-  { n: 1, ons: "E14001011" }
+  { n: 1, ons: "W07000060" },
+  { n: 4, ons: "E14000716" },
+  { n: 2, ons: "E14000569" },
+  { n: 3, ons: "E14000891" }
 ]
 
 const scatFilters = [{ "id": 1574937668187, "demoType": "brexit_leave", "operator": "top", "demoVal": "20" }]
 
 const scatMarkers = [
-  
+  { n: 2, ons: "E14000582"},
+  { n: 1, ons: "E14000622"},
 ]
 
 const loadAndDraw = async() => {
@@ -55,9 +59,9 @@ const loadAndDraw = async() => {
         document.getElementById("interactive-slot-4")
       )
 
-      render(<Maps3 cartography={cartography} data={data} dataDict={dataDict} />,
-        document.getElementById("interactive-slot-7")
-      )
+      // render(<Maps3 cartography={cartography} data={data} dataDict={dataDict} />,
+      //   document.getElementById("interactive-slot-7")
+      // )
     })
 
   render(
@@ -112,7 +116,7 @@ const loadAndDraw = async() => {
   render(
     <ConstSlopes
     filters={[{"id":1574937647500,"demoType":"y2017_winner","operator":"==","demoVal":"lab"},{"id":1574937668187,"demoType":"brexit_leave","operator":"top","demoVal":"20"}]} 
-    markers={[]} 
+    markers={[{ n: 1, ons: 'E14000669' }, { n: 2, ons: 'E14000541'}]} 
     // filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} 
     keyName='slopes'
     parties={["con", "lab", "ld", "bxp"]}
@@ -124,7 +128,7 @@ const loadAndDraw = async() => {
   render(
     <ConstSlopes 
     filters={[{"id":1574937647500,"demoType":"region","operator":"==","demoVal":"Scotland"},{"id":1575897561779,"demoType":"y2017_winner","operator":"!=","demoVal":"snp"}]} 
-    markers={[]} 
+    markers={[{ n: 1, ons: "S14000011" }, { n: 2, ons: "S14000037"}]}
     // filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} 
     keyName='slopes'
     parties={["con", "lab", "ld", "snp"]}
@@ -148,7 +152,7 @@ const loadAndDraw = async() => {
   render(
     <ConstSlopes 
     filters={[{"id":1574937647500,"demoType":"y2017_winner","operator":"==","demoVal":"con"},{"id":1574937668187,"demoType":"y2017_majority_percent","operator":"bottom","demoVal":"20"}]} 
-    markers={[]} 
+    markers={[{ n: 2, ons: "E14000810" }, { n: 1, ons: "E14000974" }]} 
     // filters={[{ "id": 1573731749523, "demoType": "y2017_share_con", "operator": "top", "demoVal": "4" }]} 
     keyName='slopes'
     parties={["con", "lab", "ld", "snp"]}

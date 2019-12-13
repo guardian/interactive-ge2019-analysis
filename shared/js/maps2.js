@@ -40,7 +40,7 @@ class Maps extends Component {
         <Map
           shadeDemo={conVoteShareChange} 
           filters={[]}
-          markers={[]}
+          markers={[{ n: 1, ons: "E14000995" }, { n: 2, ons: "E14001011" }, { n: 3, ons: "E14000618"}]}
           geo={false}
           results={data}
           selectedFeature={selectedFeature}
@@ -55,7 +55,7 @@ class Maps extends Component {
         <Map
           shadeDemo={labVoteShareChange} 
           filters={[]}
-          markers={[]}
+          markers={[{ n: 4, ons: "E14000589"}]}
           geo={false}
           results={data}
           selectedFeature={selectedFeature}
