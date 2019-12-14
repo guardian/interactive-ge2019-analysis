@@ -16,6 +16,10 @@
     pointer-events: none;
     z-index: 99999999;
     background: white;
+
+    .ge-grid--scatter & {
+        transform: translate(-50%, -200%);
+    }
 }
 
 .ge-tt__constname {
